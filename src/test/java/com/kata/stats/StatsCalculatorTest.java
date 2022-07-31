@@ -1,6 +1,5 @@
 package com.kata.stats;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
