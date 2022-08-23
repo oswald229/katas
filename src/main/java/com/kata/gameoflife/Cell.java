@@ -1,7 +1,5 @@
 package com.kata.gameoflife;
 
-import java.util.Objects;
-
 public class Cell {
     private final int x;
     private final int y;
@@ -39,16 +37,7 @@ public class Cell {
         return x == cell.x && y == cell.y;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
-
     public CellStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(CellStatus nextGeneration) {
-        this.status = nextGeneration;
     }
 }

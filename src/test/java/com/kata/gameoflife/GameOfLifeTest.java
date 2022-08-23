@@ -46,7 +46,7 @@ class GameOfLifeTest {
      */
 
     @BeforeEach
-    private void setup() {
+    void setup() {
         String input = """      
                 ........
                 ....*...

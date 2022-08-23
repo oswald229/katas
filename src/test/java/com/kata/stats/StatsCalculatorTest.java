@@ -43,6 +43,21 @@ class StatsCalculatorTest {
     }
 
     @Test
+    void should_get_empty_stats() {
+        int[] input = {};
+        String average = "average";
+        Map<String, Object> expected = Map.of(
+
+                "min", 0,
+                "max", 0,
+                "count", 0,
+                "average", 0);
+
+        Map<String, Object> result = statsCalculator.getStats(input);
+        assertEquals(expected.get(average), result.get(average));
+    }
+
+    @Test
     void should_tell_min_value() {
         int[] input = {12, 88, 6, 7};
         Map<String, Object> expected = Map.of("min", 6);

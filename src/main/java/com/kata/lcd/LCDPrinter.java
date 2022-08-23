@@ -48,8 +48,7 @@ public class LCDPrinter {
 
         return switch (Integer.parseInt(number)) {
             case 0, 2, 3, 5, 6, 7, 8, 9 -> "._.";
-            case 1, 4 -> "...";
-            default -> "";
+            default -> "...";
         };
     }
 
@@ -59,8 +58,7 @@ public class LCDPrinter {
             case 1, 7 -> "..|";
             case 2, 3 -> "._|";
             case 4, 8, 9 -> "|_|";
-            case 5, 6 -> "|_.";
-            default -> "";
+            default -> "|_.";
         };
 
     }
@@ -70,8 +68,7 @@ public class LCDPrinter {
             case 0, 6, 8 -> "|_|";
             case 1, 4, 7, 9 -> "..|";
             case 2 -> "|_.";
-            case 3, 5 -> "._|";
-            default -> "";
+            default -> "._|";
         };
 
     }
