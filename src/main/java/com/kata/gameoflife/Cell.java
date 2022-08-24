@@ -37,6 +37,8 @@ public class Cell {
         return x == cell.x && y == cell.y;
     }
 
+
+
     public CellStatus getStatus() {
         return status;
     }

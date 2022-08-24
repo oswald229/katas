@@ -150,4 +150,20 @@ class GameOfLifeTest {
 
         assertEquals(expected, gameOfLife.nextGeneration());
     }
+
+    @Test
+    void should_print_next_generation_four() {
+        gameOfLife = new GameOfLife("""      
+                ........
+                ....*...
+                ........
+                ........""".trim());
+        String expected = """      
+                ........
+                ........
+                ........
+                ........""".trim();
+
+        assertEquals(expected, gameOfLife.nextGeneration());
+    }
 }
