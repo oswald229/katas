@@ -47,10 +47,7 @@ public class GameOfLife {
     }
 
     private void verify(int x, int y) {
-        if (x >= width) throw new IndexOutOfBoundsException();
-        if (x < 0) throw new IndexOutOfBoundsException();
-        if (y >= height) throw new IndexOutOfBoundsException();
-        if (y < 0) throw new IndexOutOfBoundsException();
+        if (x >= width || x < 0 || y >= height || y < 0) throw new IndexOutOfBoundsException();
     }
 
     public List<Cell> getCellNeighbours(int x, int y) {
