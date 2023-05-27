@@ -7,8 +7,8 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class CardBox {
-    private static final List<Card> cards = new ArrayList<>();
-    private static final List<Card> drawn = new ArrayList<>();
+    private static final LinkedList<Card> cards = new LinkedList<>();
+    private static final LinkedList<Card> drawn = new LinkedList<>();
 
     static {
         EnumSet.allOf(Suit.class).forEach(suit -> {
@@ -21,13 +21,13 @@ public class CardBox {
     private CardBox() {
     }
 
-    private static void reset() {
+    public static void reset() {
         cards.addAll(drawn);
         drawn.removeAll(cards);
     }
 
     public static List<Card> getAll() {
-        return Stream.of(cards, drawn).flatMap(Collection::stream).toList() ;
+        return Stream.of(cards, drawn).flatMap(Collection::stream).toList();
     }
 
     public static List<Card> getPokerHand() {
@@ -57,5 +57,14 @@ public class CardBox {
                 .boxed()
                 .map(player -> draw(cardPerPlayer))
                 .toList();
+    }
+
+    @SneakyThrows
+    public static Card getCard(String cardString) {
+        for (Card card : cards) {
+            if (card.cardString().equals(cardString))
+                return card;
+        }
+        throw new Exception("Unknown card.");
     }
 }

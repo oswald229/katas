@@ -63,4 +63,15 @@ class CardBoxTest {
         }
 
     }
+
+    @Test
+    void should_return_card() {
+        CardBox.reset();
+        String card = "AS";
+        Card result = CardBox.getCard(card);
+        Card expected = Card.builder().value(CardValue.ACE).suit(Suit.SPADES).build();
+
+        assertEquals(expected, result);
+    }
+
 }

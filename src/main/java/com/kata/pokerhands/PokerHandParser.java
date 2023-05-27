@@ -8,7 +8,7 @@ import java.util.List;
 public class PokerHandParser {
     private PokerHandParser(){}
     public static Card mapCard(String cardString) {
-        String[] split = cardString.split("");
+        String[] split = cardString.trim().split("");
         String value = split[0];
         String suit = split[1];
 
@@ -18,7 +18,7 @@ public class PokerHandParser {
                 .build();
     }
 
-    private static Suit getCardSuit(String suit) {
+    public static Suit getCardSuit(String suit) {
         return switch (suit) {
             case "C" -> Suit.CLUBS;
             case "D" -> Suit.DIAMONDS;
@@ -27,7 +27,7 @@ public class PokerHandParser {
         };
     }
 
-    private static CardValue getCardValue(String value) {
+    public static CardValue getCardValue(String value) {
 
         return switch (value) {
             case "A" -> CardValue.ACE;

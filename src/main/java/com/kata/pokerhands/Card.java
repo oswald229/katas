@@ -21,4 +21,13 @@ public class Card implements Comparable<Card> {
         List<CardValue> cardValues = Arrays.stream(CardValue.values()).toList();
         return cardValues.indexOf(value) < cardValues.indexOf(other.value) ? -1 : 1;
     }
+
+    public String cardString() {
+        return getValue().toString() + getSuit().toString();
+    }
+
+    @Override
+    public String toString() {
+        return cardString();
+    }
 }
