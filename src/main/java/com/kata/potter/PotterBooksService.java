@@ -1,5 +1,7 @@
 package com.kata.potter;
 
+import com.kata.permutations.Permutations;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -10,7 +12,7 @@ public class PotterBooksService {
 
         List<PotterCart> carts = new ArrayList<>();
 
-        List<List<PotterBooks>> permutations = PotterUtils.possiblePermutations(rawCart);
+        List<List<PotterBooks>> permutations = Permutations.getPermutations(rawCart);
 
         for (List<PotterBooks> permutation : permutations) {
 

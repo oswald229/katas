@@ -44,7 +44,7 @@ class CardBoxTest {
 
     @Test
     void should_throw_when_no_more_hand_to_give() {
-        Exception exception = assertThrows(Exception.class, () -> CardBox.getPokerHands(11));
+        Exception exception = assertThrows(CardBoxException.class, () -> CardBox.getPokerHands(11));
         assertEquals("Not enough cards left.", exception.getMessage());
     }
 

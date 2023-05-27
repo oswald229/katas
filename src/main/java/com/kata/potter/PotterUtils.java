@@ -1,11 +1,9 @@
 package com.kata.potter;
 
-import org.paukov.combinatorics3.Generator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.kata.permutations.Permutations;
+
+import java.util.*;
 
 public class PotterUtils {
 
@@ -33,9 +31,9 @@ public class PotterUtils {
     }
 
     public static List<List<PotterBooks>> possiblePermutations(List<PotterBooks> input) {
-        return Generator.permutation(input)
-                .simple()
-                .stream().parallel()
+        return Permutations.getPermutations(input)
+                .stream()
+                .parallel()
                 .distinct()
                 .toList();
 

@@ -1,9 +1,14 @@
 package com.kata.pokerhands;
 
 import lombok.SneakyThrows;
-import org.apache.commons.lang.math.IntRange;
 
-import java.util.*;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 public class CardBox {
@@ -38,7 +43,7 @@ public class CardBox {
     private static List<Card> draw(int amount) {
         if (cards.size() < amount) {
             reset();
-            throw new Exception("Not enough cards left.");
+            throw new CardBoxException("Not enough cards left.");
         }
         Collections.shuffle(CardBox.cards);
         List<Card> hand = new ArrayList<>(CardBox.cards.subList(0, amount));
@@ -53,7 +58,7 @@ public class CardBox {
 
     public static List<List<Card>> getHands(int players, int cardPerPlayer) {
 
-        return Arrays.stream(new IntRange(1, players).toArray())
+        return LongStream.rangeClosed(1, players)
                 .boxed()
                 .map(player -> draw(cardPerPlayer))
                 .toList();
@@ -65,6 +70,6 @@ public class CardBox {
             if (card.cardString().equals(cardString))
                 return card;
         }
-        throw new Exception("Unknown card.");
+        throw new CardBoxException("Unknown card.");
     }
 }

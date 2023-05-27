@@ -37,7 +37,10 @@ public class Cell {
         return x == cell.x && y == cell.y;
     }
 
-
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
     public CellStatus getStatus() {
         return status;

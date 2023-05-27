@@ -1,6 +1,5 @@
 package com.kata.pokerhands;
 
-import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -9,8 +8,8 @@ import java.util.Map;
 
 public class PokerHandService {
 
-    private static final String BLACK = "black";
-    private static final String WHITE = "white";
+    private static final String BLACK = "Black";
+    private static final String WHITE = "White";
 
     public PokerHandEnum tellHand(String hand) {
         List<Card> sortedHand = parseHand(hand);
@@ -173,11 +172,18 @@ public class PokerHandService {
     }
 
     private static String printWinner(String winner, String higherHand) {
-        return "%s wins - %s".formatted(StringUtils.capitalize(winner), higherHand.replace("_", " "));
+        return "%s wins - %s".formatted(winner, higherHand.replace("_", " "));
     }
 
     private static String printHighCardWinner(String winner, String winningCard) {
-        return "%s wins - high card: %s".formatted(StringUtils.capitalize(winner), winningCard);
+        winningCard = switch (winningCard) {
+            case "A" -> "Ace";
+            case "J" -> "Jack";
+            case "Q" -> "Queen";
+            case "K" -> "King";
+            default -> winningCard;
+        };
+        return "%s wins - high card: %s".formatted(winner, winningCard);
     }
 
     private static Map<String, String> getWinnerHighestCard(List<Card> blackHandCards, List<Card> whiteHandCards) {
