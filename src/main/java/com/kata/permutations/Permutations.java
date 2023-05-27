@@ -12,7 +12,6 @@ public class Permutations {
     public static <T> List<List<T>> getPermutations(List<T> list) {
 
         List<List<T>> result = new ArrayList<>();
-        List<T> inputCopy = new ArrayList<>(list);
 
         if (list.size() == 2) {
 
@@ -23,6 +22,8 @@ public class Permutations {
             result.add(second);
             return result;
         }
+
+        List<T> inputCopy = new ArrayList<>(list);
 
         for (int i = 0; i < list.size(); i++) {
 
