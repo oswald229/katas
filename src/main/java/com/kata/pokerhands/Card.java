@@ -19,9 +19,6 @@ public class Card implements Comparable<Card> {
         if (this.value.equals(other.value))
             return 0;
         List<CardValue> cardValues = Arrays.stream(CardValue.values()).toList();
-        if (cardValues.indexOf(value) < cardValues.indexOf(other.value)) {
-            return -1;
-        }
-        return 1;
+        return cardValues.indexOf(value) < cardValues.indexOf(other.value) ? -1 : 1;
     }
 }
