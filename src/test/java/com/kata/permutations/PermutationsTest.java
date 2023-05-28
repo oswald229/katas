@@ -1,5 +1,6 @@
 package com.kata.permutations;
 
+import com.kata.potter.PotterBooks;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -121,4 +122,38 @@ class PermutationsTest {
         assertEquals(40320, Permutations.getPermutations(list).size());
     }
 
+    @Test
+    void should_generate_possible_permutations() {
+        List<PotterBooks> input = List.of(
+                PotterBooks.ONE,
+                PotterBooks.TWO);
+
+        List<List<PotterBooks>> expected = List.of(
+                List.of(PotterBooks.ONE, PotterBooks.TWO),
+                List.of(PotterBooks.TWO, PotterBooks.ONE)
+        );
+
+        List<List<PotterBooks>> result = Permutations.getPermutations(input);
+        assertEquals(expected.size(), result.size());
+        assertTrue(result.containsAll(expected));
+    }
+
+    @Test
+    void should_generate_possible_permutations_bis() {
+        List<PotterBooks> input = List.of(
+                PotterBooks.ONE,
+                PotterBooks.TWO,
+                PotterBooks.THREE);
+
+        List<List<PotterBooks>> expected = List.of(
+                List.of(PotterBooks.ONE, PotterBooks.TWO, PotterBooks.THREE),
+                List.of(PotterBooks.ONE, PotterBooks.THREE, PotterBooks.TWO),
+                List.of(PotterBooks.TWO, PotterBooks.ONE, PotterBooks.THREE),
+                List.of(PotterBooks.TWO, PotterBooks.THREE, PotterBooks.ONE),
+                List.of(PotterBooks.THREE, PotterBooks.ONE, PotterBooks.TWO),
+                List.of(PotterBooks.THREE, PotterBooks.TWO, PotterBooks.ONE)
+        );
+
+        assertTrue(Permutations.getPermutations(input).containsAll(expected));
+    }
 }

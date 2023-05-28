@@ -5,7 +5,6 @@ public enum CellStatus {
 
     private final String value;
     CellStatus(String value){
-
         this.value = value;
     }
 

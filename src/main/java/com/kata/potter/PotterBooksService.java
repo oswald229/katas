@@ -17,7 +17,7 @@ public class PotterBooksService {
         for (List<PotterBooks> permutation : permutations) {
 
             for (int i = 1; i <= permutation.size(); i++) {
-                List<Set<PotterBooks>> potterGroup = PotterUtils.createPotterGroups(i, permutation.stream().toList());
+                List<Set<PotterBooks>> potterGroup = GroupsUtils.createGroups(permutation, i);
 
                 PotterCart cart = buildCart(potterGroup);
                 if (cart.totalItems() == rawCart.size() && !carts.contains(cart)) {
@@ -29,7 +29,6 @@ public class PotterBooksService {
     }
 
     private static PotterCart buildCart(List<Set<PotterBooks>> potterGroups) {
-
         return PotterCart.builder()
                 .cartContent(potterGroups)
                 .build();

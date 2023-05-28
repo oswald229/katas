@@ -11,15 +11,13 @@ import java.util.function.Function;
 @EqualsAndHashCode
 public class PotterCart implements Comparable<PotterCart> {
 
-    public static final double SINGLE_BOOK_PRICE = 8;
-    List<Set<PotterBooks>> cartContent;
+    private static final double SINGLE_BOOK_PRICE = 8;
+    private List<Set<PotterBooks>> cartContent;
 
     public double getTotalPrice() {
-
-        return cartContent.stream().map(
-                getSetPrice()
-        ).reduce((double) 0, Double::sum);
-
+        return cartContent.stream()
+                .map(getSetPrice())
+                .reduce((double) 0, Double::sum);
     }
 
     private static Function<Set<PotterBooks>, Double> getSetPrice() {

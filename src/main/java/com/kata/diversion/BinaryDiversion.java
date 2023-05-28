@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 public class BinaryDiversion {
 
     public List<String> getBinaries(int n) {
-
         int max = Integer.parseInt("1".repeat(n), 2);
 
         UnaryOperator<String> completeWithZeros = s ->
@@ -32,17 +31,13 @@ public class BinaryDiversion {
             }
 
         }
-
         return false;
-
     }
 
     public int getDiversionCriteria(int n) {
-
         return (int) getBinaries(n)
                 .stream()
                 .filter(s -> !hasTwoAdjacent1Bits(s))
                 .count();
-
     }
 }

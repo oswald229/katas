@@ -21,7 +21,6 @@ public class GameOfLife {
 
     private void initCells(String[] boardLines) {
 
-
         for (int i = 0; i < boardLines.length; i++) {
 
             String[] line = boardLines[i].split("");
@@ -157,8 +156,7 @@ public class GameOfLife {
         }
 
         //Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
-        if (cell.getStatus().equals(CellStatus.ALIVE)
-                && (aliveNeighbours < 2)) {
+        if (cell.getStatus().equals(CellStatus.ALIVE)) {
             return CellStatus.DEAD;
         }
 
@@ -177,7 +175,6 @@ public class GameOfLife {
 
         }
         this.cells = newGeneration;
-
         return this.printBoard();
     }
 }
