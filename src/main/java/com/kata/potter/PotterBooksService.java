@@ -20,7 +20,8 @@ public class PotterBooksService {
                 List<Set<PotterBooks>> potterGroup = GroupsUtils.createGroups(permutation, i);
 
                 PotterCart cart = buildCart(potterGroup);
-                if (cart.totalItems() == rawCart.size() && !carts.contains(cart)) {
+                boolean correctSize = cart.totalItems() == rawCart.size(); // TODO : Avoid this condition.
+                if (correctSize && !carts.contains(cart)) {
                     carts.add(cart);
                 }
             }
