@@ -7,6 +7,7 @@ public class BankAccount {
 
     private final UUID id;
     private BigDecimal balance;
+    private BigDecimal allowedOverdraft = BigDecimal.ZERO;
 
     public BankAccount() {
         this.id = UUID.randomUUID();
@@ -29,5 +30,17 @@ public class BankAccount {
     public BigDecimal decreaseBalance(BigDecimal withdrawAmount) {
         this.balance = this.balance.subtract(withdrawAmount);
         return getBalance();
+    }
+
+    public boolean hasAllowedOverdraft() {
+        return allowedOverdraft.compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    public BigDecimal getAllowedOverDraft() {
+        return allowedOverdraft;
+    }
+
+    public void updateOverdraftAmount(BigDecimal overdraftAmount) {
+        this.allowedOverdraft = overdraftAmount;
     }
 }

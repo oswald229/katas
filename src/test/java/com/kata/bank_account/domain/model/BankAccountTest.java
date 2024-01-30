@@ -19,4 +19,11 @@ class BankAccountTest {
         BankAccount bankAccount = new BankAccount();
         assertEquals(BigDecimal.ZERO, bankAccount.getBalance());
     }
+
+    @Test
+    void can_have_an_overdraft() {
+        BankAccount bankAccount = new BankAccount();
+
+        assertEquals(false, bankAccount.hasAllowedOverdraft());
+    }
 }
