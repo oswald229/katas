@@ -1,15 +1,15 @@
 package com.kata.bank_account.domain.model;
 
 import java.math.BigDecimal;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class BankAccount {
     private final UUID id;
-    protected BigDecimal balance;
+    private final ArrayList<Transaction> transactions;
 
     BankAccount() {
         this.id = UUID.randomUUID();
-        this.balance = BigDecimal.ZERO;
+        transactions = new ArrayList<>();
     }
 
     public UUID getId() {
@@ -17,17 +17,19 @@ public abstract class BankAccount {
     }
 
     public BigDecimal getBalance() {
-        return balance;
+        return transactions.stream()
+                .map(Transaction::amount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public BigDecimal increaseBalance(BigDecimal depositAmount) {
-        balance = this.balance.add(depositAmount);
-        return getBalance();
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 
-    public BigDecimal decreaseBalance(BigDecimal withdrawAmount) {
-        this.balance = this.balance.subtract(withdrawAmount);
-        return getBalance();
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+        transactions.sort(Comparator.comparing(Transaction::transactionDateTime));
+        Collections.reverse(transactions);
     }
 
     public abstract BankAccountType getType();

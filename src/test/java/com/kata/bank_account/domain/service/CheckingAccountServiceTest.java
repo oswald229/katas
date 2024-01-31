@@ -3,9 +3,11 @@ package com.kata.bank_account.domain.service;
 import com.kata.bank_account.domain.exceptions.AboveOverdraftException;
 import com.kata.bank_account.domain.exceptions.InsufficientFundsException;
 import com.kata.bank_account.domain.model.CheckingAccount;
+import com.kata.bank_account.domain.model.Transaction;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,7 +30,7 @@ class CheckingAccountServiceTest {
     void should_make_a_withdraw() {
         CheckingAccount bankAccount = new CheckingAccount();
         BigDecimal depositAmount = BigDecimal.TEN;
-        bankAccount.increaseBalance(depositAmount);
+        bankAccount.addTransaction(new Transaction(depositAmount, LocalDateTime.now()));
 
         BigDecimal withdrawAmount = BigDecimal.valueOf(5);
         BigDecimal newBalance = checkingAccountService.withdraw(withdrawAmount, bankAccount);
