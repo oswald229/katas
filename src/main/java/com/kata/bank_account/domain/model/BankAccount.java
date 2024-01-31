@@ -30,4 +30,5 @@ public abstract class BankAccount {
         return getBalance();
     }
 
+    public abstract BankAccountType getType();
 }

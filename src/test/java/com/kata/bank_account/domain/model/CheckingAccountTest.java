@@ -24,4 +24,11 @@ class CheckingAccountTest {
         CheckingAccount bankAccount = new CheckingAccount();
         assertFalse(bankAccount.hasAllowedOverdraft());
     }
+
+    @Test
+    void should_have_the_right_type() {
+        BankAccount bankAccount = new CheckingAccount();
+
+        assertEquals(BankAccountType.CHECKING, bankAccount.getType());
+    }
 }

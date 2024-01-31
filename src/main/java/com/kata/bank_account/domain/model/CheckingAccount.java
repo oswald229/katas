@@ -11,6 +11,11 @@ public class CheckingAccount extends BankAccount {
         super();
     }
 
+    @Override
+    public BankAccountType getType() {
+        return BankAccountType.CHECKING;
+    }
+
     public boolean hasAllowedOverdraft() {
         return allowedOverdraft.compareTo(BigDecimal.ZERO) > 0;
     }
@@ -22,6 +27,5 @@ public class CheckingAccount extends BankAccount {
     public void updateOverdraftAmount(BigDecimal overdraftAmount) {
         this.allowedOverdraft = overdraftAmount;
     }
-
-
+    
 }

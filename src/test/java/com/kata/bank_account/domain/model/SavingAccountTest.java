@@ -15,4 +15,11 @@ class SavingAccountTest {
 
         assertEquals(limit, savingAccount.getLimit());
     }
+
+    @Test
+    void should_have_the_right_type() {
+        BankAccount bankAccount = new SavingAccount(BigDecimal.TEN);
+
+        assertEquals(BankAccountType.SAVING, bankAccount.getType());
+    }
 }

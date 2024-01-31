@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class SavingAccount extends BankAccount {
 
-    private BigDecimal limit;
+    private final BigDecimal limit;
 
     public SavingAccount(BigDecimal limit) {
         super();
@@ -14,5 +14,10 @@ public class SavingAccount extends BankAccount {
 
     public BigDecimal getLimit() {
         return limit;
+    }
+
+    @Override
+    public BankAccountType getType() {
+        return BankAccountType.SAVING;
     }
 }
