@@ -3,13 +3,11 @@ package com.kata.bank_account.domain.model;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class BankAccount {
-
+public abstract class BankAccount {
     private final UUID id;
-    private BigDecimal balance;
-    private BigDecimal allowedOverdraft = BigDecimal.ZERO;
+    protected BigDecimal balance;
 
-    public BankAccount() {
+    BankAccount() {
         this.id = UUID.randomUUID();
         this.balance = BigDecimal.ZERO;
     }
@@ -23,7 +21,7 @@ public class BankAccount {
     }
 
     public BigDecimal increaseBalance(BigDecimal depositAmount) {
-        this.balance = this.balance.add(depositAmount);
+        balance = this.balance.add(depositAmount);
         return getBalance();
     }
 
@@ -32,15 +30,4 @@ public class BankAccount {
         return getBalance();
     }
 
-    public boolean hasAllowedOverdraft() {
-        return allowedOverdraft.compareTo(BigDecimal.ZERO) > 0;
-    }
-
-    public BigDecimal getAllowedOverDraft() {
-        return allowedOverdraft;
-    }
-
-    public void updateOverdraftAmount(BigDecimal overdraftAmount) {
-        this.allowedOverdraft = overdraftAmount;
-    }
 }

@@ -4,26 +4,24 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-class BankAccountTest {
+class CheckingAccountTest {
     @Test
     void should_have_an_id() {
-        BankAccount bankAccount = new BankAccount();
+        BankAccount bankAccount = new CheckingAccount();
         assertNotNull(bankAccount.getId());
     }
 
     @Test
     void should_have_a_balance() {
-        BankAccount bankAccount = new BankAccount();
+        BankAccount bankAccount = new CheckingAccount();
         assertEquals(BigDecimal.ZERO, bankAccount.getBalance());
     }
 
     @Test
     void can_have_an_overdraft() {
-        BankAccount bankAccount = new BankAccount();
-
-        assertEquals(false, bankAccount.hasAllowedOverdraft());
+        CheckingAccount bankAccount = new CheckingAccount();
+        assertFalse(bankAccount.hasAllowedOverdraft());
     }
 }
