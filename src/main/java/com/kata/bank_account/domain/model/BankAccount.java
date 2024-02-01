@@ -7,7 +7,7 @@ public abstract class BankAccount {
     private final UUID id;
     private final ArrayList<Transaction> transactions;
 
-    BankAccount() {
+    protected BankAccount() {
         this.id = UUID.randomUUID();
         transactions = new ArrayList<>();
     }

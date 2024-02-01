@@ -2,8 +2,8 @@ package com.kata.bank_account.domain.service;
 
 import com.kata.bank_account.domain.model.BankAccountStatement;
 import com.kata.bank_account.domain.model.BankAccountType;
-import com.kata.bank_account.domain.model.CheckingAccount;
 import com.kata.bank_account.domain.model.Transaction;
+import com.kata.bank_account.domain.model.mocks.BankAccountMock;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -20,8 +20,8 @@ class AccountStatementServiceTest {
 
     @Test
     void should_get_bank_statement() {
-        CheckingAccount checkingAccount = new CheckingAccount();
-
+        BankAccountMock checkingAccount = new BankAccountMock();
+        checkingAccount.setType(BankAccountType.CHECKING);
 
         LocalDate day = LocalDate.of(2024, 1, 1);
         LocalTime time = LocalTime.of(12, 15, 30);

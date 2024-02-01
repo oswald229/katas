@@ -2,9 +2,11 @@ package com.kata.bank_account.domain.service;
 
 import com.kata.bank_account.domain.exceptions.AboveSavingLimitException;
 import com.kata.bank_account.domain.model.SavingAccount;
+import com.kata.bank_account.domain.model.Transaction;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,5 +37,17 @@ class SavingAccountServiceTest {
 
         assertEquals(newBalance, depositAmount);
 
+    }
+
+    @Test
+    void should_make_a_withdraw() {
+        SavingAccount savingAccount = new SavingAccount(BigDecimal.TEN);
+        BigDecimal depositAmount = BigDecimal.TEN;
+        savingAccount.addTransaction(new Transaction(depositAmount, LocalDateTime.now()));
+
+        BigDecimal withdrawAmount = BigDecimal.valueOf(5);
+        BigDecimal newBalance = savingAccountService.withdraw(withdrawAmount, savingAccount);
+
+        assertEquals(withdrawAmount, newBalance);
     }
 }

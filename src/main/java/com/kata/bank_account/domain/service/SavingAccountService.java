@@ -1,11 +1,11 @@
 package com.kata.bank_account.domain.service;
 
 import com.kata.bank_account.domain.exceptions.AboveSavingLimitException;
+import com.kata.bank_account.domain.exceptions.InsufficientFundsException;
 import com.kata.bank_account.domain.model.SavingAccount;
-import com.kata.bank_account.domain.model.Transaction;
+import com.kata.bank_account.domain.model.TransactionType;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class SavingAccountService implements BankAccountService {
 
@@ -14,13 +14,17 @@ public class SavingAccountService implements BankAccountService {
         if (isAboveSavingLimit(depositAmount, bankAccount)) {
             throw new AboveSavingLimitException();
         }
-
-        bankAccount.addTransaction(new Transaction(depositAmount, LocalDateTime.now()));
-
-        return bankAccount.getBalance();
+        return addTransaction(depositAmount, bankAccount, TransactionType.DEPOSIT);
     }
 
     private static boolean isAboveSavingLimit(BigDecimal depositAmount, SavingAccount bankAccount) {
         return bankAccount.getBalance().add(depositAmount).compareTo(bankAccount.getLimit()) > 0;
+    }
+
+    public BigDecimal withdraw(BigDecimal withdrawAmount, SavingAccount savingAccount) {
+        if (hasEnoughFundForWithdraw(withdrawAmount, savingAccount)) {
+            return addTransaction(withdrawAmount, savingAccount, TransactionType.WITHDRAW);
+        }
+        throw new InsufficientFundsException();
     }
 }

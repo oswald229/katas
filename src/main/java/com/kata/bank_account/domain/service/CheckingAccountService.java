@@ -3,28 +3,20 @@ package com.kata.bank_account.domain.service;
 import com.kata.bank_account.domain.exceptions.AboveOverdraftException;
 import com.kata.bank_account.domain.exceptions.InsufficientFundsException;
 import com.kata.bank_account.domain.model.CheckingAccount;
-import com.kata.bank_account.domain.model.Transaction;
+import com.kata.bank_account.domain.model.TransactionType;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class CheckingAccountService implements BankAccountService {
 
     protected BigDecimal deposit(BigDecimal depositAmount, CheckingAccount bankAccount) {
-
-        bankAccount.addTransaction(new Transaction(depositAmount, LocalDateTime.now()));
-
-        return bankAccount.getBalance();
+        return addTransaction(depositAmount, bankAccount, TransactionType.DEPOSIT);
     }
 
     public BigDecimal withdraw(BigDecimal withdrawAmount, CheckingAccount bankAccount) {
-
         if (hasEnoughFundForWithdraw(withdrawAmount, bankAccount) || canOverdraft(withdrawAmount, bankAccount)) {
-
-            bankAccount.addTransaction(new Transaction(withdrawAmount.negate(), LocalDateTime.now()));
-            return bankAccount.getBalance();
+            return addTransaction(withdrawAmount, bankAccount, TransactionType.WITHDRAW);
         }
-
         throw new InsufficientFundsException();
     }
 
