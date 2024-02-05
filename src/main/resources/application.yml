@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./persistence/katas
+    username: root
+    password: root
+    driverClassName: org.h2.Driver
+  jpa:
+    defer-datasource-initialization: true
