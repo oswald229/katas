@@ -10,17 +10,14 @@ public class FizzBuzz {
     }
 
     private static final IntFunction<String> fizzBuzzPredicate = value -> {
-
-        if (value % 3 == 0 && value % 5 == 0) {
-            return "FizzBuzz";
-        }
+        String result = "";
         if (value % 3 == 0) {
-            return "Fizz";
+            result += "Fizz";
         }
         if (value % 5 == 0) {
-            return "Buzz";
+            result += "Buzz";
         }
-        return String.valueOf(value);
+        return result.isBlank() ? String.valueOf(value) : result;
     };
 
     public static List<String> getFizzBuzz() {
