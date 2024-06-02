@@ -4,7 +4,7 @@ package com.kata.bowling;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.kata.bowling.BowlingFrame.FRAME_PINS_AMOUNT;
+import static com.kata.bowling.BowlingFrame.TOTAL_FRAME_AMOUNT;
 
 public class BowlingGame {
 
@@ -23,7 +23,7 @@ public class BowlingGame {
 
     private static List<BowlingFrame> initFrames() {
         return IntStream
-                .range(0, FRAME_PINS_AMOUNT)
+                .range(0, TOTAL_FRAME_AMOUNT)
                 .mapToObj(value -> new BowlingFrame())
                 .toList();
     }
@@ -43,60 +43,103 @@ public class BowlingGame {
         setNextFrame();
     }
 
+    private void computeScore() {
+        score = 0;
+        this.frames.forEach(frame -> {
+            score += frame.getScore();
+            if (hasBonus(frame)) {
+                manageFrameBonus(frame);
+            }
+        });
+    }
+
     private void setNextFrame() {
-        if (currentFrame.isCompleted() && currentFrameIndex < FRAME_PINS_AMOUNT - 1) {
+        if (currentFrame.isCompleted() && gameHasNotYetPlayedFramesLeft()) {
             currentFrame = frames.get(++currentFrameIndex);
         }
     }
 
-    private void computeScore() {
-        score = 0;
+    private boolean gameHasNotYetPlayedFramesLeft() {
+        return currentFrameIndex < TOTAL_FRAME_AMOUNT - 1;
+    }
 
-        for (int i = 0; i < this.frames.size(); i++) {
+    private static boolean hasBonus(BowlingFrame bowlingFrame) {
+        return !bowlingFrame.getBonus().equals(BowlingBonus.NONE);
+    }
 
-            BowlingFrame bowlingFrame = frames.get(i);
-
-            score += bowlingFrame.getScore();
-
-            BowlingBonus frameBonus = bowlingFrame.getBonus();
-
-            if (i == FRAME_PINS_AMOUNT - 1 && !frameBonus.equals(BowlingBonus.NONE)) {
-                bowlingFrame.addExtraRoll();
-                continue;
-            }
-
-            if (frameBonus.equals(BowlingBonus.SPARE)) {
-                handleSpareBonus(i);
-            } else if (frameBonus.equals(BowlingBonus.STRIKE)) handleStrikeBonus(i);
+    private void manageFrameBonus(BowlingFrame frame) {
+        if (isLastFrame(frame)) {
+            frame.addExtraRoll();
+        } else {
+            computeFrameBonus(frame);
         }
     }
 
-    private void handleSpareBonus(int i) {
-        score += frames.get(i + 1).getKnockedOnFirstRoll();
-    }
-
-    private void handleStrikeBonus(int i) {
-        BowlingFrame nextFrame = frames.get(i + 1);
-
-        List<BowlingRoll> nextFrameRolls = nextFrame.getRolls();
-
-        if (nextFrameRolls.size() == 1) {
-            score += nextFrameRolls.get(0).knockedPins();
-            int furtherFrameIndex = i + 2;
-            if (furtherFrameIndex < FRAME_PINS_AMOUNT) {
-                List<BowlingRoll> furtherFrameRolls = frames.get(furtherFrameIndex).getRolls();
-                if (!furtherFrameRolls.isEmpty()) {
-                    score += furtherFrameRolls.get(0).knockedPins();
-                }
+    private void computeFrameBonus(BowlingFrame frame) {
+        switch (frame.getBonus()) {
+            case STRIKE -> handleStrikeBonus(frame);
+            case SPARE -> handleSpareBonus(frame);
+            case NONE -> {
+                // Do nothing.
             }
         }
+    }
 
-        if (nextFrameRolls.size() >= 2) {
-            score += nextFrameRolls.subList(0, 2)
-                    .stream()
-                    .map(BowlingRoll::knockedPins)
-                    .reduce(Integer::sum)
-                    .orElse(0);
+    private boolean isLastFrame(BowlingFrame frame) {
+        return frames.indexOf(frame) == TOTAL_FRAME_AMOUNT - 1;
+    }
+
+    private void handleSpareBonus(BowlingFrame frame) {
+        score += frames.get(frames.indexOf(frame) + 1).getKnockedOnFirstRoll();
+    }
+
+    private void handleStrikeBonus(BowlingFrame strikeFrame) {
+        BowlingFrame frameAfterStrike = getFrameAfter(strikeFrame);
+        List<BowlingRoll> rollsAfterStrike = frameAfterStrike.getRolls();
+        int rollsPlayedAfterStrike = rollsAfterStrike.size();
+
+        if (rollsPlayedAfterStrike == 1) {
+            handleStrikeWithTwoFramesPlayedAfter(strikeFrame);
+        } else if (rollsPlayedAfterStrike >= 2) {
+            handleStrikeWithOneFramePlayedAfter(strikeFrame);
         }
+    }
+
+    private BowlingFrame getFrameAfter(BowlingFrame strikeFrame) {
+        int strikeFrameIndex = frames.indexOf(strikeFrame);
+        return frames.get(strikeFrameIndex + 1);
+    }
+
+    private void handleStrikeWithOneFramePlayedAfter(BowlingFrame strikeFrame) {
+        score += getFrameAfter(strikeFrame)
+                .getRolls()
+                .subList(0, 2)
+                .stream()
+                .map(BowlingRoll::knockedPins)
+                .reduce(Integer::sum)
+                .orElse(0);
+    }
+
+    private void handleStrikeWithTwoFramesPlayedAfter(BowlingFrame strikeFrame) {
+        BowlingFrame firstFrameAfterStrike = getFrameAfter(strikeFrame);
+        score += firstFrameAfterStrike.getRolls().get(0).knockedPins();
+
+        if (thereIsAFrameAfter(firstFrameAfterStrike)) {
+            computeFromSecondFrameAfterStrike(getFrameAfter(firstFrameAfterStrike));
+        }
+    }
+
+    private boolean thereIsAFrameAfter(BowlingFrame firstFrameAfterStrike) {
+        return frames.indexOf(firstFrameAfterStrike) + 1 < TOTAL_FRAME_AMOUNT;
+    }
+
+    private void computeFromSecondFrameAfterStrike(BowlingFrame frame) {
+        List<BowlingRoll> frameRolls = frame.getRolls();
+        score += hasKnockedPins(frameRolls) ?
+                frameRolls.get(0).knockedPins() : 0;
+    }
+
+    private static boolean hasKnockedPins(List<BowlingRoll> rolls) {
+        return !rolls.isEmpty();
     }
 }

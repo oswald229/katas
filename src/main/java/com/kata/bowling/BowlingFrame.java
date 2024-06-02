@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BowlingFrame {
-    public static final int FRAME_PINS_AMOUNT = 10;
+    public static final int TOTAL_FRAME_AMOUNT = 10;
     private final ArrayList<BowlingRoll> rolls;
     private int rollsToPlay = 2;
 
@@ -53,11 +53,11 @@ public class BowlingFrame {
     }
 
     private boolean isSpare() {
-        return (getKnockedOnFirstRoll() + getKnockedOnSecondRoll()) == FRAME_PINS_AMOUNT;
+        return (getKnockedOnFirstRoll() + getKnockedOnSecondRoll()) == TOTAL_FRAME_AMOUNT;
     }
 
     private boolean isStrike() {
-        return getKnockedOnFirstRoll() == FRAME_PINS_AMOUNT;
+        return getKnockedOnFirstRoll() == TOTAL_FRAME_AMOUNT;
     }
 
     public int getKnockedOnFirstRoll() {
