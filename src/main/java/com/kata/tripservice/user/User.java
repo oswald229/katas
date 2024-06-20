@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private List<Trip> trips = new ArrayList<Trip>();
-    private List<User> friends = new ArrayList<User>();
+    private List<Trip> trips = new ArrayList<>();
+    private List<User> friends = new ArrayList<>();
 
     public List<User> getFriends() {
         return friends;
@@ -25,7 +25,7 @@ public class User {
         return trips;
     }
 
-    public boolean friendsContains(User user) {
+    public boolean isFriendWith(User user) {
         return friends.contains(user);
     }
 }

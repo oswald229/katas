@@ -12,6 +12,6 @@ class UserTest {
         User friend = new User();
         user.addFriend(friend);
 
-        assertThat(user.friendsContains(friend)).isTrue();
+        assertThat(user.isFriendWith(friend)).isTrue();
     }
 }
