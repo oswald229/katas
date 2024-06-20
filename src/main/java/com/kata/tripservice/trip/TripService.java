@@ -12,10 +12,8 @@ public class TripService {
         User loggedUser = getLoggedUser();
         if (loggedUser == null) {
             throw new UserNotLoggedInException();
-        } else if (user.friendsContains(loggedUser)) {
-            return getUserTrips(user);
         }
-        return List.of();
+        return user.friendsContains(loggedUser) ? getUserTrips(user) : List.of();
     }
 
     @NotNull
