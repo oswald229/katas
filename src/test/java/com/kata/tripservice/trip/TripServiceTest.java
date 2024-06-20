@@ -15,8 +15,9 @@ class TripServiceTest {
     @Test
     void should_throw_user_not_logged_in_exception() {
         TripService tripService = new TripService() {
+
             @Override
-            protected User getLoggedUser() {
+            protected User getCurrentSessionUser() {
                 return null;
             }
         };
@@ -32,7 +33,7 @@ class TripServiceTest {
     void should_return_empty_list_when_user_has_no_friends() {
         TripService tripService = new TripService() {
             @Override
-            protected User getLoggedUser() {
+            protected User getCurrentSessionUser() {
                 return new User();
             }
         };
@@ -48,7 +49,7 @@ class TripServiceTest {
         User loggedUser = new User();
         TripService tripService = new TripService() {
             @Override
-            protected User getLoggedUser() {
+            protected User getCurrentSessionUser() {
                 return loggedUser;
             }
         };
@@ -68,7 +69,7 @@ class TripServiceTest {
         Trip trip = new Trip();
         TripService tripService = new TripService() {
             @Override
-            protected User getLoggedUser() {
+            protected User getCurrentSessionUser() {
                 return loggedUser;
             }
 
