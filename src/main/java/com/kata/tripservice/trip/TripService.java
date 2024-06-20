@@ -5,28 +5,20 @@ import com.kata.tripservice.user.User;
 import com.kata.tripservice.user.UserSession;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TripService {
     public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
-        List<Trip> tripList = new ArrayList<Trip>();
-        User loggedUser = getLoggedUser();
-        boolean isFriend = false;
-        if (loggedUser != null) {
-            for (User friend : user.getFriends()) {
-                if (friend.equals(loggedUser)) {
-                    isFriend = true;
-                    break;
-                }
+        Optional<User> loggedUser = Optional.ofNullable(getLoggedUser());
+        if (loggedUser.isPresent()){
+            if (user.isFriend(loggedUser.get())) {
+                return getUserTrips(user);
             }
-            if (isFriend) {
-                tripList = getUserTrips(user);
-            }
-            return tripList;
-        } else {
-            throw new UserNotLoggedInException();
+            return List.of();
         }
+
+        throw new UserNotLoggedInException();
     }
 
     @NotNull
