@@ -9,7 +9,7 @@ import java.util.List;
 public class TripService {
     public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
         User loggedUser = getLoggedUser();
-        return user.isFriendWith(loggedUser) ? getUserTrips(user) : List.of();
+        return loggedUser.isFriendWith(user) ? getUserTrips(user) : List.of();
     }
 
     private User getLoggedUser() {
