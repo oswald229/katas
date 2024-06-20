@@ -3,7 +3,6 @@ package com.kata.tripservice.user;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
 
@@ -13,6 +12,6 @@ class UserTest {
         User friend = new User();
         user.addFriend(friend);
 
-        assertThat(user.isFriend(friend)).isTrue();
+        assertThat(user.friendsContains(friend)).isTrue();
     }
 }

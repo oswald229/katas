@@ -12,7 +12,7 @@ public class TripService {
         User loggedUser = getLoggedUser();
         if (loggedUser == null) {
             throw new UserNotLoggedInException();
-        } else if (user.isFriend(loggedUser)) {
+        } else if (user.friendsContains(loggedUser)) {
             return getUserTrips(user);
         }
         return List.of();
