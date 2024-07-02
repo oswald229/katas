@@ -80,7 +80,7 @@ class GameOfLifeTest {
                 firstNeighbour, secondNeighbour, thirdNeighbour
         );
 
-        List<Cell> result = gameOfLife.getCellNeighbours(0, 0);
+        List<Cell> result = gameOfLife.getCellNeighbours(new Cell(0, 0));
 
         assertEquals(expected.size(), result.size());
         assertTrue(expected.containsAll(result));

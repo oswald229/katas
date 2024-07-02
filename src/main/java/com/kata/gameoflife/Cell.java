@@ -36,4 +36,7 @@ public class Cell {
         return super.hashCode();
     }
 
+    public boolean isAlive() {
+        return getStatus().equals(CellStatus.ALIVE);
+    }
 }

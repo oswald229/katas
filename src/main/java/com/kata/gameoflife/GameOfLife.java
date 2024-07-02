@@ -36,21 +36,21 @@ public class GameOfLife {
     }
 
     public Cell getCell(int x, int y) {
-        verify(x, y);
+        checkWithinBoard(x, y);
         Cell toFind = new Cell(x, y);
         return this.cells.stream()
-                .filter(
-                        cell -> cell.equals(toFind))
+                .filter(cell -> cell.equals(toFind))
                 .findFirst()
                 .orElseThrow();
     }
 
-    private void verify(int x, int y) {
+    private void checkWithinBoard(int x, int y) {
         if (x >= width || x < 0 || y >= height || y < 0) throw new IndexOutOfBoundsException();
     }
 
-    public List<Cell> getCellNeighbours(int x, int y) {
-
+    public List<Cell> getCellNeighbours(Cell cell) {
+        int x = cell.getX();
+        int y = cell.getY();
         List<Cell> neighbours = new ArrayList<>();
 
         //Top
@@ -117,7 +117,7 @@ public class GameOfLife {
                 board.add(boardLine.toString());
                 boardLine = new StringBuilder();
             }
-            if (cells.get(i).getStatus() == CellStatus.ALIVE) {
+            if (cells.get(i).isAlive()) {
                 boardLine.append(CellStatus.ALIVE.getValue());
             } else {
                 boardLine.append(CellStatus.DEAD.getValue());
@@ -130,8 +130,8 @@ public class GameOfLife {
     public CellStatus nextGeneration(int x, int y) {
         Cell cell = this.getCell(x, y);
 
-        List<Cell> cellNeighbours = this.getCellNeighbours(cell.getX(),
-                cell.getY());
+        List<Cell> cellNeighbours = this.getCellNeighbours(
+                cell);
 
         long aliveNeighbours = cellNeighbours.stream()
                 .filter(cell1 -> cell1.getStatus().equals(CellStatus.ALIVE))

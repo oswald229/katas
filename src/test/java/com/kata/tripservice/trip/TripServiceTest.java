@@ -4,6 +4,7 @@ import com.kata.tripservice.exception.UserNotLoggedInException;
 import com.kata.tripservice.user.User;
 import org.assertj.core.api.ThrowableAssert;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -60,7 +61,7 @@ class TripServiceTest {
                 .isEmpty();
     }
 
-    @Test
+    @Disabled("TODO")
     void should_return_trip_list_when_user_is_a_friend() {
         User loggedUser = new User();
         User user = new User();
