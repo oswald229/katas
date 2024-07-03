@@ -10,7 +10,7 @@ public class Permutations {
     }
 
     public static <T> List<List<T>> getPermutations(List<T> list) {
-
+        //TODO : Avoid duplicates.
         List<List<T>> result = new ArrayList<>();
 
         if (list.size() == 2) {

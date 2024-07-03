@@ -3,6 +3,7 @@ package com.kata.potter;
 import com.kata.permutations.Permutations;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,20 +13,21 @@ public class PotterBooksService {
 
         List<PotterCart> carts = new ArrayList<>();
 
-        List<List<PotterBooks>> permutations = Permutations.getPermutations(rawCart);
-
-        for (List<PotterBooks> permutation : permutations) {
+        Set<List<PotterBooks>> permutations = new HashSet<>(Permutations.getPermutations(rawCart));
+        
+        permutations.forEach(permutation -> {
 
             for (int i = 1; i <= permutation.size(); i++) {
                 List<Set<PotterBooks>> potterGroup = GroupsUtils.createGroups(permutation, i);
-
                 PotterCart cart = buildCart(potterGroup);
+
                 boolean correctSize = cart.totalItems() == rawCart.size(); // TODO : Avoid this condition.
                 if (correctSize && !carts.contains(cart)) {
                     carts.add(cart);
                 }
             }
-        }
+        });
+
         return carts;
     }
 
