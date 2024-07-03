@@ -1,7 +1,9 @@
 package com.kata.permutations;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.LongStream;
 
 public class Permutations {
@@ -9,9 +11,8 @@ public class Permutations {
     private Permutations() {
     }
 
-    public static <T> List<List<T>> getPermutations(List<T> list) {
-        //TODO : Avoid duplicates.
-        List<List<T>> result = new ArrayList<>();
+    public static <T> Set<List<T>> getPermutations(List<T> list) {
+        Set<List<T>> result = new HashSet<>();
 
         if (list.size() == 2) {
 
@@ -29,11 +30,12 @@ public class Permutations {
 
             T current = inputCopy.remove(i);
 
-            List<List<T>> permutations = getPermutations(inputCopy);
+            Set<List<T>> permutations = getPermutations(inputCopy);
 
             for (List<T> permutation : permutations) {
                 ArrayList<T> integers = new ArrayList<>(permutation);
                 integers.add(0, current);
+                //TODO : Avoid duplicates creation.
                 result.add(integers);
             }
 

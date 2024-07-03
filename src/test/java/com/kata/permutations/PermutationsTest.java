@@ -4,6 +4,7 @@ import com.kata.potter.PotterBooks;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
@@ -89,7 +90,7 @@ class PermutationsTest {
                 List.of(1, 4, 2, 3),
                 List.of(4, 1, 2, 3)
         );
-        List<List<Integer>> actual = Permutations.getPermutations(list);
+        Set<List<Integer>> actual = Permutations.getPermutations(list);
         assertEquals(Permutations.count(list), actual.size());
         assertTrue(actual.containsAll(expected));
     }
@@ -98,7 +99,7 @@ class PermutationsTest {
     @Test
     void should_return_possible_permutations_b() {
         List<Integer> list = IntStream.range(1, 4).boxed().toList();
-        List<List<Integer>> result = Permutations.getPermutations(list);
+        Set<List<Integer>> result = Permutations.getPermutations(list);
         System.out.println(result);
         assertEquals(6, result.size());
     }
@@ -133,7 +134,7 @@ class PermutationsTest {
                 List.of(PotterBooks.TWO, PotterBooks.ONE)
         );
 
-        List<List<PotterBooks>> result = Permutations.getPermutations(input);
+        Set<List<PotterBooks>> result = Permutations.getPermutations(input);
         assertEquals(expected.size(), result.size());
         assertTrue(result.containsAll(expected));
     }
