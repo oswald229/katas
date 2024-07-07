@@ -1,5 +1,7 @@
 package com.kata.bank_account.domain.entities;
 
+import com.kata.bank_account.domain.exception.InsufficientFundsException;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,5 +30,17 @@ public abstract class BankAccount {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public abstract void withdraw(BigDecimal amount);
+    public void withdraw(BigDecimal amount){
+        if (canWithdraw(amount)) {
+            this.transactions.add(new BankTransaction(amount.negate()));
+            return;
+        }
+        throw new InsufficientFundsException();
+    }
+
+    protected boolean canWithdraw(BigDecimal amount) {
+        return balance().compareTo(amount) >= 0;
+    }
+
+    protected abstract boolean canOverdraft();
 }

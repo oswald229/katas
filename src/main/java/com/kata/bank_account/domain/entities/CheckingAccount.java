@@ -18,16 +18,12 @@ public class CheckingAccount extends BankAccount {
 
     @Override
     public void withdraw(BigDecimal amount) {
-        if (canWithdraw(amount)) {
+        if (canWithdraw(amount)
+                || canOverdraft() && withdrawIsWithinOverdraft(amount)
+        ) {
             this.transactions.add(new BankTransaction(amount.negate()));
             return;
         }
-
-        if (canOverdraft() && withdrawIsWithinOverdraft(amount)) {
-            this.transactions.add(new BankTransaction(amount.negate()));
-            return;
-        }
-
         throw new InsufficientFundsException();
     }
 
@@ -35,12 +31,9 @@ public class CheckingAccount extends BankAccount {
         return balance().subtract(amount).abs().compareTo(overdraft) <= 0;
     }
 
-    private boolean canOverdraft() {
+    @Override
+    protected boolean canOverdraft() {
         return overdraft.compareTo(BigDecimal.ZERO) >= 0;
-    }
-
-    private boolean canWithdraw(BigDecimal amount) {
-        return balance().compareTo(amount) >= 0;
     }
 
 }
