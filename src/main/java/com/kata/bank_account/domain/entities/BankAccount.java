@@ -15,19 +15,8 @@ public abstract class BankAccount {
         id = UUID.randomUUID();
     }
 
-    public UUID id() {
-        return id;
-    }
-
     public void deposit(BigDecimal amount) {
         this.transactions.add(new BankTransaction(amount));
-    }
-
-    public BigDecimal balance() {
-        return transactions
-                .stream()
-                .map(BankTransaction::amount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public void withdraw(BigDecimal amount){
@@ -40,6 +29,13 @@ public abstract class BankAccount {
 
     protected boolean canWithdraw(BigDecimal amount) {
         return balance().compareTo(amount) >= 0;
+    }
+
+    public BigDecimal balance() {
+        return transactions
+                .stream()
+                .map(BankTransaction::amount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     protected abstract boolean canOverdraft();
