@@ -14,7 +14,7 @@ class CheckingAccountTest {
     void should_have_an_id() {
         CheckingAccount checkingAccount = new CheckingAccount();
 
-        assertThat(checkingAccount.id).isNotNull();
+        assertThat(checkingAccount.getId()).isNotNull();
     }
 
     @Test

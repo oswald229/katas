@@ -1,6 +1,6 @@
 package com.kata.bank_account.domain.service;
 
-import com.kata.bank_account.domain.entities.AccountReport;
+import com.kata.bank_account.domain.data.AccountReport;
 import com.kata.bank_account.domain.entities.BankAccount;
 import com.kata.bank_account.domain.data.BankTransaction;
 
@@ -19,7 +19,7 @@ public class AccountReporter {
 
     protected AccountReport reportFor(BankAccount account, LocalDate reportDate) {
         var startingDate = reportDate.minus(DEFAULT_REPORT_PERIOD);
-        List<BankTransaction> transactions = account.getTransactions()
+        var transactions = account.getTransactions()
                 .stream()
                 .filter(transaction -> {
                     var transactionDate = transaction.time().toLocalDate();

@@ -18,6 +18,10 @@ public abstract class BankAccount {
         id = UUID.randomUUID();
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public void deposit(BigDecimal amount) {
         this.transactions.add(new BankTransaction(amount));
     }
