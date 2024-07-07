@@ -10,7 +10,6 @@ public class SavingAccount extends BankAccount {
     private final BigDecimal ceiling;
 
     public SavingAccount(BigDecimal ceiling) {
-
         this.ceiling = ceiling;
     }
 
@@ -24,10 +23,6 @@ public class SavingAccount extends BankAccount {
             throw new AboveCeilingException();
         }
         super.deposit(amount);
-    }
-
-    public boolean canOverdraft() {
-        return false;
     }
 
     @Override

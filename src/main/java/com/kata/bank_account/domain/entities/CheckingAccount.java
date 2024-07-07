@@ -6,10 +6,7 @@ public class CheckingAccount extends BankAccount {
     private static final AccountType accountType = AccountType.CHECKING;
     private BigDecimal overdraft = BigDecimal.ZERO;
 
-    public CheckingAccount() {
-    }
-
-    public CheckingAccount(BigDecimal overdraft) {
+    public void setOverdraft(BigDecimal overdraft) {
         this.overdraft = overdraft;
     }
 

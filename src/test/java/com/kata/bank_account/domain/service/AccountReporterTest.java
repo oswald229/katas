@@ -49,7 +49,7 @@ class AccountReporterTest {
                 today.minusYears(1), midnight
         ));
 
-        var bankAccount = new CheckingAccount(){
+        var bankAccount = new CheckingAccount() {
             @Override
             public List<BankTransaction> getTransactions() {
                 return List.of(todayTransaction,
@@ -66,6 +66,39 @@ class AccountReporterTest {
         assertThat(report.createdOn()).isEqualTo(today);
         assertThat(report.accountType()).isEqualTo(AccountType.CHECKING);
         assertThat(report.transactions()).containsExactly(todayTransaction, tenDaysAgoTransaction, oneMonthAgoTransaction);
+    }
+
+    @Test
+    void should_report_transactions_within_sliding_month_bis() {
+        var accountReporter = new AccountReporter();
+
+        LocalDate today = LocalDate.now();
+        LocalTime midnight = LocalTime.of(0, 0);
+
+        var aYearAgoTransaction = new BankTransaction(BigDecimal.TEN, LocalDateTime.of(
+                today.minusYears(1), midnight
+        ));
+
+        var bankAccount = new BankAccount() {
+            @Override
+            public AccountType type() {
+                return AccountType.SAVING;
+            }
+
+            @Override
+            public List<BankTransaction> getTransactions() {
+                return List.of(
+                        aYearAgoTransaction
+                );
+            }
+        };
+        LocalDate reportDate = today.minusMonths(5);
+
+        AccountReport report = accountReporter.reportFor(bankAccount, reportDate);
+
+        assertThat(report.createdOn()).isEqualTo(reportDate);
+        assertThat(report.accountType()).isEqualTo(AccountType.SAVING);
+        assertThat(report.transactions()).isEmpty();
     }
 
     public static Stream<Arguments> accountTypes() {

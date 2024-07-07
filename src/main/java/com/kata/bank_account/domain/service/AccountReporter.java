@@ -5,23 +5,34 @@ import com.kata.bank_account.domain.entities.BankAccount;
 import com.kata.bank_account.domain.entities.BankTransaction;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Comparator;
+import java.util.List;
 
 public class AccountReporter {
+    private static final Period DEFAULT_REPORT_PERIOD = Period.ofMonths(1);
+
     public AccountReport reportFor(BankAccount bankAccount) {
         LocalDate reportDate = LocalDate.now();
-        LocalDate startingDate = reportDate.minusMonths(1);
+        return reportFor(bankAccount, reportDate);
+    }
 
-        var transactions = bankAccount.getTransactions()
+    protected AccountReport reportFor(BankAccount account, LocalDate reportDate) {
+        var startingDate = reportDate.minus(DEFAULT_REPORT_PERIOD);
+        List<BankTransaction> transactions = account.getTransactions()
                 .stream()
                 .filter(transaction -> {
                     var transactionDate = transaction.time().toLocalDate();
-                    return (transactionDate.isBefore(reportDate) || transactionDate.isEqual(reportDate))
-                            && (transactionDate.isAfter(startingDate) || transactionDate.isEqual(startingDate));
+                    return isWithinRange(startingDate, reportDate, transactionDate);
                 })
                 .sorted(Comparator.comparing(BankTransaction::time).reversed())
                 .toList();
-
-        return new AccountReport(bankAccount.type(), transactions, reportDate);
+        return new AccountReport(account.type(), transactions, reportDate);
     }
+
+    private static boolean isWithinRange(LocalDate starting, LocalDate ending, LocalDate target) {
+        return (target.isBefore(ending) || target.isEqual(ending))
+                && (target.isAfter(starting) || target.isEqual(starting));
+    }
+
 }

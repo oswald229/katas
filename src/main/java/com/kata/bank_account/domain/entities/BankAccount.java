@@ -39,7 +39,9 @@ public abstract class BankAccount {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    protected abstract boolean canOverdraft();
+    protected boolean canOverdraft(){
+        return false;
+    };
 
     public abstract AccountType type();
 
