@@ -44,4 +44,15 @@ class BankAccountTest {
 
         assertThat(bankAccount.balance()).isZero();
     }
+
+    @Test
+    void should_allow_withdraw_within_overdraft() {
+        var overdraft = BigDecimal.valueOf(50);
+        BankAccount bankAccount = new BankAccount(overdraft);
+
+        bankAccount.withdraw(BigDecimal.TEN);
+
+        assertThat(bankAccount.balance()).isEqualTo(BigDecimal.valueOf(-10));
+
+    }
 }
