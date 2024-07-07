@@ -8,25 +8,25 @@ import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class BankAccountTest {
+class CheckingAccountTest {
 
     @Test
     void should_have_an_id() {
-        BankAccount bankAccount = new BankAccount();
+        CheckingAccount checkingAccount = new CheckingAccount();
 
-        assertThat(bankAccount.id()).isNotNull();
+        assertThat(checkingAccount.id()).isNotNull();
     }
 
     @Test
     void should_have_a_balance() {
-        BankAccount bankAccount = new BankAccount();
+        CheckingAccount checkingAccount = new CheckingAccount();
 
-        assertThat(bankAccount.balance()).isZero();
+        assertThat(checkingAccount.balance()).isZero();
     }
 
     @Test
     void should_have_sufficient_funds_for_withdraw() {
-        var bankAccount = new BankAccount();
+        var bankAccount = new CheckingAccount();
 
         var withDrawnAmount = BigDecimal.TEN;
 
@@ -36,7 +36,7 @@ class BankAccountTest {
 
     @Test
     void should_withdraw_with_sufficient_funds() {
-        var bankAccount = new BankAccount();
+        var bankAccount = new CheckingAccount();
         bankAccount.deposit(BigDecimal.TEN);
 
         var withDrawnAmount = BigDecimal.TEN;
@@ -48,11 +48,23 @@ class BankAccountTest {
     @Test
     void should_allow_withdraw_within_overdraft() {
         var overdraft = BigDecimal.valueOf(50);
-        BankAccount bankAccount = new BankAccount(overdraft);
+        CheckingAccount checkingAccount = new CheckingAccount(overdraft);
 
-        bankAccount.withdraw(BigDecimal.TEN);
+        checkingAccount.withdraw(BigDecimal.TEN);
 
-        assertThat(bankAccount.balance()).isEqualTo(BigDecimal.valueOf(-10));
+        assertThat(checkingAccount.balance()).isEqualTo(BigDecimal.valueOf(-10));
+
+    }
+
+    @Test
+    void should_throw_on_withdraw_greater_than_over_draft() {
+        var overdraft = BigDecimal.valueOf(50);
+        CheckingAccount checkingAccount = new CheckingAccount(overdraft);
+
+        BigDecimal withDrawAmount = BigDecimal.valueOf(100);
+
+        assertThatThrownBy(() -> checkingAccount.withdraw(withDrawAmount))
+                .isInstanceOf(InsufficientFundsException.class);
 
     }
 }
