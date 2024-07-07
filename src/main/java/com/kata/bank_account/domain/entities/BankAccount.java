@@ -4,12 +4,13 @@ import com.kata.bank_account.domain.exception.InsufficientFundsException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 public abstract class BankAccount {
     protected final UUID id;
-    protected final List<BankTransaction> transactions = new ArrayList<>();
+    private final List<BankTransaction> transactions = new ArrayList<>();
 
     protected BankAccount() {
         id = UUID.randomUUID();
@@ -19,7 +20,7 @@ public abstract class BankAccount {
         this.transactions.add(new BankTransaction(amount));
     }
 
-    public void withdraw(BigDecimal amount){
+    public void withdraw(BigDecimal amount) {
         if (canWithdraw(amount)) {
             this.transactions.add(new BankTransaction(amount.negate()));
             return;
@@ -39,4 +40,10 @@ public abstract class BankAccount {
     }
 
     protected abstract boolean canOverdraft();
+
+    public abstract AccountType type();
+
+    public List<BankTransaction> getTransactions() {
+        return Collections.unmodifiableList(transactions);
+    }
 }

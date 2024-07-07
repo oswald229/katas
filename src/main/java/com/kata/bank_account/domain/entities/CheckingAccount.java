@@ -3,14 +3,13 @@ package com.kata.bank_account.domain.entities;
 import java.math.BigDecimal;
 
 public class CheckingAccount extends BankAccount {
+    private static final AccountType accountType = AccountType.CHECKING;
     private BigDecimal overdraft = BigDecimal.ZERO;
 
-    CheckingAccount() {
-        super();
+    public CheckingAccount() {
     }
 
     public CheckingAccount(BigDecimal overdraft) {
-        super();
         this.overdraft = overdraft;
     }
 
@@ -27,6 +26,11 @@ public class CheckingAccount extends BankAccount {
     @Override
     protected boolean canOverdraft() {
         return overdraft.compareTo(BigDecimal.ZERO) >= 0;
+    }
+
+    @Override
+    public AccountType type() {
+        return accountType;
     }
 
 }

@@ -6,9 +6,11 @@ import java.math.BigDecimal;
 
 public class SavingAccount extends BankAccount {
 
+    private static final AccountType accountType = AccountType.SAVING;
     private final BigDecimal ceiling;
 
     public SavingAccount(BigDecimal ceiling) {
+
         this.ceiling = ceiling;
     }
 
@@ -26,5 +28,10 @@ public class SavingAccount extends BankAccount {
 
     public boolean canOverdraft() {
         return false;
+    }
+
+    @Override
+    public AccountType type() {
+        return accountType;
     }
 }
