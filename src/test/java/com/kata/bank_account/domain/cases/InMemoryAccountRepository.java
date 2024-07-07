@@ -14,13 +14,21 @@ class InMemoryAccountRepository implements AccountRepository {
     private final ArrayList<BankAccount> repositoryAccounts = new ArrayList<>();
 
     public InMemoryAccountRepository() {
-        var savingAccount = new SavingAccount(BigDecimal.valueOf(100)){
+        var savingAccount = new SavingAccount(BigDecimal.valueOf(100)) {
             @Override
             public UUID getId() {
                 return UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d");
             }
         };
-        repositoryAccounts.addAll(List.of(savingAccount, new CheckingAccount()));
+        CheckingAccount checkingAccount = new CheckingAccount() {
+            @Override
+            public UUID getId() {
+                return UUID.fromString("98700000-8cf0-11bd-b23e-10b96e4ef00d");
+            }
+        };
+        checkingAccount.deposit(BigDecimal.valueOf(100));
+
+        repositoryAccounts.addAll(List.of(savingAccount, checkingAccount));
     }
 
     @Override
