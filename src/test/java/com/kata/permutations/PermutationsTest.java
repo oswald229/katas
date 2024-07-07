@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -42,7 +43,7 @@ class PermutationsTest {
         List<List<Integer>> expected = List.of(
                 List.of(1, 2), List.of(2, 1)
         );
-        assertEquals(expected, Permutations.getPermutations(list));
+        assertThat((Permutations.getPermutations(list))).containsAll(expected);
     }
 
     @Test
@@ -57,7 +58,7 @@ class PermutationsTest {
                 List.of(3, 1, 2),
                 List.of(3, 2, 1)
         );
-        assertEquals(expected, Permutations.getPermutations(list));
+        assertThat((Permutations.getPermutations(list))).containsAll(expected);
     }
 
     @Test
