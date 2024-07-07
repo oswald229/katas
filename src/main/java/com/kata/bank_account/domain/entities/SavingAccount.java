@@ -1,5 +1,6 @@
 package com.kata.bank_account.domain.entities;
 
+import com.kata.bank_account.domain.constant.AccountType;
 import com.kata.bank_account.domain.exception.AboveCeilingException;
 
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.kata.bank_account.domain.entities;
+package com.kata.bank_account.domain.data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,5 +1,7 @@
 package com.kata.bank_account.domain.entities;
 
+import com.kata.bank_account.domain.constant.AccountType;
+import com.kata.bank_account.domain.data.BankTransaction;
 import com.kata.bank_account.domain.exception.InsufficientFundsException;
 
 import java.math.BigDecimal;
@@ -41,7 +43,7 @@ public abstract class BankAccount {
 
     protected boolean canOverdraft(){
         return false;
-    };
+    }
 
     public abstract AccountType type();
 

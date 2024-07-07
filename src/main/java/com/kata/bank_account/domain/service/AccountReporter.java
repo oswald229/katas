@@ -2,7 +2,7 @@ package com.kata.bank_account.domain.service;
 
 import com.kata.bank_account.domain.entities.AccountReport;
 import com.kata.bank_account.domain.entities.BankAccount;
-import com.kata.bank_account.domain.entities.BankTransaction;
+import com.kata.bank_account.domain.data.BankTransaction;
 
 import java.time.LocalDate;
 import java.time.Period;

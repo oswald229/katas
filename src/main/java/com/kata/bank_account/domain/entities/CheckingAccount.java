@@ -1,5 +1,7 @@
 package com.kata.bank_account.domain.entities;
 
+import com.kata.bank_account.domain.constant.AccountType;
+
 import java.math.BigDecimal;
 
 public class CheckingAccount extends BankAccount {
