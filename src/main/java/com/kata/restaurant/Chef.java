@@ -10,7 +10,7 @@ public class Chef {
 
     public Meal prepare(Order order) {
         String mealName = order.item().name();
-        System.out.printf("Chef " + name + " is cooking your %s...%n", mealName);
+        System.out.println("Chef " + name + " is cooking your %s...".formatted(mealName));
         return new Meal(mealName);
     }
 }

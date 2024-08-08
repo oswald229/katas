@@ -22,8 +22,8 @@ public class OrderProcessor {
 
 
     private void deliver(Order order, Meal meal) {
-        System.out.printf("Hi I'm Bob and I'm delivering your %s%n", meal.name());
-        System.out.printf("Delivered to table %s!", order.table());
+        System.out.println("Hi I'm Bob and I'm delivering your %s".formatted(meal.name()));
+        System.out.println("Delivered to table %s!".formatted(order.table()));
     }
 
 }
