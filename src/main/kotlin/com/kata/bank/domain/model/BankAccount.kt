@@ -1,13 +1,16 @@
-package com.kata.bank
+package com.kata.bank.domain.model
 
+import com.kata.bank.domain.exception.AboveOverdraftException
+import com.kata.bank.domain.exception.KInsufficientFundsException
 import java.lang.Math.abs
 import java.util.*
 
-class BankAccount() {
+open class BankAccount() {
 
     lateinit var id: UUID
     private var transactions = Transactions()
-    var overDraft: Long = 0
+     var overDraft: Long = 0
+         private set
 
     constructor(overDraft: Long) : this() {
         this.overDraft = overDraft
@@ -17,7 +20,7 @@ class BankAccount() {
         return transactions.total()
     }
 
-    fun deposit(amount: Long) {
+    open fun deposit(amount: Long) {
         transactions.add(Transaction(amount))
     }
 
@@ -26,7 +29,7 @@ class BankAccount() {
             transactions.add(Transaction(-amount))
             return
         }
-        when(overDraftAllowed()){
+        when (overDraftAllowed()) {
             true -> throw AboveOverdraftException()
             else -> throw KInsufficientFundsException()
         }

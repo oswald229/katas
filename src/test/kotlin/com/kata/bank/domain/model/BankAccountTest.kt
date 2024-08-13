@@ -1,5 +1,7 @@
-package com.kata.bank
+package com.kata.bank.domain.model
 
+import com.kata.bank.domain.exception.AboveOverdraftException
+import com.kata.bank.domain.exception.KInsufficientFundsException
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
