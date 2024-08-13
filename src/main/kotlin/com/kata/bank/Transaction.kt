@@ -1,6 +1,10 @@
 package com.kata.bank
 
-data class Transaction(val amount: Long)
+import java.time.LocalDateTime
+
+data class Transaction(val amount: Long, val time: LocalDateTime) {
+    constructor(amount: Long) : this(amount, LocalDateTime.now())
+}
 
 class Transactions {
     var transactions: MutableList<Transaction> = mutableListOf()

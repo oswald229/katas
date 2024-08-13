@@ -43,5 +43,26 @@ class BankAccountTest {
         assertThatThrownBy { bankAccount.withdraw(5_000) }
             .isInstanceOf(KInsufficientFundsException::class.java)
     }
+
+    @Test
+    fun should_allow_withdraw_with_overdraft() {
+        val overDraft: Long = 1000
+        val bankAccount = BankAccount(overDraft)
+
+        bankAccount.withdraw(1000)
+
+        assertThat(bankAccount.balance()).isEqualTo(-1000)
+
+    }
+
+    @Test
+    fun should_throw_when_above_overdraft() {
+        val overDraft: Long = 1000
+        val bankAccount = BankAccount(overDraft)
+
+        assertThatThrownBy { bankAccount.withdraw(2_000) }
+            .isInstanceOf(AboveOverdraftException::class.java)
+    }
+
 }
 
