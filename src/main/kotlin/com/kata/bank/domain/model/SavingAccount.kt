@@ -2,14 +2,17 @@ package com.kata.bank.domain.model
 
 import com.kata.bank.domain.exception.AboveCeilingException
 
-class SavingAccount(val ceiling: Long) : BankAccount() {
+open class SavingAccount(private val ceiling: Long) : BankAccount() {
 
     override fun deposit(amount: Long) {
-        if (depositAboveCeiling(amount)) {
+        if (aboveCeilingOnDeposit(amount)) {
             throw AboveCeilingException()
         }
         super.deposit(amount)
     }
 
-    private fun depositAboveCeiling(amount: Long) = (balance() + amount) > ceiling
+    private fun aboveCeilingOnDeposit(amount: Long) = (balance() + amount) > ceiling
+    override fun type(): AccountType {
+        return AccountType.SAVING
+    }
 }

@@ -2,15 +2,15 @@ package com.kata.bank.domain.model
 
 import com.kata.bank.domain.exception.AboveOverdraftException
 import com.kata.bank.domain.exception.KInsufficientFundsException
-import java.lang.Math.abs
 import java.util.*
 
 open class BankAccount() {
 
     lateinit var id: UUID
-    private var transactions = Transactions()
-     var overDraft: Long = 0
-         private set
+    var transactions = Transactions()
+
+    var overDraft: Long = 0
+        private set
 
     constructor(overDraft: Long) : this() {
         this.overDraft = overDraft
@@ -29,15 +29,18 @@ open class BankAccount() {
             transactions.add(Transaction(-amount))
             return
         }
-        when (overDraftAllowed()) {
-            true -> throw AboveOverdraftException()
-            else -> throw KInsufficientFundsException()
+        if (overDraftAllowed()) {
+            throw AboveOverdraftException()
         }
+        throw KInsufficientFundsException()
     }
 
     private fun overDraftAllowed() = overDraft != 0.toLong()
 
-    private fun canOverdraft(amount: Long) = abs(balance() - amount) <= overDraft
+    private fun canOverdraft(amount: Long) = kotlin.math.abs(balance() - amount) <= overDraft
 
     private fun sufficientFundToWithdraw(amount: Long) = amount <= balance()
+    open fun type(): AccountType {
+        return AccountType.CHECKING
+    }
 }
