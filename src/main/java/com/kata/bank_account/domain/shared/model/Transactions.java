@@ -39,11 +39,11 @@ public class Transactions {
         return Collections.unmodifiableList(content);
     }
 
-    public void addWithdraw(BigDecimal amount) {
+    protected void addWithdraw(BigDecimal amount) {
         this.content.add(new Withdraw(amount));
     }
 
-    public void addDeposit(BigDecimal amount) {
+    protected void addDeposit(BigDecimal amount) {
         this.content.add(new Deposit(amount));
     }
 }
