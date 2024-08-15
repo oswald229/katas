@@ -14,13 +14,13 @@ public abstract class AbstractBankAccount implements BankAccount {
 
     @Override
     public void deposit(BigDecimal amount) {
-        this.transactions.addDeposit(amount);
+        this.transactions.add(new Deposit(amount));
     }
 
     @Override
     public void withdraw(BigDecimal amount) {
         if (canWithdraw(amount)) {
-            this.transactions.addWithdraw(amount);
+            this.transactions.add(new Withdraw(amount));
             return;
         }
         throw new InsufficientFundsException();

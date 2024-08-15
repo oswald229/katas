@@ -38,12 +38,4 @@ public class Transactions {
     public List<FundTransaction> getAll() {
         return Collections.unmodifiableList(content);
     }
-
-    protected void addWithdraw(BigDecimal amount) {
-        this.content.add(new Withdraw(amount));
-    }
-
-    protected void addDeposit(BigDecimal amount) {
-        this.content.add(new Deposit(amount));
-    }
 }
