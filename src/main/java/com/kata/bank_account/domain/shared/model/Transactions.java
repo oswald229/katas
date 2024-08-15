@@ -9,12 +9,12 @@ import java.util.List;
 public class Transactions {
     protected List<FundTransaction> content = new ArrayList<>();
 
-    public List<FundTransaction> occurredWithin(LocalDate reportDate, LocalDate startingDate) {
+    public List<FundTransaction> occurredWithin(LocalDate start, LocalDate end) {
         return getAll()
                 .stream()
                 .filter(transaction -> {
                     var transactionDate = transaction.time().toLocalDate();
-                    return isWithinRange(startingDate, reportDate, transactionDate);
+                    return isWithinRange(start, end, transactionDate);
                 })
                 .toList();
     }
