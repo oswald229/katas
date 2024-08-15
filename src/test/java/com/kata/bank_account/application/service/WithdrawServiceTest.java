@@ -2,7 +2,7 @@ package com.kata.bank_account.application.service;
 
 import com.kata.bank_account.application.shared.model.in.WithdrawRequestModel;
 import com.kata.bank_account.application.shared.service.WithdrawService;
-import com.kata.bank_account.domain.shared.model.BankAccount;
+import com.kata.bank_account.domain.shared.model.AbstractBankAccount;
 import com.kata.bank_account.domain.shared.model.CheckingAccount;
 import com.kata.bank_account.application.shared.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
@@ -24,13 +24,13 @@ class WithdrawServiceTest {
         account.deposit(BigDecimal.valueOf(100));
 
         Mockito.when(accountRepository.getById(accountId)).thenReturn(account);
-        Mockito.doNothing().when(accountRepository).save(Mockito.any(BankAccount.class));
+        Mockito.doNothing().when(accountRepository).save(Mockito.any(AbstractBankAccount.class));
 
         new WithdrawService(accountRepository)
                 .execute(new WithdrawRequestModel(accountId, withdrawAmount));
 
         Mockito.verify(accountRepository).getById(accountId);
-        Mockito.verify(accountRepository).save(Mockito.any(BankAccount.class));
+        Mockito.verify(accountRepository).save(Mockito.any(AbstractBankAccount.class));
         assertThat(account.balance()).isEqualTo(BigDecimal.valueOf(90));
 
     }

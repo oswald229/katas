@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
-class BankAccountTest {
+class AbstractBankAccountTest {
 
     @Test
     fun should_have_required_fields() {

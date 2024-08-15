@@ -3,7 +3,7 @@ package com.kata.bank_account.application.shared.service;
 import com.kata.bank_account.application.shared.model.in.WithdrawRequestModel;
 import com.kata.bank_account.application.shared.repository.AccountRepository;
 import com.kata.bank_account.application.shared.usecase.WithdrawUseCase;
-import com.kata.bank_account.domain.shared.model.BankAccount;
+import com.kata.bank_account.domain.shared.model.AbstractBankAccount;
 
 public class WithdrawService implements WithdrawUseCase {
     private final AccountRepository accountRepository;
@@ -14,7 +14,7 @@ public class WithdrawService implements WithdrawUseCase {
 
     @Override
     public void execute(WithdrawRequestModel request) {
-        BankAccount account = accountRepository.getById(request.accountId());
+        AbstractBankAccount account = accountRepository.getById(request.accountId());
         account.withdraw(request.amount());
         accountRepository.save(account);
 

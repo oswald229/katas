@@ -4,7 +4,7 @@ import com.kata.bank_account.domain.shared.constant.AccountType;
 
 import java.math.BigDecimal;
 
-public class CheckingAccount extends BankAccount {
+public class CheckingAccount extends AbstractBankAccount {
     private static final AccountType accountType = AccountType.CHECKING;
     private BigDecimal overdraft = BigDecimal.ZERO;
 

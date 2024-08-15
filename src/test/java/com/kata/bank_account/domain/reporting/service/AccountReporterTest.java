@@ -21,7 +21,7 @@ class AccountReporterTest {
 
     @ParameterizedTest
     @MethodSource("accountTypes")
-    void should_tell_bank_account_type(BankAccount account, AccountType expectedType) {
+    void should_tell_bank_account_type(AbstractBankAccount account, AccountType expectedType) {
 
         var accountReporter = new AccountReporter();
 
@@ -36,29 +36,37 @@ class AccountReporterTest {
         var accountReporter = new AccountReporter();
 
         LocalDate today = LocalDate.now();
-        LocalTime midnight = LocalTime.of(0, 0);
+        LocalTime midnight = LocalTime.MIDNIGHT;
 
-        var todayTransaction = new BankFundTransaction(BigDecimal.TEN, LocalDateTime.of(
+        var todayTransaction = new Deposit(BigDecimal.TEN, LocalDateTime.of(
                 today, midnight
         ));
-        var tenDaysAgoTransaction = new BankFundTransaction(BigDecimal.TEN, LocalDateTime.of(
+        var tenDaysAgoTransaction = new Deposit(BigDecimal.TEN, LocalDateTime.of(
                 today.minusDays(10), midnight
         ));
-        var oneMonthAgoTransaction = new BankFundTransaction(BigDecimal.TEN, LocalDateTime.of(
+        var oneMonthAgoTransaction = new Deposit(BigDecimal.TEN, LocalDateTime.of(
                 today.minusMonths(1), midnight
         ));
-        var aYearAgoTransaction = new BankFundTransaction(BigDecimal.TEN, LocalDateTime.of(
+        var aYearAgoTransaction = new Deposit(BigDecimal.TEN, LocalDateTime.of(
                 today.minusYears(1), midnight
         ));
 
         var bankAccount = new CheckingAccount() {
             @Override
-            public List<BankFundTransaction> getTransactions() {
-                return List.of(todayTransaction,
-                        tenDaysAgoTransaction,
-                        oneMonthAgoTransaction,
-                        aYearAgoTransaction
-                );
+            public Transactions getTransactions() {
+
+                return new Transactions() {
+                    @Override
+                    public List<FundTransaction> getAll() {
+                        return List.of(
+                                todayTransaction,
+                                tenDaysAgoTransaction,
+                                oneMonthAgoTransaction,
+                                aYearAgoTransaction
+
+                        );
+                    }
+                };
             }
         };
 
@@ -77,21 +85,24 @@ class AccountReporterTest {
         LocalDate today = LocalDate.now();
         LocalTime midnight = LocalTime.of(0, 0);
 
-        var aYearAgoTransaction = new BankFundTransaction(BigDecimal.TEN, LocalDateTime.of(
+        var aYearAgoTransaction = new Deposit(BigDecimal.TEN, LocalDateTime.of(
                 today.minusYears(1), midnight
         ));
 
-        var bankAccount = new BankAccount() {
+        var bankAccount = new AbstractBankAccount() {
             @Override
             public AccountType type() {
                 return AccountType.SAVING;
             }
 
             @Override
-            public List<BankFundTransaction> getTransactions() {
-                return List.of(
-                        aYearAgoTransaction
-                );
+            public Transactions getTransactions() {
+                return new Transactions() {
+                    @Override
+                    public List<FundTransaction> getAll() {
+                        return List.of(aYearAgoTransaction);
+                    }
+                };
             }
         };
         LocalDate reportDate = today.minusMonths(5);

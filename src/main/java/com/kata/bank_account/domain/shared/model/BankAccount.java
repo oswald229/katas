@@ -1,54 +1,20 @@
 package com.kata.bank_account.domain.shared.model;
 
-import com.kata.bank_account.domain.shared.exception.InsufficientFundsException;
+import com.kata.bank_account.domain.shared.constant.AccountType;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
-public abstract class BankAccount implements IBankAccount {
-    protected UUID id;
-    protected List<BankFundTransaction> transactions = new ArrayList<>();
+public interface BankAccount {
+    UUID getId();
 
-    @Override
-    public UUID getId() {
-        return id;
-    }
+    void deposit(BigDecimal amount);
 
-    @Override
-    public void deposit(BigDecimal amount) {
-        this.transactions.add(new BankFundTransaction(amount));
-    }
+    void withdraw(BigDecimal amount);
 
-    @Override
-    public void withdraw(BigDecimal amount) {
-        if (canWithdraw(amount)) {
-            this.transactions.add(new BankFundTransaction(amount.negate()));
-            return;
-        }
-        throw new InsufficientFundsException();
-    }
+    BigDecimal balance();
 
-    protected boolean canWithdraw(BigDecimal amount) {
-        return balance().compareTo(amount) >= 0;
-    }
+    AccountType type();
 
-    @Override
-    public BigDecimal balance() {
-        return transactions
-                .stream()
-                .map(BankFundTransaction::amount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    protected boolean canOverdraft() {
-        return false;
-    }
-
-    @Override
-    public List<BankFundTransaction> getTransactions() {
-        return Collections.unmodifiableList(transactions);
-    }
+    Transactions getTransactions();
 }
