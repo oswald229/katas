@@ -7,19 +7,19 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 class ReportingService {
-    fun computeFor(account: BankAccount, on: LocalDate): AccountStatement {
-        val (startTime, endTime) = getReportPeriod(on)
+    fun computeFor(account: BankAccount, reportOn: LocalDate): AccountStatement {
+        val (from, reportedOn) = getReportPeriod(reportOn)
         val transactions = account.transactions
         return AccountStatement(
-            transactions.totalOn(startTime),
+            transactions.totalOn(reportedOn),
             account.type(),
-            transactions.occurredWithin(startTime, endTime)
+            transactions.occurredWithin(from, reportedOn)
         )
     }
 
     private fun getReportPeriod(from: LocalDate): Pair<LocalDateTime, LocalDateTime> {
-        val start = LocalDateTime.of(from, LocalTime.MIDNIGHT)
-        val end = start.plusMonths(1)
+        val end = LocalDateTime.of(from, LocalTime.MIDNIGHT)
+        val start = end.minusMonths(1)
         return Pair(start, end)
     }
 

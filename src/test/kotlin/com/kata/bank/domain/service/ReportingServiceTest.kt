@@ -29,7 +29,7 @@ class ReportingServiceTest {
 
         assertThat(statement.balance).isEqualTo(100)
         assertThat(statement.accountType).isEqualTo(AccountType.CHECKING)
-        assertThat(statement.transactions).containsExactly(transaction, transaction1)
+        assertThat(statement.transactions).containsExactly(transaction)
     }
 
     @Test
@@ -52,7 +52,7 @@ class ReportingServiceTest {
 
         assertThat(statement.balance).isEqualTo(200)
         assertThat(statement.accountType).isEqualTo(AccountType.SAVING)
-        assertThat(statement.transactions).containsExactly(transaction1, transaction2)
+        assertThat(statement.transactions).containsExactly(transaction, transaction1)
     }
 
 }
