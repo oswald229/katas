@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Transactions {
-    protected List<FundTransaction> content = new ArrayList<>();
+    private final List<FundTransaction> content = new ArrayList<>();
 
     public List<FundTransaction> occurredWithin(LocalDate start, LocalDate end) {
         return getAll()

@@ -23,13 +23,13 @@ class WithdrawServiceTest {
         var account = new CheckingAccount();
         account.deposit(BigDecimal.valueOf(100));
 
-        Mockito.when(accountRepository.getById(accountId)).thenReturn(account);
+        Mockito.when(accountRepository.getAccountById(accountId)).thenReturn(account);
         Mockito.doNothing().when(accountRepository).save(Mockito.any(AbstractBankAccount.class));
 
         new WithdrawService(accountRepository)
                 .execute(new WithdrawRequestModel(accountId, withdrawAmount));
 
-        Mockito.verify(accountRepository).getById(accountId);
+        Mockito.verify(accountRepository).getAccountById(accountId);
         Mockito.verify(accountRepository).save(Mockito.any(AbstractBankAccount.class));
         assertThat(account.balance()).isEqualTo(BigDecimal.valueOf(90));
 

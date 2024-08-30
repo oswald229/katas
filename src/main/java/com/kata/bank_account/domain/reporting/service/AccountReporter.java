@@ -24,8 +24,7 @@ public class AccountReporter {
     }
 
     private static List<FundTransaction> getTransactions(BankAccount account, LocalDate startingDate, LocalDate reportDate) {
-        return account.getTransactions()
-                .occurredWithin(startingDate, reportDate)
+        return account.getTransactions().occurredWithin(startingDate, reportDate)
                 .stream()
                 .sorted(Comparator.comparing(FundTransaction::time).reversed())
                 .toList();
