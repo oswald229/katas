@@ -39,8 +39,8 @@ class RomanNumeral {
             }
         }
 
-        val nextRomanNumeral = romanNumeralKeys()[closestInferiorRomanNumeralIdx]
-        return romanNumeralDefinition[nextRomanNumeral] + toRoman(number - nextRomanNumeral)
+        val closestInferiorRomanNumeral = romanNumeralKeys()[closestInferiorRomanNumeralIdx]
+        return romanNumeralDefinition[closestInferiorRomanNumeral] + toRoman(number - closestInferiorRomanNumeral)
     }
 
     private fun getClosestInferiorRomanNumeralIdx(number: Int): Int {
