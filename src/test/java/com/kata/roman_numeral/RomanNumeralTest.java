@@ -31,4 +31,26 @@ public class RomanNumeralTest {
         assertThat(sut.toRomanNumeral(i)).isEqualTo(expected);
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "I, 1",
+            "II, 2",
+            "III, 3",
+            "IV, 4",
+            "V, 5",
+            "VI, 6",
+            "VII, 7",
+            "VIII, 8",
+            "X, 10",
+            "XII, 12",
+            "XIII, 13",
+            "XIV, 14",
+            "XVII, 17",
+            "XIX, 19",
+            "XX, 20",
+    })
+    void should_return_arabic_numeral(String roman, int expected) {
+        assertThat(sut.toArabic(roman)).isEqualTo(expected);
+    }
+
 }

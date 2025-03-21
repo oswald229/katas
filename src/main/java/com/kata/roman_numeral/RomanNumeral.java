@@ -1,6 +1,7 @@
 package com.kata.roman_numeral;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public class RomanNumeral {
@@ -15,15 +16,35 @@ public class RomanNumeral {
         ARAB_ROMAN_MAPPING.put(1, "I");
     }
 
+    static Map<String, Integer> ROMAN_ARAB = Map.of(
+            "I", 1,
+            "IV", 4,
+            "V", 5,
+            "IX", 9,
+            "X", 10
+    );
+
     public String toRomanNumeral(int i) {
-        for (Integer key : ARAB_ROMAN_MAPPING.keySet()) {
-            if (i >= key) {
-                return ARAB_ROMAN_MAPPING.get(key) + toRomanNumeral(i - key);
+        for (Map.Entry<Integer, String> arabRomanEntry : ARAB_ROMAN_MAPPING.entrySet()) {
+            if (i >= arabRomanEntry.getKey()) {
+                return arabRomanEntry.getValue() + toRomanNumeral(i - arabRomanEntry.getKey());
             }
         }
         return IntStream.range(0, i)
                 .mapToObj(value -> ARAB_ROMAN_MAPPING.get(1))
                 .reduce(String::concat)
                 .orElse("");
+    }
+
+    public int toArabic(String roman) {
+        if (ROMAN_ARAB.containsKey(roman)) {
+            return ROMAN_ARAB.get(roman);
+        }
+        for (Map.Entry<String, Integer> romanArabEntry : ROMAN_ARAB.entrySet()) {
+            if (roman.startsWith(romanArabEntry.getKey())) {
+                return romanArabEntry.getValue() + toArabic(roman.substring(1));
+            }
+        }
+        return 0;
     }
 }
