@@ -37,12 +37,10 @@ public class RomanNumeral {
     }
 
     public int toArabic(String roman) {
-        if (ROMAN_ARAB.containsKey(roman)) {
-            return ROMAN_ARAB.get(roman);
-        }
         for (Map.Entry<String, Integer> romanArabEntry : ROMAN_ARAB.entrySet()) {
-            if (roman.startsWith(romanArabEntry.getKey())) {
-                return romanArabEntry.getValue() + toArabic(roman.substring(1));
+            String romanKey = romanArabEntry.getKey();
+            if (roman.startsWith(romanKey)) {
+                return romanArabEntry.getValue() + toArabic(roman.substring(romanKey.length()));
             }
         }
         return 0;
