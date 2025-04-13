@@ -141,6 +141,10 @@ class LiftKataTest {
         UP, DOWN, NONE
     }
 
+    /*
+    TODO: Lift doing too much, should just go to requested destination.
+     */
+
     static class Lift {
 
         private Floor currentFloor;
