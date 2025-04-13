@@ -6,6 +6,7 @@ import java.util.ArrayDeque;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 class LiftKataTest {
     /*
@@ -97,6 +98,10 @@ class LiftKataTest {
         assertThat(lift.stops()).isEqualTo(2);
     }
 
+    @Test
+    void should_be_able_to_set_as_many_floors_as_desired() {
+        fail("TODO");
+    }
 
     enum FLOOR {
         ZERO(0), ONE(1), TWO(2),
