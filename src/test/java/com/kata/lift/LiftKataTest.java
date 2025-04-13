@@ -27,41 +27,45 @@ class LiftKataTest {
      */
 
     static Floors myFloors = Floors.get(5);
-
+    public static final Floor FLOOR_ZERO = myFloors.floor(0);
+    public static final Floor FLOOR_ONE = myFloors.floor(1);
+    public static final Floor FLOOR_TWO = myFloors.floor(2);
+    public static final Floor FLOOR_THREE = myFloors.floor(3);
+    public static final Floor FLOOR_FOUR = myFloors.floor(4);
 
 
     @Test
     void lift_should_go_to_destinations() {
-        var lift = new Lift();
+        var lift = new Lift(myFloors);
 
-        lift.goToFloor(FLOOR.ONE);
-        lift.goToFloor(FLOOR.TWO);
-        lift.goToFloor(FLOOR.THREE);
+        lift.goToFloor(FLOOR_ONE);
+        lift.goToFloor(FLOOR_TWO);
+        lift.goToFloor(FLOOR_THREE);
 
 
-        assertThat(lift.currentFloor()).isEqualTo(FLOOR.ZERO);
-        assertThat(lift.nextStop()).contains(FLOOR.ONE);
+        assertThat(lift.currentFloor()).isEqualTo(FLOOR_ZERO);
+        assertThat(lift.nextStop()).contains(FLOOR_ONE);
         lift.move();
-        assertThat(lift.currentFloor()).isEqualTo(FLOOR.ONE);
-        assertThat(lift.nextStop()).contains(FLOOR.TWO);
+        assertThat(lift.currentFloor()).isEqualTo(FLOOR_ONE);
+        assertThat(lift.nextStop()).contains(FLOOR_TWO);
         lift.move();
-        assertThat(lift.currentFloor()).isEqualTo(FLOOR.TWO);
-        assertThat(lift.nextStop()).contains(FLOOR.THREE);
+        assertThat(lift.currentFloor()).isEqualTo(FLOOR_TWO);
+        assertThat(lift.nextStop()).contains(FLOOR_THREE);
         lift.move();
-        assertThat(lift.currentFloor()).isEqualTo(FLOOR.THREE);
+        assertThat(lift.currentFloor()).isEqualTo(FLOOR_THREE);
         assertThat(lift.nextStop()).isEmpty();
     }
 
     @Test
     void should_stop_if_floor_is_on_the_same_up_direction() {
-        var lift = new Lift();
-        assertThat(lift.currentFloor()).isEqualTo(FLOOR.ZERO);
+        var lift = new Lift(myFloors);
+        assertThat(lift.currentFloor()).isEqualTo(FLOOR_ZERO);
 
-        lift.goToFloor(FLOOR.TWO);
-        assertThat(lift.nextStop()).contains(FLOOR.TWO);
+        lift.goToFloor(FLOOR_TWO);
+        assertThat(lift.nextStop()).contains(FLOOR_TWO);
 
-        lift.goToFloor(FLOOR.ONE);
-        assertThat(lift.nextStop()).contains(FLOOR.ONE);
+        lift.goToFloor(FLOOR_ONE);
+        assertThat(lift.nextStop()).contains(FLOOR_ONE);
 
         assertThat(lift.stops()).isEqualTo(2);
     }
@@ -69,36 +73,36 @@ class LiftKataTest {
 
     @Test
     void should_stop_if_floor_is_on_the_same_up_direction_bis() {
-        var lift = new Lift();
-        lift.goToFloor(FLOOR.TWO);
+        var lift = new Lift(myFloors);
+        lift.goToFloor(FLOOR_TWO);
         lift.move();
-        assertThat(lift.currentFloor()).isEqualTo(FLOOR.TWO);
+        assertThat(lift.currentFloor()).isEqualTo(FLOOR_TWO);
 
-        lift.goToFloor(FLOOR.THREE);
-        assertThat(lift.nextStop()).contains(FLOOR.THREE);
+        lift.goToFloor(FLOOR_THREE);
+        assertThat(lift.nextStop()).contains(FLOOR_THREE);
 
-        lift.goToFloor(FLOOR.ONE);
-        assertThat(lift.nextStop()).contains(FLOOR.THREE);
+        lift.goToFloor(FLOOR_ONE);
+        assertThat(lift.nextStop()).contains(FLOOR_THREE);
 
-        lift.goToFloor(FLOOR.FOUR);
-        assertThat(lift.nextStop()).contains(FLOOR.THREE);
+        lift.goToFloor(FLOOR_FOUR);
+        assertThat(lift.nextStop()).contains(FLOOR_THREE);
 
 
     }
 
     @Test
     void should_stop_if_floor_is_on_the_same_down_direction() {
-        var lift = new Lift();
+        var lift = new Lift(myFloors);
 
-        lift.goToFloor(FLOOR.THREE);
+        lift.goToFloor(FLOOR_THREE);
         lift.move();
-        assertThat(lift.currentFloor()).isEqualTo(FLOOR.THREE);
+        assertThat(lift.currentFloor()).isEqualTo(FLOOR_THREE);
 
-        lift.goToFloor(FLOOR.ONE);
-        assertThat(lift.nextStop()).contains(FLOOR.ONE);
+        lift.goToFloor(FLOOR_ONE);
+        assertThat(lift.nextStop()).contains(FLOOR_ONE);
 
-        lift.goToFloor(FLOOR.TWO);
-        assertThat(lift.nextStop()).contains(FLOOR.TWO);
+        lift.goToFloor(FLOOR_TWO);
+        assertThat(lift.nextStop()).contains(FLOOR_TWO);
 
         assertThat(lift.stops()).isEqualTo(2);
     }
@@ -117,36 +121,19 @@ class LiftKataTest {
         Floors floors = Floors.get(7);
         Lift lift = new Lift(floors);
 
-        assertThat(lift.currentFloorE())
+        assertThat(lift.currentFloor())
                 .isNotNull()
                 .isEqualTo(floors.lowest());
     }
 
-    record FloorE(int level) implements Comparable<FloorE> {
-        public Direction to(FloorE floorE) {
-            return this.level < floorE.level ? Direction.UP : Direction.DOWN;
+    record Floor(int level) implements Comparable<Floor> {
+        public Direction to(Floor floor) {
+            return this.level < floor.level ? Direction.UP : Direction.DOWN;
         }
 
         @Override
-        public int compareTo(FloorE o) {
-            return Integer.compare(o.level, this.level);
-        }
-    }
-
-    enum FLOOR {
-        ZERO(0), ONE(1), TWO(2),
-        THREE(3),
-        FOUR(4),
-        ;
-
-        private final int level;
-
-        FLOOR(int level) {
-            this.level = level;
-        }
-
-        public Direction to(FLOOR floor) {
-            return this.level < floor.level ? Direction.UP : Direction.DOWN;
+        public int compareTo(Floor o) {
+            return Integer.compare(this.level, o.level);
         }
     }
 
@@ -156,30 +143,23 @@ class LiftKataTest {
 
     static class Lift {
 
-        private FloorE currentFloorE;
-        private Floors floors;
-        private FLOOR currentFloor = FLOOR.ZERO;
+        private Floor currentFloor;
 
-        private final ArrayDeque<FLOOR> destinations = new ArrayDeque<>();
+        private final ArrayDeque<Floor> destinations = new ArrayDeque<>();
         private Direction ongoingDirection = Direction.NONE;
 
         public Lift(Floors floors) {
-            this.floors = floors;
-            this.currentFloorE = this.floors.lowest();
+            this.currentFloor = floors.lowest();
         }
 
-        public Lift() {
-        }
-
-
-        public Optional<FLOOR> nextStop() {
+        public Optional<Floor> nextStop() {
             if (destinations.isEmpty()) {
                 return Optional.empty();
             }
             return Optional.of(destinations.peekFirst());
         }
 
-        public void goToFloor(FLOOR floor) {
+        public void goToFloor(Floor floor) {
             setOngoingDirection();
             if (isInSameDirectionToNextStop(floor)) {
                 destinations.addFirst(floor);
@@ -188,7 +168,7 @@ class LiftKataTest {
             destinations.add(floor);
         }
 
-        private boolean isInSameDirectionToNextStop(FLOOR floor) {
+        private boolean isInSameDirectionToNextStop(Floor floor) {
             return nextStop()
                     .filter(nextFloor -> floor.to(nextFloor).equals(ongoingDirection))
                     .isPresent()
@@ -210,41 +190,38 @@ class LiftKataTest {
                     .orElse(Direction.NONE);
         }
 
-        public FLOOR currentFloor() {
-            return currentFloor;
-        }
-
         public int stops() {
             return destinations.size();
         }
 
-        public FloorE currentFloorE() {
-            return currentFloorE;
+        public Floor currentFloor() {
+            return currentFloor;
         }
     }
 
-    private static class Floors {
-        private final Set<FloorE> floors;
+    private record Floors(Set<Floor> floors) {
 
-        private Floors(Set<FloorE> floors) {
-            this.floors = floors;
-        }
+        Floor floor(int level) {
+                return floors.stream()
+                        .filter(floor -> floor.level() == level)
+                        .findFirst().get();
+            }
 
-        public static Floors get(int i) {
-            Set<FloorE> floors = IntStream.range(0, i)
-                    .mapToObj(FloorE::new)
-                    .collect(Collectors.toSet());
-            return new Floors(floors);
-        }
+            public static Floors get(int i) {
+                Set<Floor> floors = IntStream.range(0, i)
+                        .mapToObj(Floor::new)
+                        .collect(Collectors.toSet());
+                return new Floors(floors);
+            }
 
-        public int levels() {
-            return floors.size();
-        }
+            public int levels() {
+                return floors.size();
+            }
 
-        public FloorE lowest() {
-            return floors.stream().min(FloorE::compareTo).get();
+            public Floor lowest() {
+                return floors.stream().min(Floor::compareTo).get();
+            }
         }
-    }
 }
 
 
