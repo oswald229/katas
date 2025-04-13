@@ -4,9 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayDeque;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 
 class LiftKataTest {
     /*
@@ -23,6 +25,9 @@ class LiftKataTest {
 
     there can be more than one lift
      */
+
+    static Floors myFloors = Floors.get(5);
+
 
 
     @Test
@@ -100,7 +105,32 @@ class LiftKataTest {
 
     @Test
     void should_be_able_to_set_as_many_floors_as_desired() {
-        fail("TODO");
+        int desiredFloorsAmount = 7;
+
+        Floors floors = Floors.get(desiredFloorsAmount);
+
+        assertThat(floors.levels()).isEqualTo(desiredFloorsAmount);
+    }
+
+    @Test
+    void should_be_initialized_with_floors() {
+        Floors floors = Floors.get(7);
+        Lift lift = new Lift(floors);
+
+        assertThat(lift.currentFloorE())
+                .isNotNull()
+                .isEqualTo(floors.lowest());
+    }
+
+    record FloorE(int level) implements Comparable<FloorE> {
+        public Direction to(FloorE floorE) {
+            return this.level < floorE.level ? Direction.UP : Direction.DOWN;
+        }
+
+        @Override
+        public int compareTo(FloorE o) {
+            return Integer.compare(o.level, this.level);
+        }
     }
 
     enum FLOOR {
@@ -126,10 +156,20 @@ class LiftKataTest {
 
     static class Lift {
 
+        private FloorE currentFloorE;
+        private Floors floors;
         private FLOOR currentFloor = FLOOR.ZERO;
 
         private final ArrayDeque<FLOOR> destinations = new ArrayDeque<>();
         private Direction ongoingDirection = Direction.NONE;
+
+        public Lift(Floors floors) {
+            this.floors = floors;
+            this.currentFloorE = this.floors.lowest();
+        }
+
+        public Lift() {
+        }
 
 
         public Optional<FLOOR> nextStop() {
@@ -177,8 +217,34 @@ class LiftKataTest {
         public int stops() {
             return destinations.size();
         }
+
+        public FloorE currentFloorE() {
+            return currentFloorE;
+        }
     }
 
+    private static class Floors {
+        private final Set<FloorE> floors;
+
+        private Floors(Set<FloorE> floors) {
+            this.floors = floors;
+        }
+
+        public static Floors get(int i) {
+            Set<FloorE> floors = IntStream.range(0, i)
+                    .mapToObj(FloorE::new)
+                    .collect(Collectors.toSet());
+            return new Floors(floors);
+        }
+
+        public int levels() {
+            return floors.size();
+        }
+
+        public FloorE lowest() {
+            return floors.stream().min(FloorE::compareTo).get();
+        }
+    }
 }
 
 
