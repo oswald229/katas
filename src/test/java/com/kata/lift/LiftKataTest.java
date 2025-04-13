@@ -60,6 +60,26 @@ class LiftKataTest {
         assertThat(lift.stops()).isEqualTo(2);
     }
 
+
+    @Test
+    void should_stop_if_floor_is_on_the_same_up_direction_bis() {
+        var lift = new Lift();
+        lift.goToFloor(FLOOR.TWO);
+        lift.move();
+        assertThat(lift.currentFloor()).isEqualTo(FLOOR.TWO);
+
+        lift.goToFloor(FLOOR.THREE);
+        assertThat(lift.nextStop()).contains(FLOOR.THREE);
+
+        lift.goToFloor(FLOOR.ONE);
+        assertThat(lift.nextStop()).contains(FLOOR.THREE);
+
+        lift.goToFloor(FLOOR.FOUR);
+        assertThat(lift.nextStop()).contains(FLOOR.THREE);
+
+
+    }
+
     @Test
     void should_stop_if_floor_is_on_the_same_down_direction() {
         var lift = new Lift();
@@ -79,7 +99,10 @@ class LiftKataTest {
 
 
     enum FLOOR {
-        ZERO(0), ONE(1), TWO(2), THREE(3);
+        ZERO(0), ONE(1), TWO(2),
+        THREE(3),
+        FOUR(4),
+        ;
 
         private final int level;
 
@@ -123,7 +146,10 @@ class LiftKataTest {
         private boolean isInSameDirectionToNextStop(FLOOR floor) {
             return nextStop()
                     .filter(nextFloor -> floor.to(nextFloor).equals(ongoingDirection))
-                    .isPresent();
+                    .isPresent()
+
+                    && (floor.level >= currentFloor().level && ongoingDirection.equals(Direction.UP)
+                    || floor.level < currentFloor().level && ongoingDirection.equals(Direction.DOWN));
         }
 
         public void move() {
