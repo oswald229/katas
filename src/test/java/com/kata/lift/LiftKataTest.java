@@ -173,8 +173,15 @@ class LiftKataTest {
                     .filter(nextFloor -> floor.to(nextFloor).equals(ongoingDirection))
                     .isPresent()
 
-                    && (floor.level >= currentFloor().level && ongoingDirection.equals(Direction.UP)
-                    || floor.level < currentFloor().level && ongoingDirection.equals(Direction.DOWN));
+                    && (isAboveCurrentFloorUponDownshifting(floor) || isBelowCurrentFloorUponUplifting(floor));
+        }
+
+        private boolean isBelowCurrentFloorUponUplifting(Floor floor) {
+            return floor.level < currentFloor().level && ongoingDirection.equals(Direction.DOWN);
+        }
+
+        private boolean isAboveCurrentFloorUponDownshifting(Floor floor) {
+            return floor.level >= currentFloor().level && ongoingDirection.equals(Direction.UP);
         }
 
         public void move() {
@@ -202,26 +209,26 @@ class LiftKataTest {
     private record Floors(Set<Floor> floors) {
 
         Floor floor(int level) {
-                return floors.stream()
-                        .filter(floor -> floor.level() == level)
-                        .findFirst().get();
-            }
-
-            public static Floors get(int i) {
-                Set<Floor> floors = IntStream.range(0, i)
-                        .mapToObj(Floor::new)
-                        .collect(Collectors.toSet());
-                return new Floors(floors);
-            }
-
-            public int levels() {
-                return floors.size();
-            }
-
-            public Floor lowest() {
-                return floors.stream().min(Floor::compareTo).get();
-            }
+            return floors.stream()
+                    .filter(floor -> floor.level() == level)
+                    .findFirst().get();
         }
+
+        public static Floors get(int i) {
+            Set<Floor> floors = IntStream.range(0, i)
+                    .mapToObj(Floor::new)
+                    .collect(Collectors.toSet());
+            return new Floors(floors);
+        }
+
+        public int levels() {
+            return floors.size();
+        }
+
+        public Floor lowest() {
+            return floors.stream().min(Floor::compareTo).get();
+        }
+    }
 }
 
 
