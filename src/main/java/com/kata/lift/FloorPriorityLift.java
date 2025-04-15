@@ -7,13 +7,13 @@ public class FloorPriorityLift extends SimpleLift {
     }
 
     @Override
-    public void goToFloor(Floor floor) {
+    public void addDestination(Floor floor) {
         if (floorIsOnLiftWay(floor)) {
             destinations.addFirst(floor);
             setOngoingDirection();
             return;
         }
-        super.goToFloor(floor);
+        super.addDestination(floor);
     }
 
     boolean floorIsOnLiftWay(Floor floor) {

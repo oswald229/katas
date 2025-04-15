@@ -5,7 +5,7 @@ import java.util.Optional;
 public interface Lift {
     Optional<Floor> nextStop();
 
-    void goToFloor(Floor floor);
+    void addDestination(Floor floor);
 
     void move();
 

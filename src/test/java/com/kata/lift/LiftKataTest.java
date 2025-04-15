@@ -33,9 +33,9 @@ class LiftKataTest {
     void lift_should_go_to_destinations() {
         var lift = getLift();
 
-        lift.goToFloor(FLOOR_ONE);
-        lift.goToFloor(FLOOR_TWO);
-        lift.goToFloor(FLOOR_THREE);
+        lift.addDestination(FLOOR_ONE);
+        lift.addDestination(FLOOR_TWO);
+        lift.addDestination(FLOOR_THREE);
 
 
         assertThat(lift.currentFloor()).isEqualTo(FLOOR_ZERO);
@@ -56,10 +56,10 @@ class LiftKataTest {
         var lift = getLift();
         assertThat(lift.currentFloor()).isEqualTo(FLOOR_ZERO);
 
-        lift.goToFloor(FLOOR_TWO);
+        lift.addDestination(FLOOR_TWO);
         assertThat(lift.nextStop()).contains(FLOOR_TWO);
 
-        lift.goToFloor(FLOOR_ONE);
+        lift.addDestination(FLOOR_ONE);
         assertThat(lift.nextStop()).contains(FLOOR_ONE);
 
         assertThat(lift.stops()).isEqualTo(2);
@@ -69,17 +69,17 @@ class LiftKataTest {
     @Test
     void should_stop_if_floor_is_on_the_same_up_direction_bis() {
         var lift = getLift();
-        lift.goToFloor(FLOOR_TWO);
+        lift.addDestination(FLOOR_TWO);
         lift.move();
         assertThat(lift.currentFloor()).isEqualTo(FLOOR_TWO);
 
-        lift.goToFloor(FLOOR_THREE);
+        lift.addDestination(FLOOR_THREE);
         assertThat(lift.nextStop()).contains(FLOOR_THREE);
 
-        lift.goToFloor(FLOOR_ONE);
+        lift.addDestination(FLOOR_ONE);
         assertThat(lift.nextStop()).contains(FLOOR_THREE);
 
-        lift.goToFloor(FLOOR_FOUR);
+        lift.addDestination(FLOOR_FOUR);
         assertThat(lift.nextStop()).contains(FLOOR_THREE);
 
 
@@ -89,14 +89,14 @@ class LiftKataTest {
     void should_stop_if_floor_is_on_the_same_down_direction() {
         var lift = getLift();
 
-        lift.goToFloor(FLOOR_THREE);
+        lift.addDestination(FLOOR_THREE);
         lift.move();
         assertThat(lift.currentFloor()).isEqualTo(FLOOR_THREE);
 
-        lift.goToFloor(FLOOR_ONE);
+        lift.addDestination(FLOOR_ONE);
         assertThat(lift.nextStop()).contains(FLOOR_ONE);
 
-        lift.goToFloor(FLOOR_TWO);
+        lift.addDestination(FLOOR_TWO);
         assertThat(lift.nextStop()).contains(FLOOR_TWO);
 
         assertThat(lift.stops()).isEqualTo(2);

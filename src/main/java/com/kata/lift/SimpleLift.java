@@ -31,7 +31,7 @@ public class SimpleLift implements Lift {
     }
 
     @Override
-    public void goToFloor(Floor floor) {
+    public void addDestination(Floor floor) {
         destinations.add(floor);
         setOngoingDirection();
     }
