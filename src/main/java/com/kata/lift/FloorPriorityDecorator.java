@@ -8,6 +8,7 @@ public class FloorPriorityDecorator extends LiftDecorator {
 
     @Override
     public void addDestination(Floor floor) {
+        setOngoingDirection();
         if (floorIsOnLiftWay(floor)) {
             addPriorityDestination(floor);
             return;
