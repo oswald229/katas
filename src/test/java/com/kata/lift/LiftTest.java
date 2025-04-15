@@ -13,7 +13,7 @@ class LiftTest {
             "[], false",
             "] [, true"})
     void should_be_printed_according_to_its_state(String expected, boolean openDoor) {
-        Lift lift = new Lift(Floors.get(1));
+        ConcreteLift lift = new LiftProxy(Floors.get(1));
 
         if (openDoor){
             lift.open();

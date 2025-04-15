@@ -3,24 +3,18 @@ package com.kata.lift;
 import java.util.ArrayDeque;
 import java.util.Optional;
 
-public class Lift {
+public class ConcreteLift {
 
     private final LiftRenderer renderer;
-    private final LiftManager liftManager;
     private Floor currentFloor;
     private DoorState doorState = DoorState.CLOSED;
 
-    private final ArrayDeque<Floor> destinations = new ArrayDeque<>();
+    protected final ArrayDeque<Floor> destinations = new ArrayDeque<>();
     private Direction ongoingDirection = Direction.NONE;
 
-    public Lift(Floors floors) {
-        this(floors, new PlainTextLiftRenderer(), new LiftManager());
-    }
-
-    public Lift(Floors floors, LiftRenderer renderer, LiftManager liftManager){
+    public ConcreteLift(Floors floors, LiftRenderer renderer) {
         this.currentFloor = floors.lowest();
         this.renderer = renderer;
-        this.liftManager = liftManager;
     }
 
     public Optional<Floor> nextStop() {
@@ -31,16 +25,8 @@ public class Lift {
     }
 
     public void goToFloor(Floor floor) {
-        if (floorIsOnMyWay(floor)) {
-            destinations.addFirst(floor);
-        } else {
-            destinations.add(floor);
-        }
+        destinations.add(floor);
         setOngoingDirection();
-    }
-
-    private boolean floorIsOnMyWay(Floor floor) {
-        return liftManager.floorIsOnLiftWay(floor, this);
     }
 
     public void move() {
@@ -50,7 +36,7 @@ public class Lift {
         currentFloor = destinations.pollFirst();
     }
 
-    private void setOngoingDirection() {
+    protected void setOngoingDirection() {
         ongoingDirection = nextStop()
                 .map(nextStop -> currentFloor.to(nextStop))
                 .orElse(Direction.NONE);

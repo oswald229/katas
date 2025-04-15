@@ -1,5 +1,6 @@
 package com.kata.lift;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +31,7 @@ class LiftKataTest {
 
     @Test
     void lift_should_go_to_destinations() {
-        var lift = new Lift(myFloors);
+        var lift = getLift();
 
         lift.goToFloor(FLOOR_ONE);
         lift.goToFloor(FLOOR_TWO);
@@ -52,7 +53,7 @@ class LiftKataTest {
 
     @Test
     void should_stop_if_floor_is_on_the_same_up_direction() {
-        var lift = new Lift(myFloors);
+        var lift = getLift();
         assertThat(lift.currentFloor()).isEqualTo(FLOOR_ZERO);
 
         lift.goToFloor(FLOOR_TWO);
@@ -67,7 +68,7 @@ class LiftKataTest {
 
     @Test
     void should_stop_if_floor_is_on_the_same_up_direction_bis() {
-        var lift = new Lift(myFloors);
+        var lift = getLift();
         lift.goToFloor(FLOOR_TWO);
         lift.move();
         assertThat(lift.currentFloor()).isEqualTo(FLOOR_TWO);
@@ -86,7 +87,7 @@ class LiftKataTest {
 
     @Test
     void should_stop_if_floor_is_on_the_same_down_direction() {
-        var lift = new Lift(myFloors);
+        var lift = getLift();
 
         lift.goToFloor(FLOOR_THREE);
         lift.move();
@@ -101,6 +102,11 @@ class LiftKataTest {
         assertThat(lift.stops()).isEqualTo(2);
     }
 
+    @NotNull
+    private static ConcreteLift getLift() {
+        return new LiftProxy(myFloors);
+    }
+
     @Test
     void should_be_able_to_set_as_many_floors_as_desired() {
         int desiredFloorsAmount = 7;
@@ -113,16 +119,12 @@ class LiftKataTest {
     @Test
     void should_be_initialized_with_floors() {
         Floors floors = Floors.get(7);
-        Lift lift = new Lift(floors);
+        ConcreteLift lift = new LiftProxy(floors);
 
         assertThat(lift.currentFloor())
                 .isNotNull()
                 .isEqualTo(floors.lowest());
     }
-
-    /*
-    TODO: Lift doing too much, should just go to requested destination.
-     */
 
 }
 
