@@ -36,7 +36,6 @@ public class SimpleLift implements Lift {
 
     @Override
     public void move() {
-        setOngoingDirection();
         if (destinations.isEmpty()) {
             return;
         }
