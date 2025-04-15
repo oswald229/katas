@@ -1,19 +1,23 @@
 package com.kata.lift;
 
-public class FloorPriorityLift extends SimpleLift {
+public class FloorPriorityDecorator extends LiftDecorator {
 
-    public FloorPriorityLift(Floors floors) {
-        super(floors, new PlainTextLiftRenderer());
+    public FloorPriorityDecorator(Lift lift) {
+        super(lift);
     }
 
     @Override
     public void addDestination(Floor floor) {
         if (floorIsOnLiftWay(floor)) {
-            destinations.addFirst(floor);
+            addPriorityDestination(floor);
             setOngoingDirection();
             return;
         }
         super.addDestination(floor);
+    }
+
+    private void addPriorityDestination(Floor floor) {
+        wrapped.destinations().addFirst(floor);
     }
 
     boolean floorIsOnLiftWay(Floor floor) {

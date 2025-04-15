@@ -104,7 +104,7 @@ class LiftKataTest {
 
     @NotNull
     private static Lift getLift() {
-        return new FloorPriorityLift(myFloors);
+        return new FloorPriorityDecorator(new SimpleLift(myFloors));
     }
 
     @Test

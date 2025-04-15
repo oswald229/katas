@@ -23,6 +23,11 @@ public class SimpleLift implements Lift {
     }
 
     @Override
+    public ArrayDeque<Floor> destinations() {
+        return destinations;
+    }
+
+    @Override
     public Optional<Floor> nextStop() {
         if (destinations.isEmpty()) {
             return Optional.empty();

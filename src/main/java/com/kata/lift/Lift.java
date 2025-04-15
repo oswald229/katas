@@ -1,8 +1,11 @@
 package com.kata.lift;
 
+import java.util.ArrayDeque;
 import java.util.Optional;
 
 public interface Lift {
+    ArrayDeque<Floor> destinations();
+
     Optional<Floor> nextStop();
 
     void addDestination(Floor floor);
