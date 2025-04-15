@@ -9,7 +9,7 @@ public class SimpleLift implements Lift {
     protected final ArrayDeque<Floor> destinations = new ArrayDeque<>();
     private Floor currentFloor;
     private DoorState doorState = DoorState.CLOSED;
-    private Direction ongoingDirection = Direction.NONE;
+    private Direction nextDirection = Direction.NONE;
 
     public SimpleLift(Floors floors) {
         this.currentFloor = floors.lowest();
@@ -45,7 +45,7 @@ public class SimpleLift implements Lift {
 
     @Override
     public void setNextDirection() {
-        ongoingDirection = nextStop()
+        nextDirection = nextStop()
                 .map(nextStop -> currentFloor.to(nextStop))
                 .orElse(Direction.NONE);
     }
@@ -78,6 +78,6 @@ public class SimpleLift implements Lift {
 
     @Override
     public Direction ongoingDirection() {
-        return ongoingDirection;
+        return nextDirection;
     }
 }
