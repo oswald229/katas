@@ -6,6 +6,7 @@ import java.util.Optional;
 public class Lift {
 
     private final LiftRenderer renderer;
+    private final LiftManager liftManager;
     private Floor currentFloor;
     private DoorState doorState = DoorState.CLOSED;
 
@@ -15,6 +16,7 @@ public class Lift {
     public Lift(Floors floors) {
         this.currentFloor = floors.lowest();
         renderer = new PlainTextLiftRenderer();
+        liftManager = new LiftManager();
     }
 
     public Optional<Floor> nextStop() {
@@ -25,28 +27,13 @@ public class Lift {
     }
 
     public void goToFloor(Floor floor) {
-        setOngoingDirection();
-        if (isInSameDirectionToNextStop(floor)) {
+
+        if (liftManager.liftNextStopIsInSameDirectionTo(floor, this)) {
             destinations.addFirst(floor);
-            return;
+        } else {
+            destinations.add(floor);
         }
-        destinations.add(floor);
-    }
-
-    private boolean isInSameDirectionToNextStop(Floor floor) {
-        return nextStop()
-                .filter(nextFloor -> floor.to(nextFloor).equals(ongoingDirection))
-                .isPresent()
-
-                && (isAboveCurrentFloorUponDownshifting(floor) || isBelowCurrentFloorUponUplifting(floor));
-    }
-
-    private boolean isBelowCurrentFloorUponUplifting(Floor floor) {
-        return floor.level() < currentFloor().level() && ongoingDirection.equals(Direction.DOWN);
-    }
-
-    private boolean isAboveCurrentFloorUponDownshifting(Floor floor) {
-        return floor.level() >= currentFloor().level() && ongoingDirection.equals(Direction.UP);
+        setOngoingDirection();
     }
 
     public void move() {
@@ -82,5 +69,9 @@ public class Lift {
 
     public DoorState doorState() {
         return doorState;
+    }
+
+    public Direction ongoingDirection() {
+        return ongoingDirection;
     }
 }
