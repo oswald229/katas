@@ -40,7 +40,7 @@ public class Lift {
     }
 
     private boolean floorIsOnMyWay(Floor floor) {
-        return liftManager.liftNextStopIsInSameDirectionTo(floor, this);
+        return liftManager.floorIsOnLiftWay(floor, this);
     }
 
     public void move() {

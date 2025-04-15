@@ -2,7 +2,7 @@ package com.kata.lift;
 
 public class LiftManager {
 
-     boolean liftNextStopIsInSameDirectionTo(Floor floor, Lift lift) {
+     boolean floorIsOnLiftWay(Floor floor, Lift lift) {
         return lift.nextStop()
                 .filter(nextFloor -> floor.to(nextFloor).equals(lift.ongoingDirection()))
                 .isPresent()
