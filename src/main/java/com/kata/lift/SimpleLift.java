@@ -6,16 +6,10 @@ import java.util.Optional;
 public class SimpleLift implements Lift {
 
     private final LiftRenderer renderer;
+    protected final ArrayDeque<Floor> destinations = new ArrayDeque<>();
     private Floor currentFloor;
     private DoorState doorState = DoorState.CLOSED;
-
-    protected final ArrayDeque<Floor> destinations = new ArrayDeque<>();
     private Direction ongoingDirection = Direction.NONE;
-
-    public SimpleLift(Floors floors, LiftRenderer renderer) {
-        this.currentFloor = floors.lowest();
-        this.renderer = renderer;
-    }
 
     public SimpleLift(Floors floors) {
         this.currentFloor = floors.lowest();
@@ -38,7 +32,7 @@ public class SimpleLift implements Lift {
     @Override
     public void addDestination(Floor floor) {
         destinations.add(floor);
-        setOngoingDirection();
+        setOngoingDirection(); // TODO : Might get moved into the "move" method.
     }
 
     @Override
