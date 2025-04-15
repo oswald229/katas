@@ -14,9 +14,13 @@ public class Lift {
     private Direction ongoingDirection = Direction.NONE;
 
     public Lift(Floors floors) {
+        this(floors, new PlainTextLiftRenderer(), new LiftManager());
+    }
+
+    public Lift(Floors floors, LiftRenderer renderer, LiftManager liftManager){
         this.currentFloor = floors.lowest();
-        renderer = new PlainTextLiftRenderer();
-        liftManager = new LiftManager();
+        this.renderer = renderer;
+        this.liftManager = liftManager;
     }
 
     public Optional<Floor> nextStop() {
