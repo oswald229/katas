@@ -27,13 +27,16 @@ public class Lift {
     }
 
     public void goToFloor(Floor floor) {
-
-        if (liftManager.liftNextStopIsInSameDirectionTo(floor, this)) {
+        if (floorIsOnMyWay(floor)) {
             destinations.addFirst(floor);
         } else {
             destinations.add(floor);
         }
         setOngoingDirection();
+    }
+
+    private boolean floorIsOnMyWay(Floor floor) {
+        return liftManager.liftNextStopIsInSameDirectionTo(floor, this);
     }
 
     public void move() {
