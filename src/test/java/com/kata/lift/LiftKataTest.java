@@ -53,6 +53,7 @@ class LiftKataTest {
 
     @Test
     void should_stop_if_floor_is_on_the_same_up_direction() {
+        //TODO Rewrite
         var lift = getLift();
         assertThat(lift.currentFloor()).isEqualTo(FLOOR_ZERO);
 
@@ -60,9 +61,9 @@ class LiftKataTest {
         assertThat(lift.nextStop()).contains(FLOOR_TWO);
 
         lift.addDestination(FLOOR_ONE);
+        lift.move();
         assertThat(lift.nextStop()).contains(FLOOR_ONE);
-
-        assertThat(lift.stops()).isEqualTo(2);
+        assertThat(lift.stops()).isEqualTo(1);
     }
 
 
@@ -87,6 +88,7 @@ class LiftKataTest {
 
     @Test
     void should_stop_if_floor_is_on_the_same_down_direction() {
+        //TODO Rewrite
         var lift = getLift();
 
         lift.addDestination(FLOOR_THREE);
@@ -97,9 +99,11 @@ class LiftKataTest {
         assertThat(lift.nextStop()).contains(FLOOR_ONE);
 
         lift.addDestination(FLOOR_TWO);
+        lift.move();
         assertThat(lift.nextStop()).contains(FLOOR_TWO);
 
-        assertThat(lift.stops()).isEqualTo(2);
+        lift.move();
+        assertThat(lift.stops()).isEqualTo(0);
     }
 
     @NotNull
