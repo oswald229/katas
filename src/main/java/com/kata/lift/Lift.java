@@ -12,7 +12,7 @@ public interface Lift {
 
     void move();
 
-    void setOngoingDirection();
+    void setNextDirection();
 
     int stops();
 

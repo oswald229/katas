@@ -32,7 +32,7 @@ public class SimpleLift implements Lift {
     @Override
     public void addDestination(Floor floor) {
         destinations.add(floor);
-        setOngoingDirection();
+        setNextDirection();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class SimpleLift implements Lift {
     }
 
     @Override
-    public void setOngoingDirection() {
+    public void setNextDirection() {
         ongoingDirection = nextStop()
                 .map(nextStop -> currentFloor.to(nextStop))
                 .orElse(Direction.NONE);

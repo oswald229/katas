@@ -32,8 +32,8 @@ public class LiftDecorator implements Lift {
     }
 
     @Override
-    public void setOngoingDirection() {
-        wrapped.setOngoingDirection();
+    public void setNextDirection() {
+        wrapped.setNextDirection();
     }
 
     @Override
