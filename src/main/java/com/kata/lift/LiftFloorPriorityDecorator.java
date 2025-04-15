@@ -1,13 +1,19 @@
 package com.kata.lift;
 
-public class LiftProxy extends ConcreteLift {
+public class LiftFloorPriorityDecorator extends ConcreteLift{
 
+    private Lift wrapped = null;
 
-    public LiftProxy(Floors floors) {
+    public LiftFloorPriorityDecorator(Lift lift){
+        super(null, null);
+
+    }
+
+    public LiftFloorPriorityDecorator(Floors floors) {
         this(floors, new PlainTextLiftRenderer());
     }
 
-    public LiftProxy(Floors floors, LiftRenderer renderer) {
+    public LiftFloorPriorityDecorator(Floors floors, LiftRenderer renderer) {
         super(floors, renderer);
     }
 

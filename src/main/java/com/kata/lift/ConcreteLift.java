@@ -3,7 +3,7 @@ package com.kata.lift;
 import java.util.ArrayDeque;
 import java.util.Optional;
 
-public class ConcreteLift {
+public class ConcreteLift implements Lift {
 
     private final LiftRenderer renderer;
     private Floor currentFloor;
@@ -17,6 +17,17 @@ public class ConcreteLift {
         this.renderer = renderer;
     }
 
+    @Override
+    public ArrayDeque<Floor> destinations() {
+        return destinations;
+    }
+
+    public ConcreteLift(Floors floors) {
+        this.currentFloor = floors.lowest();
+        this.renderer = new PlainTextLiftRenderer();
+    }
+
+    @Override
     public Optional<Floor> nextStop() {
         if (destinations.isEmpty()) {
             return Optional.empty();
@@ -24,11 +35,13 @@ public class ConcreteLift {
         return Optional.of(destinations.peekFirst());
     }
 
+    @Override
     public void goToFloor(Floor floor) {
         destinations.add(floor);
         setOngoingDirection();
     }
 
+    @Override
     public void move() {
         if (destinations.isEmpty()) {
             return;
@@ -36,20 +49,24 @@ public class ConcreteLift {
         currentFloor = destinations.pollFirst();
     }
 
-    protected void setOngoingDirection() {
+    @Override
+    public void setOngoingDirection() {
         ongoingDirection = nextStop()
                 .map(nextStop -> currentFloor.to(nextStop))
                 .orElse(Direction.NONE);
     }
 
+    @Override
     public int stops() {
         return destinations.size();
     }
 
+    @Override
     public Floor currentFloor() {
         return currentFloor;
     }
 
+    @Override
     public void open() {
         doorState = DoorState.OPENED;
     }
@@ -60,10 +77,12 @@ public class ConcreteLift {
     }
 
 
+    @Override
     public DoorState doorState() {
         return doorState;
     }
 
+    @Override
     public Direction ongoingDirection() {
         return ongoingDirection;
     }

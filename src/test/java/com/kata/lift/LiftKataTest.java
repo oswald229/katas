@@ -103,8 +103,8 @@ class LiftKataTest {
     }
 
     @NotNull
-    private static ConcreteLift getLift() {
-        return new LiftProxy(myFloors);
+    private static Lift getLift() {
+        return new LiftFloorPriorityDecorator(myFloors);
     }
 
     @Test
@@ -119,7 +119,7 @@ class LiftKataTest {
     @Test
     void should_be_initialized_with_floors() {
         Floors floors = Floors.get(7);
-        ConcreteLift lift = new LiftProxy(floors);
+        Lift lift = new ConcreteLift(floors);
 
         assertThat(lift.currentFloor())
                 .isNotNull()
