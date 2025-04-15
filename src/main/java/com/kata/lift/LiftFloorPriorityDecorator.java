@@ -1,10 +1,10 @@
 package com.kata.lift;
 
-public class LiftFloorPriorityDecorator extends ConcreteLift{
+public class LiftFloorPriorityDecorator extends ConcreteLift {
 
     private Lift wrapped = null;
 
-    public LiftFloorPriorityDecorator(Lift lift){
+    public LiftFloorPriorityDecorator(Lift lift) {
         super(null, null);
 
     }
