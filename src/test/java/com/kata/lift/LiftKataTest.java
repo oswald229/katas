@@ -104,7 +104,7 @@ class LiftKataTest {
 
     @NotNull
     private static Lift getLift() {
-        return new LiftFloorPriorityDecorator(myFloors);
+        return new FloorPriorityLift(myFloors);
     }
 
     @Test
@@ -119,7 +119,7 @@ class LiftKataTest {
     @Test
     void should_be_initialized_with_floors() {
         Floors floors = Floors.get(7);
-        Lift lift = new ConcreteLift(floors);
+        Lift lift = new SimpleLift(floors);
 
         assertThat(lift.currentFloor())
                 .isNotNull()

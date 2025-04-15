@@ -3,7 +3,7 @@ package com.kata.lift;
 import java.util.ArrayDeque;
 import java.util.Optional;
 
-public class ConcreteLift implements Lift {
+public class SimpleLift implements Lift {
 
     private final LiftRenderer renderer;
     private Floor currentFloor;
@@ -12,17 +12,12 @@ public class ConcreteLift implements Lift {
     protected final ArrayDeque<Floor> destinations = new ArrayDeque<>();
     private Direction ongoingDirection = Direction.NONE;
 
-    public ConcreteLift(Floors floors, LiftRenderer renderer) {
+    public SimpleLift(Floors floors, LiftRenderer renderer) {
         this.currentFloor = floors.lowest();
         this.renderer = renderer;
     }
 
-    @Override
-    public ArrayDeque<Floor> destinations() {
-        return destinations;
-    }
-
-    public ConcreteLift(Floors floors) {
+    public SimpleLift(Floors floors) {
         this.currentFloor = floors.lowest();
         this.renderer = new PlainTextLiftRenderer();
     }
