@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public class Lift {
 
+    private final LiftRenderer renderer;
     private Floor currentFloor;
     private DoorState doorState = DoorState.CLOSED;
 
@@ -13,6 +14,7 @@ public class Lift {
 
     public Lift(Floors floors) {
         this.currentFloor = floors.lowest();
+        renderer = new PlainTextLiftRenderer();
     }
 
     public Optional<Floor> nextStop() {
@@ -74,6 +76,11 @@ public class Lift {
 
     @Override
     public String toString() {
-        return doorState.equals(DoorState.CLOSED) ? "[]" : "] [";
+        return renderer.render(this);
+    }
+
+
+    public DoorState doorState() {
+        return doorState;
     }
 }
