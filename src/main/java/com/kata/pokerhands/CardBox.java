@@ -35,7 +35,7 @@ public class CardBox {
     private static List<Card> draw(int amount) {
         if (cards.size() < amount) {
             reset();
-            throw new CardBoxException("Not enough cards left.");
+            throw new CardBoxException("Not enough content left.");
         }
         Collections.shuffle(CardBox.cards);
         List<Card> hand = new ArrayList<>(CardBox.cards.subList(0, amount));

@@ -1,10 +1,8 @@
 package com.kata.pokerhands;
 
-import java.util.List;
-
 class PairHandStrategy implements HandStrategy {
     @Override
-    public boolean matches(List<Card> cards) {
+    public boolean matches(Cards cards) {
         return isPair(cards);
     }
 
@@ -13,8 +11,8 @@ class PairHandStrategy implements HandStrategy {
         return PokerHandEnum.PAIR;
     }
 
-    private static boolean isPair(List<Card> cards) {
-        var groupedCard = new Cards(cards).groupedByCardValue();
+    private static boolean isPair(Cards cards) {
+        var groupedCard = cards.groupedByCardValue();
         return groupedCard.size() == 4 && groupedCard.containsValue(2);
     }
 }

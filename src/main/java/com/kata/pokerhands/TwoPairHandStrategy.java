@@ -1,10 +1,8 @@
 package com.kata.pokerhands;
 
-import java.util.List;
-
 public class TwoPairHandStrategy implements HandStrategy {
     @Override
-    public boolean matches(List<Card> cards) {
+    public boolean matches(Cards cards) {
         return isTwoPair(cards);
     }
 
@@ -13,8 +11,8 @@ public class TwoPairHandStrategy implements HandStrategy {
         return PokerHandEnum.TWO_PAIR;
     }
 
-    private static boolean isTwoPair(List<Card> cards) {
-        var groupedCard = new Cards(cards).groupedByCardValue();
+    private static boolean isTwoPair(Cards cards) {
+        var groupedCard = cards.groupedByCardValue();
         return groupedCard.size() == 3 && groupedCard.containsValue(1);
     }
 }

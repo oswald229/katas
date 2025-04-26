@@ -1,12 +1,11 @@
 package com.kata.pokerhands;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class StraightFlushStrategy implements HandStrategy {
     @Override
-    public boolean matches(List<Card> cards) {
-        return StraightHandStrategy.isStraightHand(new LinkedList<>(cards))
+    public boolean matches(Cards cards) {
+        return StraightHandStrategy.isStraightHand(new LinkedList<>(cards.content()))
                 && FlushHandStrategy.isFlushHand(cards);
     }
 

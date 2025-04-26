@@ -1,10 +1,8 @@
 package com.kata.pokerhands;
 
-import java.util.List;
-
 public class FullHouseHandStrategy implements HandStrategy {
     @Override
-    public boolean matches(List<Card> cards) {
+    public boolean matches(Cards cards) {
         return isFullHouse(cards);
     }
 
@@ -13,8 +11,8 @@ public class FullHouseHandStrategy implements HandStrategy {
         return PokerHandEnum.FULL_HOUSE;
     }
 
-    private static boolean isFullHouse(List<Card> cards) {
-        var groupedCard = new Cards(cards).groupedByCardValue();
+    private static boolean isFullHouse(Cards cards) {
+        var groupedCard = cards.groupedByCardValue();
         // A size 2 distribution means 3 and 2 distinct duplicates, hence a FullHouse.
         return groupedCard.size() == 2;
     }

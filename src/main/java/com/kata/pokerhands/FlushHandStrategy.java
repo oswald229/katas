@@ -1,10 +1,8 @@
 package com.kata.pokerhands;
 
-import java.util.List;
-
 public class FlushHandStrategy implements HandStrategy {
     @Override
-    public boolean matches(List<Card> cards) {
+    public boolean matches(Cards cards) {
         return isFlushHand(cards);
     }
 
@@ -13,9 +11,9 @@ public class FlushHandStrategy implements HandStrategy {
         return PokerHandEnum.FLUSH;
     }
 
-    static boolean isFlushHand(List<Card> cards) {
-        Suit suit = cards.get(0).getSuit();
-        return cards.stream().filter(card -> card.getSuit().equals(suit))
-                .count() == cards.size();
+    static boolean isFlushHand(Cards cards) {
+        Suit suit = cards.content().get(0).getSuit();
+        return cards.content().stream().filter(card -> card.getSuit().equals(suit))
+                .count() == cards.content().size();
     }
 }

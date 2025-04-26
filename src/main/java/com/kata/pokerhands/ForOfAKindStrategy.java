@@ -1,10 +1,8 @@
 package com.kata.pokerhands;
 
-import java.util.List;
-
 public class ForOfAKindStrategy implements HandStrategy {
     @Override
-    public boolean matches(List<Card> cards) {
+    public boolean matches(Cards cards) {
         return isForOfAKind(cards);
     }
 
@@ -13,8 +11,8 @@ public class ForOfAKindStrategy implements HandStrategy {
         return PokerHandEnum.FOUR_OF_A_KIND;
     }
 
-    private static boolean isForOfAKind(List<Card> cards) {
-        var groupedCard = new Cards(cards).groupedByCardValue();
+    private static boolean isForOfAKind(Cards cards) {
+        var groupedCard = cards.groupedByCardValue();
         return groupedCard.size() == 2 && groupedCard.containsValue(4);
     }
 }

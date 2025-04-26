@@ -5,7 +5,7 @@ import java.util.List;
 
 public class RoyalFlushHandStrategy implements HandStrategy {
     @Override
-    public boolean matches(List<Card> cards) {
+    public boolean matches(Cards cards) {
         return isRoyalFlush(cards);
     }
 
@@ -14,9 +14,9 @@ public class RoyalFlushHandStrategy implements HandStrategy {
         return PokerHandEnum.ROYAL_FLUSH;
     }
 
-    static boolean isRoyalFlush(List<Card> cards) {
-        return cards.get(0).getValue().equals(CardValue.ACE)
+    static boolean isRoyalFlush(Cards cards) {
+        return cards.content().get(0).getValue().equals(CardValue.ACE)
                 && FlushHandStrategy.isFlushHand(cards)
-                && StraightHandStrategy.isStraightHand(new LinkedList<>(cards));
+                && StraightHandStrategy.isStraightHand(new LinkedList<>(cards.content()));
     }
 }
