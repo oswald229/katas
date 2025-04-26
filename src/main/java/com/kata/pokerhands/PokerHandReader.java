@@ -35,14 +35,10 @@ public class PokerHandReader {
     }
 
 
-    static List<Card> parseHand(String hand) {
-        List<Card> cards = PokerHandParser.mapHand(hand);
-        return PokerHandParser.sortHand(cards);
-    }
-
-    public static Map<CardValue, Integer> groupByCard(List<Card> cards) {
+    protected static Map<CardValue, Integer> groupByCard(List<Card> cards) {
         return cards
                 .stream()
                 .collect(Collectors.toMap(Card::getValue, card -> 1, Integer::sum));
     }
+
 }
