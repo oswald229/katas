@@ -16,7 +16,7 @@ public class RoyalFlushHandStrategy implements HandStrategy {
 
     static boolean isRoyalFlush(List<Card> cards) {
         return cards.get(0).getValue().equals(CardValue.ACE)
-                && PokerHandReader.isFlushHand(cards)
-                && PokerHandReader.isStraightHand(new LinkedList<>(cards));
+                && FlushHandStrategy.isFlushHand(cards)
+                && StraightHandStrategy.isStraightHand(new LinkedList<>(cards));
     }
 }

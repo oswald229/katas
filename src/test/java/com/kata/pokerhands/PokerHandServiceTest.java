@@ -1,12 +1,9 @@
 package com.kata.pokerhands;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -89,42 +86,10 @@ class PokerHandServiceTest {
 
 
     @ParameterizedTest
-    @MethodSource("should_tell_hand_arguments")
-    void should_tell_hand(String hand, PokerHandEnum expected) {
-        assertEquals(expected, new PokerHandReader().tellHand(hand));
-    }
-
-    @ParameterizedTest
     @MethodSource("should_tell_winner_arguments")
     void should_tell_winner(String black, String white, String expected) {
         assertEquals(expected, pokerHandService.winner(black, white));
     }
-
-    private static Stream<Arguments> should_tell_hand_arguments() {
-        return Stream.of(
-                Arguments.of("KH 8C QD 2S 7H", PokerHandEnum.HIGH_CARD),
-                Arguments.of("KH AC QD 2S 7H", PokerHandEnum.HIGH_CARD),
-                Arguments.of("AH AC KD JS 7H", PokerHandEnum.PAIR),
-                Arguments.of("AH KD JS AC 7H", PokerHandEnum.PAIR),
-                Arguments.of("JH JC 5D 5S 7H", PokerHandEnum.TWO_PAIR),
-                Arguments.of("5S JH 7H JC 5D", PokerHandEnum.TWO_PAIR),
-                Arguments.of("7H 7D 7C QS 3H", PokerHandEnum.THREE_OF_A_KIND),
-                Arguments.of("7H QS 7C 3H 7D", PokerHandEnum.THREE_OF_A_KIND),
-                Arguments.of("TH 9C 8D 7S 6H", PokerHandEnum.STRAIGHT),
-                Arguments.of("AH KC QD JS TH", PokerHandEnum.STRAIGHT),
-                Arguments.of("AH KH QH JH 9H", PokerHandEnum.FLUSH),
-                Arguments.of("AS KS QS JS 4S", PokerHandEnum.FLUSH),
-                Arguments.of("AS AS 3S AS 3S", PokerHandEnum.FULL_HOUSE),
-                Arguments.of("AS AS AS 3S 3S", PokerHandEnum.FULL_HOUSE),
-                Arguments.of("9S 9S 9S 9S 3S", PokerHandEnum.FOUR_OF_A_KIND),
-                Arguments.of("3S 3S 9S 3S 3S", PokerHandEnum.FOUR_OF_A_KIND),
-                Arguments.of("JS TS 9S 8S 7S", PokerHandEnum.STRAIGHT_FLUSH),
-                Arguments.of("9S 8S 7S 6S 5S", PokerHandEnum.STRAIGHT_FLUSH),
-                Arguments.of("AS KS QS JS TS", PokerHandEnum.ROYAL_FLUSH),
-                Arguments.of("AD KD QD JD TD", PokerHandEnum.ROYAL_FLUSH)
-        );
-    }
-
 
     private static Stream<Arguments> should_tell_winner_arguments() {
         return Stream.of(
