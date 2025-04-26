@@ -14,4 +14,8 @@ public record PokerHand(List<Card> cards) {
         }
         return false;
     }
+
+    public boolean strongerThan(PokerHand hand) {
+        return tellHand().strongerThan(hand.tellHand());
+    }
 }

@@ -3,11 +3,14 @@ package com.kata.pokerhands;
 public class PokerConsolePrinter implements PokerPrinter {
     @Override
     public String printWinningCard(WinningCard winningCard) {
+        if (winningCard.equals(WinningCard.EMPTY)){
+            return "Tie";
+        }
         return printWinningCard(winningCard.winner(), winningCard.winningCard().getValue().toString());
     }
 
     @Override
-    public String printWinner(WinningHand winningHand) {
+    public String printWinningHand(WinningHand winningHand) {
         return "%s wins - %s".formatted(winningHand.winner(), winningHand.hand().toString().toLowerCase()
                 .replace("_", " "));
     }
