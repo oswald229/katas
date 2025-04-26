@@ -5,13 +5,13 @@ public record PokerConsoleRenderer(CardRenderer<String> cardRenderer) implements
     @Override
     public String printWinner(Winner winner) {
         if (winner.from().equals("CARD")) {
-            return printWinningCard((CardWinner) winner);
+            return printCardWinner((CardWinner) winner);
         }
-        return printWinningHand((HandWinner) winner);
+        return printHandWinner((HandWinner) winner);
     }
 
     @Override
-    public String printWinningCard(CardWinner cardWinner) {
+    public String printCardWinner(CardWinner cardWinner) {
         if (cardWinner.card().equals(Card.EMPTY)) {
             return "Tie";
         }
@@ -20,7 +20,7 @@ public record PokerConsoleRenderer(CardRenderer<String> cardRenderer) implements
     }
 
     @Override
-    public String printWinningHand(HandWinner handWinner) {
+    public String printHandWinner(HandWinner handWinner) {
         return "%s wins - %s".formatted(handWinner.winner(), handWinner.hand().toString().toLowerCase()
                 .replace("_", " "));
     }
