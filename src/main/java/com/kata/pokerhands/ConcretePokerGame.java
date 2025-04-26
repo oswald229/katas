@@ -1,8 +1,12 @@
 package com.kata.pokerhands;
 
 
-public record ConcretePokerGame(PokerPrinter printer, CardParser handParser, Dealer dealer) implements PokerGame {
+public class ConcretePokerGame extends PokerGame<String, String> {
 
+    public ConcretePokerGame(PokerRenderer<String> printer, CardParser<String> handParser,
+                             Dealer dealer) {
+        super(printer, handParser, dealer);
+    }
 
     @Override
     public String winner(String black, String white) {

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class PokerGameTest {
-    private final ConcretePokerGame pokerGame = new ConcretePokerGame(new PokerConsolePrinter(), new PlainTextCardParser(), new ConcreteDealer(new ConcretePokerHandReader()));
+    private final ConcretePokerGame pokerGame = new ConcretePokerGame(new PokerConsoleRenderer(), new PlainTextCardParser(), new ConcreteDealer(new ConcretePokerHandReader()));
 
     /*
      * A poker deck contains 52 content - each card has a suit which

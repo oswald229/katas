@@ -1,6 +1,6 @@
 package com.kata.pokerhands;
 
-public class PokerConsolePrinter implements PokerPrinter {
+public class PokerConsoleRenderer implements PokerRenderer<String> {
     @Override
     public String printWinningCard(WinningCard winningCard) {
         if (winningCard.equals(WinningCard.EMPTY)) {

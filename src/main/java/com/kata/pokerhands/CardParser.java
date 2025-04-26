@@ -1,5 +1,5 @@
 package com.kata.pokerhands;
 
-public interface CardParser {
-    Cards parse(String hand);
+public interface CardParser<T> {
+    Cards parse(T hand);
 }
