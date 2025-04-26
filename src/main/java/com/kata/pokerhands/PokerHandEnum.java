@@ -9,5 +9,9 @@ public enum PokerHandEnum {
     FLUSH,
     FULL_HOUSE,
     FOUR_OF_A_KIND,
-    ROYAL_FLUSH, STRAIGHT_FLUSH
+    ROYAL_FLUSH, STRAIGHT_FLUSH;
+
+    public boolean strongerThan(PokerHandEnum hand2) {
+        return new PokerHandComparator().compare(this, hand2) > 0;
+    }
 }

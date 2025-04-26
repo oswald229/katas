@@ -95,13 +95,6 @@ class PokerHandServiceTest {
     }
 
     @ParameterizedTest
-    @MethodSource("should_tell_higher_hand_arguments")
-    void should_tell_higher_hand(PokerHandEnum hand1, PokerHandEnum hand2, PokerHandEnum expected) {
-        assertEquals(expected,
-                pokerHandService.higherHand(hand1, hand2));
-    }
-
-    @ParameterizedTest
     @MethodSource("should_tell_winner_arguments")
     void should_tell_winner(String black, String white, String expected) {
         assertEquals(expected, pokerHandService.winner(black, white));
@@ -150,13 +143,6 @@ class PokerHandServiceTest {
                 Arguments.of("9S 8S 7S 6S 5S", PokerHandEnum.STRAIGHT_FLUSH),
                 Arguments.of("AS KS QS JS TS", PokerHandEnum.ROYAL_FLUSH),
                 Arguments.of("AD KD QD JD TD", PokerHandEnum.ROYAL_FLUSH)
-        );
-    }
-
-    private static Stream<Arguments> should_tell_higher_hand_arguments() {
-        return Stream.of(
-                Arguments.of(PokerHandEnum.FOUR_OF_A_KIND, PokerHandEnum.TWO_PAIR, PokerHandEnum.FOUR_OF_A_KIND),
-                Arguments.of(PokerHandEnum.PAIR, PokerHandEnum.STRAIGHT_FLUSH, PokerHandEnum.STRAIGHT_FLUSH)
         );
     }
 

@@ -10,7 +10,6 @@ public class PokerHandService {
     private static final String BLACK = "Black";
     private static final String WHITE = "White";
     private final PokerHandReader pokerHandReader = new PokerHandReader();
-    private final PokerHandComparator pokerHandComparator = new PokerHandComparator();
     private final PokerPrinter printer = new PokerConsolePrinter();
 
     public PokerHandEnum tellHand(String hand) {
@@ -19,13 +18,6 @@ public class PokerHandService {
 
     public Map<CardValue, Integer> getValueDistribution(List<Card> hand) {
         return pokerHandReader.getValueDistribution(hand);
-    }
-
-    public PokerHandEnum higherHand(PokerHandEnum hand1, PokerHandEnum hand2) {
-        if (pokerHandComparator.compare(hand1, hand2) > 0) {
-            return hand1;
-        }
-        return hand2;
     }
 
     public String winner(String black, String white) {
@@ -38,13 +30,14 @@ public class PokerHandService {
 
         if (whiteHand.equals(blackHand)) {
             return winnerOnEqualHands(blackHandCards, whiteHandCards);
+        }
+        return printer.printWinner(getWinningHand(blackHand, whiteHand));
+    }
 
-        }
-        PokerHandEnum higherHand = higherHand(blackHand, whiteHand);
-        if (higherHand.equals(blackHand)) {
-            return printer.printWinner(BLACK, higherHand.toString().toLowerCase());
-        }
-        return printer.printWinner(WHITE, higherHand.toString().toLowerCase());
+    private WinningHand getWinningHand(PokerHandEnum blackHand, PokerHandEnum whiteHand) {
+        return blackHand.strongerThan(whiteHand) ?
+                new WinningHand(BLACK, blackHand)
+                : new WinningHand(WHITE, whiteHand);
     }
 
     private String winnerOnEqualHands(PokerHand blackHandCards, PokerHand whiteHandCards) {
@@ -56,11 +49,11 @@ public class PokerHandService {
     }
 
     private static WinningCard getWinnerHighestCard(PokerHand blackHandCards, PokerHand whiteHandCards) {
-        return determineWinner(new LinkedList<>(blackHandCards.cards()), new LinkedList<>(whiteHandCards.cards()));
+        return determineWinnerFromHighestCard(new LinkedList<>(blackHandCards.cards()), new LinkedList<>(whiteHandCards.cards()));
     }
 
 
-    private static WinningCard determineWinner(LinkedList<Card> blackCards, LinkedList<Card> whiteCards) {
+    private static WinningCard determineWinnerFromHighestCard(LinkedList<Card> blackCards, LinkedList<Card> whiteCards) {
         if (blackCards.isEmpty()) {
             return WinningCard.EMPTY;
         }
@@ -72,7 +65,7 @@ public class PokerHandService {
         if (whiteCard.isHigherThan(blackCard)) {
             return new WinningCard(WHITE, whiteCard);
         }
-        return determineWinner(blackCards, whiteCards);
+        return determineWinnerFromHighestCard(blackCards, whiteCards);
     }
 
 }

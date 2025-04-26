@@ -6,6 +6,12 @@ public class PokerConsolePrinter implements PokerPrinter {
         return printWinningCard(winningCard.winner(), winningCard.winningCard().getValue().toString());
     }
 
+    @Override
+    public String printWinner(WinningHand winningHand) {
+        return "%s wins - %s".formatted(winningHand.winner(), winningHand.hand().toString().toLowerCase()
+                .replace("_", " "));
+    }
+
     private String printWinningCard(String winner, String winningCard) {
         winningCard = switch (winningCard) {
             case "A" -> "Ace";
@@ -17,8 +23,4 @@ public class PokerConsolePrinter implements PokerPrinter {
         return "%s wins - high card: %s".formatted(winner, winningCard);
     }
 
-    @Override
-    public String printWinner(String winner, String higherHand) {
-        return "%s wins - %s".formatted(winner, higherHand.replace("_", " "));
-    }
 }
