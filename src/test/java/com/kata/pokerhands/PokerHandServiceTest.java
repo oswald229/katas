@@ -91,7 +91,7 @@ class PokerHandServiceTest {
     @ParameterizedTest
     @MethodSource("should_tell_hand_arguments")
     void should_tell_hand(String hand, PokerHandEnum expected) {
-        assertEquals(expected, pokerHandService.tellHand(hand));
+        assertEquals(expected, new PokerHandReader().tellHand(hand));
     }
 
     @ParameterizedTest
@@ -118,7 +118,7 @@ class PokerHandServiceTest {
                 CardValue.SEVEN, 1
         );
 
-        assertEquals(expected, pokerHandService.getValueDistribution(hand));
+        assertEquals(expected, PokerHandReader.getValueDistribution(hand));
     }
 
     private static Stream<Arguments> should_tell_hand_arguments() {

@@ -2,39 +2,27 @@ package com.kata.pokerhands;
 
 
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class PokerHandService {
 
     private static final String BLACK = "Black";
     private static final String WHITE = "White";
-    private final PokerHandReader pokerHandReader = new PokerHandReader();
     private final PokerPrinter printer = new PokerConsolePrinter();
 
-    public PokerHandEnum tellHand(String hand) {
-        return pokerHandReader.tellHand(hand);
-    }
-
-    public Map<CardValue, Integer> getValueDistribution(List<Card> hand) {
-        return pokerHandReader.getValueDistribution(hand);
-    }
-
     public String winner(String black, String white) {
+        var blackHand = new PokerHand(PokerHandReader.parseHand(black));
+        var whiteHand = new PokerHand(PokerHandReader.parseHand(white));
 
-        PokerHand blackHandCards = new PokerHand(PokerHandReader.parseHand(black));
-        PokerHand whiteHandCards = new PokerHand(PokerHandReader.parseHand(white));
-
-        PokerHandEnum blackHand = pokerHandReader.tellHand(blackHandCards);
-        PokerHandEnum whiteHand = pokerHandReader.tellHand(whiteHandCards);
-
-        if (whiteHand.equals(blackHand)) {
-            return winnerOnEqualHands(blackHandCards, whiteHandCards);
+        if (blackHand.equals(whiteHand)) {
+            return winnerOnEqualHands(blackHand, whiteHand);
         }
         return printer.printWinner(getWinningHand(blackHand, whiteHand));
     }
 
-    private WinningHand getWinningHand(PokerHandEnum blackHand, PokerHandEnum whiteHand) {
+    private WinningHand getWinningHand(PokerHand blackHandCards, PokerHand whiteHandCards) {
+        var blackHand = blackHandCards.tellHand();
+        var whiteHand = whiteHandCards.tellHand();
+
         return blackHand.strongerThan(whiteHand) ?
                 new WinningHand(BLACK, blackHand)
                 : new WinningHand(WHITE, whiteHand);
