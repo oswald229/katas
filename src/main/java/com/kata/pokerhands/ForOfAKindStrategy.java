@@ -14,7 +14,7 @@ public class ForOfAKindStrategy implements HandStrategy {
     }
 
     private static boolean isForOfAKind(List<Card> cards) {
-        var groupedCard = PokerHandReader.groupByCard(cards);
+        var groupedCard = new Cards(cards).groupedByCardValue();
         return groupedCard.size() == 2 && groupedCard.containsValue(4);
     }
 }

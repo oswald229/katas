@@ -14,7 +14,7 @@ public class ThreeOfAKindHandStrategy implements HandStrategy {
     }
 
     private boolean isThreeOfAKind(List<Card> cards) {
-        var groupedCard = PokerHandReader.groupByCard(cards);
+        var groupedCard = new Cards(cards).groupedByCardValue();
         return groupedCard.size() == 3 && groupedCard.containsValue(3) && groupedCard.containsValue(1);
     }
 }

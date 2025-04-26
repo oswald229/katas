@@ -14,7 +14,7 @@ class PairHandStrategy implements HandStrategy {
     }
 
     private static boolean isPair(List<Card> cards) {
-        var groupedCard = PokerHandReader.groupByCard(cards);
+        var groupedCard = new Cards(cards).groupedByCardValue();
         return groupedCard.size() == 4 && groupedCard.containsValue(2);
     }
 }
