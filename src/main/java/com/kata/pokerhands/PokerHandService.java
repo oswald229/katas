@@ -10,6 +10,7 @@ public class PokerHandService {
     private static final String WHITE = "White";
     private final PokerHandReader pokerHandReader = new PokerHandReader();
     private final PokerHandComparator pokerHandComparator = new PokerHandComparator();
+    private final PokerPrinter printer = new PokerConsolePrinter();
 
     public PokerHandEnum tellHand(String hand) {
         return pokerHandReader.tellHand(hand);
@@ -41,35 +42,20 @@ public class PokerHandService {
                 return "Tie";
             }
             if (winnerHighestCard.containsKey(BLACK)) {
-                return printHighCardWinner(BLACK, winnerHighestCard.get(BLACK));
+                return printer.printHighCardWinner(BLACK, winnerHighestCard.get(BLACK));
             }
-            return printHighCardWinner(WHITE, winnerHighestCard.get(WHITE));
+            return printer.printHighCardWinner(WHITE, winnerHighestCard.get(WHITE));
 
         } else {
             PokerHandEnum higherHand = higherHand(blackHand, whiteHand);
 
             if (higherHand.equals(blackHand)) {
-                return printWinner(BLACK, higherHand.toString().toLowerCase());
+                return printer.printWinner(BLACK, higherHand.toString().toLowerCase());
             }
 
-            return printWinner(WHITE, higherHand.toString().toLowerCase());
+            return printer.printWinner(WHITE, higherHand.toString().toLowerCase());
         }
 
-    }
-
-    private static String printWinner(String winner, String higherHand) {
-        return "%s wins - %s".formatted(winner, higherHand.replace("_", " "));
-    }
-
-    private static String printHighCardWinner(String winner, String winningCard) {
-        winningCard = switch (winningCard) {
-            case "A" -> "Ace";
-            case "J" -> "Jack";
-            case "Q" -> "Queen";
-            case "K" -> "King";
-            default -> winningCard;
-        };
-        return "%s wins - high card: %s".formatted(winner, winningCard);
     }
 
     private static Map<String, String> getWinnerHighestCard(List<Card> blackHandCards, List<Card> whiteHandCards) {
