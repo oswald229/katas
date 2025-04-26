@@ -1,6 +1,8 @@
 package com.kata.pokerhands;
 
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.List;
 import java.util.Map;
 
@@ -48,26 +50,24 @@ public class PokerHandService {
     }
 
     private String winnerOnEqualHands(PokerHand blackHandCards, PokerHand whiteHandCards) {
-        Map<String, String> winnerHighestCard = getWinnerHighestCard(blackHandCards, whiteHandCards);
-        if (winnerHighestCard.isEmpty()) {
+        Pair<String, String> winnerHighestCard = getWinnerHighestCard(blackHandCards, whiteHandCards);
+        if (winnerHighestCard.getLeft().equals("")) {
             return "Tie";
         }
-        if (winnerHighestCard.containsKey(BLACK)) {
-            return printer.printHighCardWinner(BLACK, winnerHighestCard.get(BLACK));
-        }
-        return printer.printHighCardWinner(WHITE, winnerHighestCard.get(WHITE));
+        return printer.printHighCardWinner(winnerHighestCard.getLeft(), winnerHighestCard.getRight());
     }
 
-    private static Map<String, String> getWinnerHighestCard(PokerHand blackHandCards, PokerHand whiteHandCards) {
+    private static Pair<String, String> getWinnerHighestCard(PokerHand blackHandCards, PokerHand whiteHandCards) {
 
         for (int i = 0; i < POKER_HAND_SIZE; i++) {
             if (blackHandCards.cards().get(i).compareTo(whiteHandCards.cards().get(i)) > 0) {
-                return Map.of(BLACK, blackHandCards.cards().get(i).getValue().toString());
+                return Pair.of(BLACK, blackHandCards.cards().get(i).getValue().toString());
             } else if (blackHandCards.cards().get(i).compareTo(whiteHandCards.cards().get(i)) < 0) {
-                return Map.of(WHITE, whiteHandCards.cards().get(i).getValue().toString());
+                return Pair.of(WHITE, whiteHandCards.cards().get(i).getValue().toString());
             }
         }
-        return Map.of();
+
+        return Pair.of("", "");
     }
 
 }
