@@ -3,9 +3,9 @@ package com.kata.pokerhands;
 
 public class ConcretePokerGame extends PokerGame<String, String> {
 
-    public ConcretePokerGame(PokerRenderer<String> printer, CardsParser<String> handParser,
+    public ConcretePokerGame(PokerGameRenderer<String> printer, CardsParser<String> handParser,
                              Dealer dealer) {
-        super(printer, handParser, dealer);
+        super(handParser, dealer, printer);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.kata.pokerhands;
 
-public interface PokerRenderer<T> {
+public interface PokerGameRenderer<T> {
 
     T printWinningCard(WinningCard winningCard);
 
