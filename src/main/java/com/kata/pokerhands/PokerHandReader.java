@@ -1,7 +1,9 @@
 package com.kata.pokerhands;
 
 public interface PokerHandReader {
-    boolean areEquals(PokerHand blackHand, PokerHand whiteHand);
-
     PokerHandEnum tellHandFor(PokerHand pokerHand);
+
+    default boolean areEquals(PokerHand blackHand, PokerHand whiteHand) {
+        return tellHandFor(blackHand).equals(tellHandFor(whiteHand));
+    }
 }

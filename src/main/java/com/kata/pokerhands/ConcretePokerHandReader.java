@@ -8,11 +8,6 @@ public class ConcretePokerHandReader implements PokerHandReader {
 
     private static final TreeMap<Integer, HandStrategy> handStrategyPriority = new TreeMap<>();
 
-    @Override
-    public boolean areEquals(PokerHand blackHand, PokerHand whiteHand) {
-        return tellHandFor(blackHand).equals(tellHandFor(whiteHand));
-    }
-
 
     @Override
     public PokerHandEnum tellHandFor(PokerHand pokerHand) {
