@@ -2,19 +2,29 @@ package com.kata.pokerhands;
 
 import java.util.LinkedList;
 
-public class ConcreteDealer implements Dealer {
+public record ConcreteDealer(PokerHandReader handReader) implements Dealer {
     static final String BLACK = "Black";
     static final String WHITE = "White";
 
     @Override
-    public WinningHand getWinningHand(PokerHand blackHand, PokerHand whiteHand) {
-        return blackHand.strongerThan(whiteHand)
-                ? new WinningHand(BLACK, blackHand)
-                : new WinningHand(WHITE, whiteHand);
+    public Winner getWinner(PokerHand blackHand, PokerHand whiteHand) {
+        return handReader.areEquals(blackHand, whiteHand)
+                ? getWinningCard(blackHand, whiteHand)
+                : getWinningHand(blackHand, whiteHand);
     }
 
-    @Override
-    public WinningCard getWinningCard(PokerHand blackHand, PokerHand whiteHand) {
+    private WinningHand getWinningHand(PokerHand blackHand, PokerHand whiteHand) {
+
+        PokerHandEnum pokerHandEnum = handReader.tellHandFor(blackHand);
+        PokerHandEnum hand = handReader.tellHandFor(whiteHand);
+        return pokerHandEnum.strongerThan(
+                hand
+        )
+                ? new WinningHand(BLACK, pokerHandEnum)
+                : new WinningHand(WHITE, hand);
+    }
+
+    private WinningCard getWinningCard(PokerHand blackHand, PokerHand whiteHand) {
         return determineWinnerFromHighestCard(new LinkedList<>(blackHand.cards()), new LinkedList<>(whiteHand.cards()));
     }
 

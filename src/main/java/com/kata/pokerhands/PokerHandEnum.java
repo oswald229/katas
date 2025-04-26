@@ -11,7 +11,7 @@ public enum PokerHandEnum {
     FOUR_OF_A_KIND,
     ROYAL_FLUSH, STRAIGHT_FLUSH;
 
-    public boolean strongerThan(PokerHandEnum hand2) {
-        return new PokerHandComparator().compare(this, hand2) > 0;
+    public boolean strongerThan(PokerHandEnum hand) {
+        return new PokerHandComparator().compare(this, hand) > 0;
     }
 }
