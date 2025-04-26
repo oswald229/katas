@@ -3,13 +3,11 @@ package com.kata.pokerhands;
 public interface Dealer {
     WinningHand getWinningHand(PokerHand blackHand, PokerHand whiteHand);
 
-    WinningCard getWinningCard(PokerHand blackHandCards, PokerHand whiteHandCards);
+    WinningCard getWinningCard(PokerHand blackHand, PokerHand whiteHand);
 
     default Winner getWinner(PokerHand blackHand, PokerHand whiteHand) {
-        Winner winner = getWinningHand(blackHand, whiteHand);
-        if (blackHand.equals(whiteHand)) {
-            winner = getWinningCard(blackHand, whiteHand);
-        }
-        return winner;
+        return blackHand.equals(whiteHand)
+                ? getWinningCard(blackHand, whiteHand)
+                : getWinningHand(blackHand, whiteHand);
     }
 }

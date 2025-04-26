@@ -17,8 +17,8 @@ public class PokerConsolePrinter implements PokerPrinter {
 
     @Override
     public String printWinner(Winner winner) {
-        if (winner instanceof WinningCard winningCard) {
-            return printWinningCard(winningCard);
+        if (winner.from().equals("CARD")) {
+            return printWinningCard((WinningCard) winner);
         }
         return printWinningHand((WinningHand) winner);
     }

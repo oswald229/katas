@@ -14,8 +14,8 @@ public class ConcreteDealer implements Dealer {
     }
 
     @Override
-    public WinningCard getWinningCard(PokerHand blackHandCards, PokerHand whiteHandCards) {
-        return determineWinnerFromHighestCard(new LinkedList<>(blackHandCards.cards()), new LinkedList<>(whiteHandCards.cards()));
+    public WinningCard getWinningCard(PokerHand blackHand, PokerHand whiteHand) {
+        return determineWinnerFromHighestCard(new LinkedList<>(blackHand.cards()), new LinkedList<>(whiteHand.cards()));
     }
 
     private WinningCard determineWinnerFromHighestCard(LinkedList<Card> blackCards, LinkedList<Card> whiteCards) {
