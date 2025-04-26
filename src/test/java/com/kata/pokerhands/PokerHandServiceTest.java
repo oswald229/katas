@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class PokerHandServiceTest {
-    private final PokerHandService pokerHandService = new PokerHandService();
+    private final PokerHandService pokerHandService = new PokerHandService(new PokerConsolePrinter(), new ConcreteDealer());
 
     /*
      * A poker deck contains 52 cards - each card has a suit which
