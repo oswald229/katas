@@ -5,15 +5,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class PlainTextPokerHandParser implements PokerHandParser {
+public class PlainTextCardParser implements CardParser {
 
     @Override
-    public List<Card> parse(String hand) {
+    public Cards parse(String hand) {
         String[] cards = hand.split(" ");
-        return PlainTextPokerHandParser.sortHand(Arrays.stream(cards).map(this::mapCard).toList());
+        return new Cards(sortHand(Arrays.stream(cards).map(this::mapCard).toList()));
     }
 
-    private static List<Card> sortHand(List<Card> unsorted) {
+    private List<Card> sortHand(List<Card> unsorted) {
         var cards = new ArrayList<>(unsorted);
         Collections.sort(cards);
         Collections.reverse(cards);

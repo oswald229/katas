@@ -25,7 +25,7 @@ public record ConcreteDealer(PokerHandReader handReader) implements Dealer {
     }
 
     private WinningCard getWinningCard(PokerHand blackHand, PokerHand whiteHand) {
-        return determineWinnerFromHighestCard(new LinkedList<>(blackHand.cards()), new LinkedList<>(whiteHand.cards()));
+        return determineWinnerFromHighestCard(new LinkedList<>(blackHand.cards().content()), new LinkedList<>(whiteHand.cards().content()));
     }
 
     private WinningCard determineWinnerFromHighestCard(LinkedList<Card> blackCards, LinkedList<Card> whiteCards) {

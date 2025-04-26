@@ -1,8 +1,5 @@
 package com.kata.pokerhands;
 
-import java.util.List;
-
-public record PokerHand(List<Card> cards) {
-    
+public record PokerHand(Cards cards) {
 
 }

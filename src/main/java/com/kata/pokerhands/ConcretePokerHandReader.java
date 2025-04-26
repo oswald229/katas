@@ -11,10 +11,10 @@ public class ConcretePokerHandReader implements PokerHandReader {
 
     @Override
     public PokerHandEnum tellHandFor(PokerHand pokerHand) {
-        var cards = pokerHand.cards();
+        Cards cards = pokerHand.cards();
         return handStrategyPriority.values()
                 .stream()
-                .filter(handStrategy -> handStrategy.matches(new Cards(cards)))
+                .filter(handStrategy -> handStrategy.matches(cards))
                 .findFirst()
                 .map(HandStrategy::hand)
                 .orElseThrow();
