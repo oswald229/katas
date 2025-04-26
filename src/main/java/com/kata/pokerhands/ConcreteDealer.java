@@ -1,5 +1,10 @@
 package com.kata.pokerhands;
 
+import com.kata.pokerhands.game.model.Dealer;
+import com.kata.pokerhands.game.model.Winner;
+import com.kata.pokerhands.game.io.PokerHandReader;
+import com.kata.pokerhands.game.model.*;
+
 import java.util.LinkedList;
 
 public record ConcreteDealer(PokerHandReader handReader) implements Dealer {

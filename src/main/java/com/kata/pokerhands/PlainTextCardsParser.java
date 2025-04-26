@@ -1,5 +1,8 @@
 package com.kata.pokerhands;
 
+import com.kata.pokerhands.game.io.CardsParser;
+import com.kata.pokerhands.game.model.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

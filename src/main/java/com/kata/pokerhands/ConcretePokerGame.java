@@ -1,6 +1,11 @@
 package com.kata.pokerhands;
 
 
+import com.kata.pokerhands.game.model.Dealer;
+import com.kata.pokerhands.game.PokerGame;
+import com.kata.pokerhands.game.io.CardsParser;
+import com.kata.pokerhands.game.io.PokerGameRenderer;
+
 public class ConcretePokerGame extends PokerGame<String, String> {
 
     public ConcretePokerGame(PokerGameRenderer<String> printer, CardsParser<String> handParser,

@@ -1,5 +1,8 @@
 package com.kata.pokerhands;
 
+import com.kata.pokerhands.game.io.CardRenderer;
+import com.kata.pokerhands.game.model.Card;
+
 class PlainTextCardRenderer implements CardRenderer<String> {
     @Override
     public String render(Card card) {

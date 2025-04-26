@@ -1,5 +1,11 @@
 package com.kata.pokerhands;
 
+import com.kata.pokerhands.game.io.PokerHandReader;
+import com.kata.pokerhands.game.model.Cards;
+import com.kata.pokerhands.game.model.PokerHand;
+import com.kata.pokerhands.game.model.PokerHandEnum;
+import com.kata.pokerhands.game.rules.*;
+
 import java.util.TreeMap;
 
 public class ConcretePokerHandReader implements PokerHandReader {

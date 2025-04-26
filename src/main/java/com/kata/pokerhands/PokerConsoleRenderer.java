@@ -1,5 +1,13 @@
 package com.kata.pokerhands;
 
+import com.kata.pokerhands.game.model.Winner;
+import com.kata.pokerhands.game.io.CardRenderer;
+import com.kata.pokerhands.game.io.HandRenderer;
+import com.kata.pokerhands.game.io.PokerGameRenderer;
+import com.kata.pokerhands.game.model.Card;
+import com.kata.pokerhands.game.model.CardWinner;
+import com.kata.pokerhands.game.model.HandWinner;
+
 public record PokerConsoleRenderer(CardRenderer<String> cardRenderer,
                                    HandRenderer<String> handRenderer) implements PokerGameRenderer<String> {
 
