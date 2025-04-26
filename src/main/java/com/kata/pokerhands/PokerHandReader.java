@@ -1,6 +1,5 @@
 package com.kata.pokerhands;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,14 +48,6 @@ public class PokerHandReader {
         return PokerHandEnum.HIGH_CARD;
     }
 
-
-    private static int getCardIndexesDiff(List<Card> sortedHand, int i, int j) {
-        return getEnumIndex(sortedHand.get(i).getValue()) - getEnumIndex(sortedHand.get(j).getValue());
-    }
-
-    private static int getEnumIndex(CardValue rootValue) {
-        return Arrays.stream(CardValue.values()).toList().indexOf(rootValue);
-    }
 
     public PokerHandEnum tellHand(String hand) {
         return new PokerHand(parseHand(hand)).tellHand();
@@ -108,10 +99,11 @@ public class PokerHandReader {
     static boolean isStraightHand(List<Card> cards) {
 
         for (int i = 0, j = i + 1; j < cards.size(); i++, j++) {
-            int diff = getCardIndexesDiff(cards, i, j);
-            if (Math.abs(diff) != 1) {
-                return false;
+            boolean areNeighbours = cards.get(i).isNeighbourOf(cards.get(j));
+            if (areNeighbours) {
+                continue;
             }
+            return false;
         }
         return true;
     }

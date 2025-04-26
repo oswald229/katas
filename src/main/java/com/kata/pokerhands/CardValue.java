@@ -1,5 +1,7 @@
 package com.kata.pokerhands;
 
+import java.util.Arrays;
+
 public enum CardValue {
     TWO("2"),
     THREE("3"),
@@ -19,6 +21,10 @@ public enum CardValue {
 
     CardValue(String value) {
         this.value = value;
+    }
+
+    public static int indexOf(CardValue rootValue) {
+        return Arrays.stream(CardValue.values()).toList().indexOf(rootValue);
     }
 
     @Override

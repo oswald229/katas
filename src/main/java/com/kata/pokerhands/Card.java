@@ -14,6 +14,10 @@ public class Card implements Comparable<Card> {
     private Suit suit;
     private CardValue value;
 
+    boolean isNeighbourOf(Card card) {
+        return CardValue.indexOf(getValue()) - CardValue.indexOf(card.getValue()) == 1;
+    }
+
     @Override
     public int compareTo(Card other) {
         if (this.value.equals(other.value))
