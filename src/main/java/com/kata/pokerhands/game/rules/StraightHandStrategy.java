@@ -4,13 +4,12 @@ import com.kata.pokerhands.game.model.Card;
 import com.kata.pokerhands.game.model.Cards;
 import com.kata.pokerhands.game.model.PokerHandEnum;
 
-import java.util.LinkedList;
-import java.util.Objects;
+import java.util.List;
 
 public class StraightHandStrategy implements HandStrategy {
     @Override
     public boolean matches(Cards cards) {
-        return isStraightHand(new LinkedList<>(cards.content()));
+        return isStraightHand(cards.content());
     }
 
     @Override
@@ -18,16 +17,12 @@ public class StraightHandStrategy implements HandStrategy {
         return PokerHandEnum.STRAIGHT;
     }
 
-    static boolean isStraightHand(LinkedList<Card> cards) {
-        if (cards.size() == 2) {
-            return cards.get(0).isNeighbourOf(cards.get(1));
+    static boolean isStraightHand(List<Card> cards) {
+        for (int i = 0; i < cards.size() - 1; i++) {
+            if (!cards.get(i).isNeighbourOf(cards.get(i + 1))) {
+                return false;
+            }
         }
-        var headCard = cards.pop();
-        var nextCard = cards.peek();
-
-        if (Objects.nonNull(headCard) && Objects.nonNull(nextCard) && headCard.isNeighbourOf(nextCard)) {
-            return isStraightHand(cards);
-        }
-        return false;
+        return true;
     }
 }

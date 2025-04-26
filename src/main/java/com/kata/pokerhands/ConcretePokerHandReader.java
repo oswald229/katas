@@ -4,38 +4,21 @@ import com.kata.pokerhands.game.io.PokerHandReader;
 import com.kata.pokerhands.game.model.Cards;
 import com.kata.pokerhands.game.model.PokerHand;
 import com.kata.pokerhands.game.model.PokerHandEnum;
-import com.kata.pokerhands.game.rules.*;
+import com.kata.pokerhands.game.rules.HandStrategy;
+import com.kata.pokerhands.game.rules.HandStrategyRank;
 
-import java.util.TreeMap;
+import java.util.Arrays;
 
 public class ConcretePokerHandReader implements PokerHandReader {
-    ConcretePokerHandReader() {
-    }
-
-    private static final TreeMap<Integer, HandStrategy> handStrategyPriority = new TreeMap<>();
-
 
     @Override
     public PokerHandEnum tellHandFor(PokerHand pokerHand) {
         Cards cards = pokerHand.cards();
-        return handStrategyPriority.values()
-                .stream()
+        return Arrays.stream(HandStrategyRank.values())
+                .map(HandStrategyRank::getStrategy)
                 .filter(handStrategy -> handStrategy.matches(cards))
                 .findFirst()
                 .map(HandStrategy::hand)
                 .orElseThrow();
-    }
-
-    static {
-        handStrategyPriority.put(0, new RoyalFlushHandStrategy());
-        handStrategyPriority.put(1, new StraightFlushStrategy());
-        handStrategyPriority.put(2, new ForOfAKindStrategy());
-        handStrategyPriority.put(3, new FullHouseHandStrategy());
-        handStrategyPriority.put(4, new FlushHandStrategy());
-        handStrategyPriority.put(5, new StraightHandStrategy());
-        handStrategyPriority.put(6, new ThreeOfAKindHandStrategy());
-        handStrategyPriority.put(7, new TwoPairHandStrategy());
-        handStrategyPriority.put(8, new PairHandStrategy());
-        handStrategyPriority.put(9, cards -> true);
     }
 }

@@ -1,6 +1,6 @@
 package com.kata.pokerhands.game.rules;
 
-import com.kata.pokerhands.game.model.Suit;
+import com.kata.pokerhands.game.model.Card;
 import com.kata.pokerhands.game.model.Cards;
 import com.kata.pokerhands.game.model.PokerHandEnum;
 
@@ -16,8 +16,6 @@ public class FlushHandStrategy implements HandStrategy {
     }
 
     static boolean isFlushHand(Cards cards) {
-        Suit suit = cards.content().get(0).getSuit();
-        return cards.content().stream().filter(card -> card.getSuit().equals(suit))
-                .count() == cards.content().size();
+        return cards.content().stream().map(Card::getSuit).distinct().count() == 1;
     }
 }

@@ -16,7 +16,6 @@ public class FullHouseHandStrategy implements HandStrategy {
 
     private static boolean isFullHouse(Cards cards) {
         var groupedCard = cards.groupedByCardValue();
-        // A size 2 distribution means 3 and 2 distinct duplicates, hence a FullHouse.
         return groupedCard.size() == 2;
     }
 }
