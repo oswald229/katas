@@ -1,8 +1,6 @@
 package com.kata.pokerhands;
 
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +9,6 @@ public class PokerHandService {
 
     private static final String BLACK = "Black";
     private static final String WHITE = "White";
-    private static final int POKER_HAND_SIZE = 5;
     private final PokerHandReader pokerHandReader = new PokerHandReader();
     private final PokerHandComparator pokerHandComparator = new PokerHandComparator();
     private final PokerPrinter printer = new PokerConsolePrinter();
@@ -51,29 +48,29 @@ public class PokerHandService {
     }
 
     private String winnerOnEqualHands(PokerHand blackHandCards, PokerHand whiteHandCards) {
-        Pair<String, String> winnerHighestCard = getWinnerHighestCard(blackHandCards, whiteHandCards);
-        if (winnerHighestCard.getLeft().equals("")) {
+        WinningCard winningCard = getWinnerHighestCard(blackHandCards, whiteHandCards);
+        if (winningCard.equals(WinningCard.EMPTY)) {
             return "Tie";
         }
-        return printer.printHighCardWinner(winnerHighestCard.getLeft(), winnerHighestCard.getRight());
+        return printer.printWinningCard(winningCard);
     }
 
-    private static Pair<String, String> getWinnerHighestCard(PokerHand blackHandCards, PokerHand whiteHandCards) {
+    private static WinningCard getWinnerHighestCard(PokerHand blackHandCards, PokerHand whiteHandCards) {
         return determineWinner(new LinkedList<>(blackHandCards.cards()), new LinkedList<>(whiteHandCards.cards()));
     }
 
 
-    private static Pair<String, String> determineWinner(LinkedList<Card> blackCards, LinkedList<Card> whiteCards) {
+    private static WinningCard determineWinner(LinkedList<Card> blackCards, LinkedList<Card> whiteCards) {
         if (blackCards.isEmpty()) {
-            return Pair.of("", "");
+            return WinningCard.EMPTY;
         }
         var blackCard = blackCards.removeFirst();
         var whiteCard = whiteCards.removeFirst();
         if (blackCard.isHigherThan(whiteCard)) {
-            return Pair.of(BLACK, blackCard.getValue().toString());
+            return new WinningCard(BLACK, blackCard);
         }
         if (whiteCard.isHigherThan(blackCard)) {
-            return Pair.of(WHITE, whiteCard.getValue().toString());
+            return new WinningCard(WHITE, whiteCard);
         }
         return determineWinner(blackCards, whiteCards);
     }

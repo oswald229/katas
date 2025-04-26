@@ -1,9 +1,12 @@
 package com.kata.pokerhands;
 
 public class PokerConsolePrinter implements PokerPrinter {
-
     @Override
-    public String printHighCardWinner(String winner, String winningCard) {
+    public String printWinningCard(WinningCard winningCard) {
+        return printWinningCard(winningCard.winner(), winningCard.winningCard().getValue().toString());
+    }
+
+    private String printWinningCard(String winner, String winningCard) {
         winningCard = switch (winningCard) {
             case "A" -> "Ace";
             case "J" -> "Jack";
