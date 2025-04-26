@@ -1,14 +1,17 @@
 package com.kata.pokerhands;
 
-class PlainTextCardRenderer implements CardRenderer<String, String> {
+class PlainTextCardRenderer implements CardRenderer<String> {
     @Override
-    public String render(String card) {
-        return switch (card) {
+    public String render(Card card) {
+        if (card.equals(Card.EMPTY)) {
+            return "";
+        }
+        return switch (card.getValue().toString()) {
             case "A" -> "Ace";
             case "J" -> "Jack";
             case "Q" -> "Queen";
             case "K" -> "King";
-            default -> card;
+            default -> card.getValue().toString();
         };
     }
 }

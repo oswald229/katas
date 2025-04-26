@@ -11,6 +11,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Getter
 public class Card implements Comparable<Card> {
+    public static final Card EMPTY = Card.builder().build();
     private Suit suit;
     private CardValue value;
 

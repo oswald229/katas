@@ -2,9 +2,9 @@ package com.kata.pokerhands;
 
 public interface PokerGameRenderer<T> {
 
-    T printWinningCard(WinningCard winningCard);
+    T printWinningCard(CardWinner cardWinner);
 
-    T printWinningHand(WinningHand winningHand);
+    T printWinningHand(HandWinner handWinner);
 
     T printWinner(Winner winner);
 }

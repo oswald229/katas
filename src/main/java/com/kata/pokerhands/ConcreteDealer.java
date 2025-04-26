@@ -13,32 +13,32 @@ public record ConcreteDealer(PokerHandReader handReader) implements Dealer {
                 : getWinningHand(blackHand, whiteHand);
     }
 
-    private WinningHand getWinningHand(PokerHand blackHand, PokerHand whiteHand) {
+    private HandWinner getWinningHand(PokerHand blackHand, PokerHand whiteHand) {
 
         PokerHandEnum pokerHandEnum = handReader.tellHandFor(blackHand);
         PokerHandEnum hand = handReader.tellHandFor(whiteHand);
         return pokerHandEnum.strongerThan(
                 hand
         )
-                ? new WinningHand(BLACK, pokerHandEnum)
-                : new WinningHand(WHITE, hand);
+                ? new HandWinner(BLACK, pokerHandEnum)
+                : new HandWinner(WHITE, hand);
     }
 
-    private WinningCard getWinningCard(PokerHand blackHand, PokerHand whiteHand) {
+    private CardWinner getWinningCard(PokerHand blackHand, PokerHand whiteHand) {
         return determineWinnerFromHighestCard(new LinkedList<>(blackHand.cards().content()), new LinkedList<>(whiteHand.cards().content()));
     }
 
-    private WinningCard determineWinnerFromHighestCard(LinkedList<Card> blackCards, LinkedList<Card> whiteCards) {
+    private CardWinner determineWinnerFromHighestCard(LinkedList<Card> blackCards, LinkedList<Card> whiteCards) {
         if (blackCards.isEmpty()) {
-            return WinningCard.EMPTY;
+            return CardWinner.EMPTY;
         }
         var blackCard = blackCards.removeFirst();
         var whiteCard = whiteCards.removeFirst();
         if (blackCard.isHigherThan(whiteCard)) {
-            return new WinningCard(BLACK, blackCard);
+            return new CardWinner(BLACK, blackCard);
         }
         if (whiteCard.isHigherThan(blackCard)) {
-            return new WinningCard(WHITE, whiteCard);
+            return new CardWinner(WHITE, whiteCard);
         }
         return determineWinnerFromHighestCard(blackCards, whiteCards);
     }
