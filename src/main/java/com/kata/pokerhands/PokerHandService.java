@@ -3,6 +3,7 @@ package com.kata.pokerhands;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -58,16 +59,23 @@ public class PokerHandService {
     }
 
     private static Pair<String, String> getWinnerHighestCard(PokerHand blackHandCards, PokerHand whiteHandCards) {
+        return determineWinner(new LinkedList<>(blackHandCards.cards()), new LinkedList<>(whiteHandCards.cards()));
+    }
 
-        for (int i = 0; i < POKER_HAND_SIZE; i++) {
-            if (blackHandCards.cards().get(i).compareTo(whiteHandCards.cards().get(i)) > 0) {
-                return Pair.of(BLACK, blackHandCards.cards().get(i).getValue().toString());
-            } else if (blackHandCards.cards().get(i).compareTo(whiteHandCards.cards().get(i)) < 0) {
-                return Pair.of(WHITE, whiteHandCards.cards().get(i).getValue().toString());
-            }
+
+    private static Pair<String, String> determineWinner(LinkedList<Card> blackCards, LinkedList<Card> whiteCards) {
+        if (blackCards.isEmpty()) {
+            return Pair.of("", "");
         }
-
-        return Pair.of("", "");
+        var blackCard = blackCards.removeFirst();
+        var whiteCard = whiteCards.removeFirst();
+        if (blackCard.isHigherThan(whiteCard)) {
+            return Pair.of(BLACK, blackCard.getValue().toString());
+        }
+        if (whiteCard.isHigherThan(blackCard)) {
+            return Pair.of(WHITE, whiteCard.getValue().toString());
+        }
+        return determineWinner(blackCards, whiteCards);
     }
 
 }

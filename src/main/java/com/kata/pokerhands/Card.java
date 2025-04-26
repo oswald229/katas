@@ -30,4 +30,8 @@ public class Card implements Comparable<Card> {
     public String toString() {
         return cardString();
     }
+
+    public boolean isHigherThan(Card card) {
+        return this.compareTo(card) > 0;
+    }
 }
