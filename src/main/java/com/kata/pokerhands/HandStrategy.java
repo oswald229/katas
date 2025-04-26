@@ -1,7 +1,5 @@
 package com.kata.pokerhands;
 
-import java.util.List;
-
 interface HandStrategy {
     boolean matches(Cards cards);
 
