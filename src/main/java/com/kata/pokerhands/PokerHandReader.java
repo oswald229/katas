@@ -16,8 +16,7 @@ public class PokerHandReader {
     }
 
     public PokerHandEnum tellHand(String hand) {
-        List<Card> sortedHand = parseHand(hand);
-        return tellHand(sortedHand);
+        return tellHand(new PokerHand(parseHand(hand)));
     }
 
     static List<Card> parseHand(String hand) {
@@ -25,8 +24,8 @@ public class PokerHandReader {
         return PokerHandParser.sortHand(cards);
     }
 
-    PokerHandEnum tellHand(List<Card> sortedHand) {
-
+    PokerHandEnum tellHand(PokerHand hand) {
+        List<Card> sortedHand = hand.cards();
         if (isRoyalFlush(sortedHand)) {
             return PokerHandEnum.ROYAL_FLUSH;
         }
