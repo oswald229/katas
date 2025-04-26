@@ -1,50 +1,36 @@
 package com.kata.pokerhands;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class PokerHandReader {
+
+
+    private static final TreeMap<Integer, HandStrategy> handStrategyPriority = new TreeMap<>();
+
+    static {
+        handStrategyPriority.put(0, new HandStrategy(PokerHandReader::isRoyalFlush, PokerHandEnum.ROYAL_FLUSH));
+        handStrategyPriority.put(1, new HandStrategy(cards -> isStraightHand(new LinkedList<>(cards)) && isFlushHand(cards), PokerHandEnum.STRAIGHT_FLUSH));
+        handStrategyPriority.put(2, new HandStrategy(PokerHandReader::isForOfAKind, PokerHandEnum.FOUR_OF_A_KIND));
+        handStrategyPriority.put(3, new HandStrategy(PokerHandReader::isFullHouse, PokerHandEnum.FULL_HOUSE));
+        handStrategyPriority.put(4, new HandStrategy(PokerHandReader::isFlushHand, PokerHandEnum.FLUSH));
+        handStrategyPriority.put(5, new HandStrategy(cards -> isStraightHand(new LinkedList<>(cards)), PokerHandEnum.STRAIGHT));
+        handStrategyPriority.put(6, new HandStrategy(PokerHandReader::isThreeOfAKind, PokerHandEnum.THREE_OF_A_KIND));
+        handStrategyPriority.put(7, new HandStrategy(PokerHandReader::isTwoPair, PokerHandEnum.TWO_PAIR));
+        handStrategyPriority.put(8, new HandStrategy(PokerHandReader::isPair, PokerHandEnum.PAIR));
+    }
+
+    record HandStrategy(Function<List<Card>, Boolean> key, PokerHandEnum hand) {
+    }
+
     public static PokerHandEnum tellHandFor(PokerHand pokerHand) {
-        var handCards = pokerHand.cards();
-        if (isRoyalFlush(handCards)) {
-            return PokerHandEnum.ROYAL_FLUSH;
+        var cards = pokerHand.cards();
+        for (HandStrategy handStrategy : handStrategyPriority.values()) {
+            if (handStrategy.key().apply(cards)) {
+                return handStrategy.hand();
+            }
         }
-
-        if (isStraightHand(new LinkedList<>(handCards)) && isFlushHand(handCards)) {
-            return PokerHandEnum.STRAIGHT_FLUSH;
-        }
-
-        if (isForOfAKind(handCards)) {
-            return PokerHandEnum.FOUR_OF_A_KIND;
-        }
-
-        if (isFullHouse(handCards)) {
-            return PokerHandEnum.FULL_HOUSE;
-        }
-
-        if (isFlushHand(handCards)) {
-            return PokerHandEnum.FLUSH;
-        }
-
-        if (isStraightHand(new LinkedList<>(handCards))) {
-            return PokerHandEnum.STRAIGHT;
-        }
-
-        if (isThreeOfAKind(handCards)) {
-            return PokerHandEnum.THREE_OF_A_KIND;
-        }
-
-        if (isTwoPair(handCards)) {
-            return PokerHandEnum.TWO_PAIR;
-        }
-
-        if (isPair(handCards)) {
-            return PokerHandEnum.PAIR;
-        }
-
         return PokerHandEnum.HIGH_CARD;
     }
 
