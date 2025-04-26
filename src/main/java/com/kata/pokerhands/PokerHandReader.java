@@ -1,47 +1,47 @@
 package com.kata.pokerhands;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PokerHandReader {
     public static PokerHandEnum tellHandFor(PokerHand pokerHand) {
-
-
-        List<Card> sortedHand = pokerHand.cards();
-        if (isRoyalFlush(sortedHand)) {
+        var handCards = pokerHand.cards();
+        if (isRoyalFlush(handCards)) {
             return PokerHandEnum.ROYAL_FLUSH;
         }
 
-        if (isStraightHand(sortedHand) && isFlushHand(sortedHand)) {
+        if (isStraightHand(new LinkedList<>(handCards)) && isFlushHand(handCards)) {
             return PokerHandEnum.STRAIGHT_FLUSH;
         }
 
-        if (isForOfAKind(sortedHand)) {
+        if (isForOfAKind(handCards)) {
             return PokerHandEnum.FOUR_OF_A_KIND;
         }
 
-        if (isFullHouse(sortedHand)) {
+        if (isFullHouse(handCards)) {
             return PokerHandEnum.FULL_HOUSE;
         }
 
-        if (isFlushHand(sortedHand)) {
+        if (isFlushHand(handCards)) {
             return PokerHandEnum.FLUSH;
         }
 
-        if (isStraightHand(sortedHand)) {
+        if (isStraightHand(new LinkedList<>(handCards))) {
             return PokerHandEnum.STRAIGHT;
         }
 
-        if (isThreeOfAKind(sortedHand)) {
+        if (isThreeOfAKind(handCards)) {
             return PokerHandEnum.THREE_OF_A_KIND;
         }
 
-        if (isTwoPair(sortedHand)) {
+        if (isTwoPair(handCards)) {
             return PokerHandEnum.TWO_PAIR;
         }
 
-        if (isPair(sortedHand)) {
+        if (isPair(handCards)) {
             return PokerHandEnum.PAIR;
         }
 
@@ -61,7 +61,7 @@ public class PokerHandReader {
     static boolean isRoyalFlush(List<Card> cards) {
         return cards.get(0).getValue().equals(CardValue.ACE)
                 && isFlushHand(cards)
-                && isStraightHand(cards);
+                && isStraightHand(new LinkedList<>(cards));
     }
 
     static boolean isPair(List<Card> cards) {
@@ -96,16 +96,17 @@ public class PokerHandReader {
                 .count() == cards.size();
     }
 
-    static boolean isStraightHand(List<Card> cards) {
-
-        for (int i = 0, j = i + 1; j < cards.size(); i++, j++) {
-            boolean areNeighbours = cards.get(i).isNeighbourOf(cards.get(j));
-            if (areNeighbours) {
-                continue;
-            }
-            return false;
+    static boolean isStraightHand(LinkedList<Card> cards) {
+        if (cards.size() == 2) {
+            return cards.get(0).isNeighbourOf(cards.get(1));
         }
-        return true;
+        var headCard = cards.pop();
+        var nextCard = cards.peek();
+
+        if (Objects.nonNull(headCard) && Objects.nonNull(nextCard) && headCard.isNeighbourOf(nextCard)) {
+            return isStraightHand(cards);
+        }
+        return false;
     }
 
     private static Map<CardValue, Integer> groupByCard(List<Card> cards) {
