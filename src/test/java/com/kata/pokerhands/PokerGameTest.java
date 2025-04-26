@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-class PokerHandServiceTest {
-    private final PokerHandService pokerHandService = new PokerHandService(new PokerConsolePrinter(), new PlainTextCardParser(), new ConcreteDealer(new ConcretePokerHandReader()));
+class PokerGameTest {
+    private final ConcretePokerGame pokerGame = new ConcretePokerGame(new PokerConsolePrinter(), new PlainTextCardParser(), new ConcreteDealer(new ConcretePokerHandReader()));
 
     /*
      * A poker deck contains 52 content - each card has a suit which
@@ -88,7 +88,7 @@ class PokerHandServiceTest {
     @ParameterizedTest
     @MethodSource("should_tell_winner_arguments")
     void should_tell_winner(String black, String white, String expected) {
-        assertEquals(expected, pokerHandService.winner(black, white));
+        assertEquals(expected, pokerGame.winner(black, white));
     }
 
     private static Stream<Arguments> should_tell_winner_arguments() {

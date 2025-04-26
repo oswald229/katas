@@ -1,9 +1,10 @@
 package com.kata.pokerhands;
 
 
-public record PokerHandService(PokerPrinter printer, CardParser handParser, Dealer dealer) {
+public record ConcretePokerGame(PokerPrinter printer, CardParser handParser, Dealer dealer) implements PokerGame {
 
 
+    @Override
     public String winner(String black, String white) {
         var blackCards = handParser.parse(black);
         var witheCards = handParser.parse(white);
