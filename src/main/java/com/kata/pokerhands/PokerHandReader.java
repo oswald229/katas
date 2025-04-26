@@ -1,9 +1,9 @@
 package com.kata.pokerhands;
 
 import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PokerHandReader {
     public static PokerHandEnum tellHandFor(PokerHand pokerHand) {
@@ -74,29 +74,29 @@ public class PokerHandReader {
     }
 
     static boolean isPair(List<Card> cards) {
-        Map<CardValue, Integer> handStats = getValueDistribution(cards);
-        return handStats.size() == 4 && handStats.containsValue(2);
+        var groupedCard = groupByCard(cards);
+        return groupedCard.size() == 4 && groupedCard.containsValue(2);
     }
 
     static boolean isTwoPair(List<Card> cards) {
-        Map<CardValue, Integer> handStats = getValueDistribution(cards);
-        return handStats.size() == 3 && handStats.containsValue(1);
+        var groupedCard = groupByCard(cards);
+        return groupedCard.size() == 3 && groupedCard.containsValue(1);
     }
 
     static boolean isForOfAKind(List<Card> cards) {
-        Map<CardValue, Integer> handStats = getValueDistribution(cards);
-        return handStats.size() == 2 && handStats.containsValue(4);
+        var groupedCard = groupByCard(cards);
+        return groupedCard.size() == 2 && groupedCard.containsValue(4);
     }
 
     static boolean isThreeOfAKind(List<Card> cards) {
-        Map<CardValue, Integer> handStats = getValueDistribution(cards);
-        return handStats.size() == 3 && handStats.containsValue(3) && handStats.containsValue(1);
+        var groupedCard = groupByCard(cards);
+        return groupedCard.size() == 3 && groupedCard.containsValue(3) && groupedCard.containsValue(1);
     }
 
     static boolean isFullHouse(List<Card> cards) {
-        Map<CardValue, Integer> handStats = getValueDistribution(cards);
+        var groupedCard = groupByCard(cards);
         // A size 2 distribution means 3 and 2 distinct duplicates, hence a FullHouse.
-        return handStats.size() == 2;
+        return groupedCard.size() == 2;
     }
 
     static boolean isFlushHand(List<Card> cards) {
@@ -116,17 +116,9 @@ public class PokerHandReader {
         return true;
     }
 
-    public static Map<CardValue, Integer> getValueDistribution(List<Card> hand) {
-        List<Card> sortedHand = PokerHandParser.sortHand(hand);
-        EnumMap<CardValue, Integer> valueDistribution = new EnumMap<CardValue, Integer>(CardValue.class);
-
-        for (Card card : sortedHand) {
-            if (!valueDistribution.containsKey(card.getValue())) {
-                valueDistribution.put(card.getValue(), 1);
-                continue;
-            }
-            valueDistribution.merge(card.getValue(), 1, Integer::sum);
-        }
-        return valueDistribution;
+    private static Map<CardValue, Integer> groupByCard(List<Card> cards) {
+        return cards
+                .stream()
+                .collect(Collectors.toMap(Card::getValue, card -> 1, Integer::sum));
     }
 }

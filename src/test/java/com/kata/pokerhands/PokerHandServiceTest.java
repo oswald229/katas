@@ -100,27 +100,6 @@ class PokerHandServiceTest {
         assertEquals(expected, pokerHandService.winner(black, white));
     }
 
-    @Test
-    void should_tell_cards_stats() {
-
-        List<Card> hand = List.of(
-                Card.builder().value(CardValue.JACK).suit(Suit.HEARTS).build(),
-                Card.builder().value(CardValue.JACK).suit(Suit.CLUBS).build(),
-                Card.builder().value(CardValue.FIVE).suit(Suit.DIAMONDS).build(),
-                Card.builder().value(CardValue.FIVE).suit(Suit.SPADES).build(),
-                Card.builder().value(CardValue.SEVEN).suit(Suit.HEARTS).build()
-
-        );
-
-        Map<CardValue, Integer> expected = Map.of(
-                CardValue.JACK, 2,
-                CardValue.FIVE, 2,
-                CardValue.SEVEN, 1
-        );
-
-        assertEquals(expected, PokerHandReader.getValueDistribution(hand));
-    }
-
     private static Stream<Arguments> should_tell_hand_arguments() {
         return Stream.of(
                 Arguments.of("KH 8C QD 2S 7H", PokerHandEnum.HIGH_CARD),
