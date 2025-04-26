@@ -18,7 +18,7 @@ public class PokerHandReader {
         handStrategyPriority.put(5, new ConcreteHandStrategy(cards -> isStraightHand(new LinkedList<>(cards)), PokerHandEnum.STRAIGHT));
         handStrategyPriority.put(6, new ConcreteHandStrategy(PokerHandReader::isThreeOfAKind, PokerHandEnum.THREE_OF_A_KIND));
         handStrategyPriority.put(7, new ConcreteHandStrategy(PokerHandReader::isTwoPair, PokerHandEnum.TWO_PAIR));
-        handStrategyPriority.put(8, new ConcreteHandStrategy(PokerHandReader::isPair, PokerHandEnum.PAIR));
+        handStrategyPriority.put(8, new PairStrategy());
         handStrategyPriority.put(9, cards -> true);
     }
 
@@ -26,7 +26,7 @@ public class PokerHandReader {
         var cards = pokerHand.cards();
         return handStrategyPriority.values()
                 .stream()
-                .filter(handStrategy -> handStrategy.accepts(cards))
+                .filter(handStrategy -> handStrategy.matches(cards))
                 .findFirst()
                 .map(HandStrategy::hand)
                 .orElseThrow();

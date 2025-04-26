@@ -5,7 +5,7 @@ import java.util.List;
 
 public class RoyalFlushHandStrategy implements HandStrategy {
     @Override
-    public boolean accepts(List<Card> cards) {
+    public boolean matches(List<Card> cards) {
         return isRoyalFlush(cards);
     }
 

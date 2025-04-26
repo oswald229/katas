@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 record ConcreteHandStrategy(Function<List<Card>, Boolean> key, PokerHandEnum hand) implements HandStrategy {
     @Override
-    public boolean accepts(List<Card> cards) {
+    public boolean matches(List<Card> cards) {
         return key().apply(cards);
     }
 
