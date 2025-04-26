@@ -1,7 +1,6 @@
 package com.kata.pokerhands;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class PokerHandReader {
@@ -10,28 +9,27 @@ public class PokerHandReader {
     private static final TreeMap<Integer, HandStrategy> handStrategyPriority = new TreeMap<>();
 
     static {
-        handStrategyPriority.put(0, new HandStrategy(PokerHandReader::isRoyalFlush, PokerHandEnum.ROYAL_FLUSH));
-        handStrategyPriority.put(1, new HandStrategy(cards -> isStraightHand(new LinkedList<>(cards)) && isFlushHand(cards), PokerHandEnum.STRAIGHT_FLUSH));
-        handStrategyPriority.put(2, new HandStrategy(PokerHandReader::isForOfAKind, PokerHandEnum.FOUR_OF_A_KIND));
-        handStrategyPriority.put(3, new HandStrategy(PokerHandReader::isFullHouse, PokerHandEnum.FULL_HOUSE));
-        handStrategyPriority.put(4, new HandStrategy(PokerHandReader::isFlushHand, PokerHandEnum.FLUSH));
-        handStrategyPriority.put(5, new HandStrategy(cards -> isStraightHand(new LinkedList<>(cards)), PokerHandEnum.STRAIGHT));
-        handStrategyPriority.put(6, new HandStrategy(PokerHandReader::isThreeOfAKind, PokerHandEnum.THREE_OF_A_KIND));
-        handStrategyPriority.put(7, new HandStrategy(PokerHandReader::isTwoPair, PokerHandEnum.TWO_PAIR));
-        handStrategyPriority.put(8, new HandStrategy(PokerHandReader::isPair, PokerHandEnum.PAIR));
-    }
-
-    record HandStrategy(Function<List<Card>, Boolean> key, PokerHandEnum hand) {
+        HandStrategy royalFlushStrategy = new RoyalFlushHandStrategy();
+        handStrategyPriority.put(0, royalFlushStrategy);
+        handStrategyPriority.put(1, new ConcreteHandStrategy(cards -> isStraightHand(new LinkedList<>(cards)) && isFlushHand(cards), PokerHandEnum.STRAIGHT_FLUSH));
+        handStrategyPriority.put(2, new ConcreteHandStrategy(PokerHandReader::isForOfAKind, PokerHandEnum.FOUR_OF_A_KIND));
+        handStrategyPriority.put(3, new ConcreteHandStrategy(PokerHandReader::isFullHouse, PokerHandEnum.FULL_HOUSE));
+        handStrategyPriority.put(4, new ConcreteHandStrategy(PokerHandReader::isFlushHand, PokerHandEnum.FLUSH));
+        handStrategyPriority.put(5, new ConcreteHandStrategy(cards -> isStraightHand(new LinkedList<>(cards)), PokerHandEnum.STRAIGHT));
+        handStrategyPriority.put(6, new ConcreteHandStrategy(PokerHandReader::isThreeOfAKind, PokerHandEnum.THREE_OF_A_KIND));
+        handStrategyPriority.put(7, new ConcreteHandStrategy(PokerHandReader::isTwoPair, PokerHandEnum.TWO_PAIR));
+        handStrategyPriority.put(8, new ConcreteHandStrategy(PokerHandReader::isPair, PokerHandEnum.PAIR));
+        handStrategyPriority.put(9, cards -> true);
     }
 
     public static PokerHandEnum tellHandFor(PokerHand pokerHand) {
         var cards = pokerHand.cards();
-        for (HandStrategy handStrategy : handStrategyPriority.values()) {
-            if (handStrategy.key().apply(cards)) {
-                return handStrategy.hand();
-            }
-        }
-        return PokerHandEnum.HIGH_CARD;
+        return handStrategyPriority.values()
+                .stream()
+                .filter(handStrategy -> handStrategy.accepts(cards))
+                .findFirst()
+                .map(HandStrategy::hand)
+                .orElseThrow();
     }
 
 
@@ -42,12 +40,6 @@ public class PokerHandReader {
     static List<Card> parseHand(String hand) {
         List<Card> cards = PokerHandParser.mapHand(hand);
         return PokerHandParser.sortHand(cards);
-    }
-
-    static boolean isRoyalFlush(List<Card> cards) {
-        return cards.get(0).getValue().equals(CardValue.ACE)
-                && isFlushHand(cards)
-                && isStraightHand(new LinkedList<>(cards));
     }
 
     static boolean isPair(List<Card> cards) {
