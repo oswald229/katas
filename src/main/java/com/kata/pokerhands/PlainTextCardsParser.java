@@ -5,12 +5,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class PlainTextCardParser implements CardParser<String> {
+public class PlainTextCardsParser implements CardsParser<String> {
 
     @Override
-    public Cards parse(String hand) {
-        String[] cards = hand.split(" ");
-        return new Cards(sortHand(Arrays.stream(cards).map(this::mapCard).toList()));
+    public PokerHand parse(String hand) {
+        var cards = new Cards(sortHand(Arrays.stream(hand.split(" ")).
+                map(this::mapCard)
+                .toList()));
+        return new PokerHand(cards);
     }
 
     private List<Card> sortHand(List<Card> unsorted) {
