@@ -12,11 +12,6 @@ public class SimpleLift implements Lift {
     protected final ArrayDeque<Floor> destinations = new ArrayDeque<>();
     private Direction ongoingDirection = Direction.NONE;
 
-    public SimpleLift(Floors floors, LiftRenderer renderer) {
-        this.currentFloor = floors.lowest();
-        this.renderer = renderer;
-    }
-
     public SimpleLift(Floors floors) {
         this.currentFloor = floors.lowest();
         this.renderer = new PlainTextLiftRenderer();

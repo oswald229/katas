@@ -1,13 +1,6 @@
 package com.kata.pokerhands;
 
-import lombok.SneakyThrows;
-
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -39,7 +32,6 @@ public class CardBox {
         return draw(5);
     }
 
-    @SneakyThrows
     private static List<Card> draw(int amount) {
         if (cards.size() < amount) {
             reset();
@@ -64,7 +56,6 @@ public class CardBox {
                 .toList();
     }
 
-    @SneakyThrows
     public static Card getCard(String cardString) {
         for (Card card : cards) {
             if (card.cardString().equals(cardString))
