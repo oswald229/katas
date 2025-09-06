@@ -3,8 +3,6 @@ package com.kata.tennis;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,8 +13,7 @@ class TennisGameTest {
     @Test
     void should_increase_round_winner_score() {
         TennisPlayer player1 = new TennisPlayer();
-        TennisGame tennisGame = new TennisGame(player1, new TennisPlayer());
-        mockRandomizer(tennisGame, true);
+        TennisGame tennisGame = new TennisGame(player1, new TennisPlayer(), new Player1Wins(true));
 
         tennisGame.playRound();
 
@@ -27,9 +24,8 @@ class TennisGameTest {
     void should_set_game_back_to_deuces() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.AV);
         TennisPlayer player2 = new TennisPlayer(TennisScore.FORTY);
-        TennisGame tennisGame = new TennisGame(player1, player2);
+        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(false));
         tennisGame.setAdvantage(player1);
-        mockRandomizer(tennisGame, false);
 
         tennisGame.playRound();
 
@@ -42,10 +38,9 @@ class TennisGameTest {
     void should_set_game_back_to_deuces_bis() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer(TennisScore.AV);
-        TennisGame tennisGame = new TennisGame(player1, player2);
+        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true));
         tennisGame.setAdvantage(player2);
 
-        mockRandomizer(tennisGame, true);
 
         tennisGame.playRound();
 
@@ -58,9 +53,7 @@ class TennisGameTest {
     void should_give_advantage() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer(TennisScore.FORTY);
-        TennisGame tennisGame = new TennisGame(player1, player2);
-
-        mockRandomizer(tennisGame, true);
+        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true));
 
         tennisGame.playRound();
 
@@ -71,9 +64,8 @@ class TennisGameTest {
     void should_throw_on_game_winner() {
         TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer(TennisScore.LOVE);
-        TennisGame tennisGame = new TennisGame(player1, player2);
+        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true));
 
-        mockRandomizer(tennisGame, true);
 
         GameWinnerException gameWinnerException = assertThrows(GameWinnerException.class, tennisGame::playRound);
         assertEquals("Player 1 Wins !", gameWinnerException.getMessage());
@@ -83,10 +75,9 @@ class TennisGameTest {
     void should_win_on_advantage() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.FORTY);
-        TennisGame tennisGame = new TennisGame(player1, player2);
+        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(false));
         tennisGame.setAdvantage(player2);
 
-        mockRandomizer(tennisGame, false);
 
         GameWinnerException gameWinnerException = assertThrows(GameWinnerException.class, tennisGame::playRound);
         assertEquals("Player 2 Wins !", gameWinnerException.getMessage());
@@ -119,9 +110,8 @@ class TennisGameTest {
         void shouldPrintAdvantage() {
             TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
             TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.FORTY);
-            TennisGame tennisGame = new TennisGame(player1, player2);
+            TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true));
 
-            mockRandomizer(tennisGame, true);
 
             tennisGame.playRound();
 
@@ -135,9 +125,7 @@ class TennisGameTest {
         void shouldPrintAdvantageBis() {
             TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
             TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.FORTY);
-            TennisGame tennisGame = new TennisGame(player1, player2);
-
-            mockRandomizer(tennisGame, false);
+            TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(false));
 
             tennisGame.playRound();
             String expected = "Player 1  40 - 40  Player 2 (*)";
@@ -148,26 +136,11 @@ class TennisGameTest {
 
     }
 
-    private static void mockRandomizer(TennisGame tennisGame, boolean player1Wins) {
-        try {
-
-            Field randomizer = Arrays.stream(tennisGame.getClass().getDeclaredFields())
-                    .filter(field -> field.getName().equals("randomizer"))
-                    .findFirst()
-                    .orElseThrow();
-            randomizer.setAccessible(true);
-            randomizer.set(tennisGame, new MyRandomizer(player1Wins));
-            randomizer.setAccessible(false);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    static class MyRandomizer extends Random {
+    static class Player1Wins extends Random {
 
         private final boolean player1Wins;
 
-        public MyRandomizer(boolean player1Wins) {
+        public Player1Wins(boolean player1Wins) {
             this.player1Wins = player1Wins;
         }
 
