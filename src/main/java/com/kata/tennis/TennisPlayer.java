@@ -42,4 +42,8 @@ public class TennisPlayer {
     public String toString() {
         return name;
     }
+
+    public void advantage() {
+        this.score = new PlayerScore(TennisScore.AV);
+    }
 }

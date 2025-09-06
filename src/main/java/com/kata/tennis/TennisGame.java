@@ -16,14 +16,14 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
-        this(player1, player2, new Random(), new Set(player1, player2));
+        this(player1, player2, new Random(), new Set());
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer) {
         this.player1 = player1;
         this.player2 = player2;
         this.randomizer = randomizer;
-        this.set = new Set(this.player1, this.player2);
+        this.set = new Set();
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
 

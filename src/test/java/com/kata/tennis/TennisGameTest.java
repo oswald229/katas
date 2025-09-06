@@ -14,7 +14,7 @@ class TennisGameTest {
     void should_increase_round_winner_score() {
         TennisPlayer player1 = new TennisPlayer();
         final TennisPlayer player = new TennisPlayer();
-        TennisGame tennisGame = new TennisGame(player1, player, new Player1Wins(true), new Set(player1, player));
+        TennisGame tennisGame = new TennisGame(player1, player, new Player1Wins(true), new Set());
 
         tennisGame.playRound();
 
@@ -51,7 +51,7 @@ class TennisGameTest {
     void should_give_advantage() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer(TennisScore.FORTY);
-        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true), new Set(player1, player2));
+        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true), new Set());
 
         tennisGame.playRound();
 
@@ -62,7 +62,7 @@ class TennisGameTest {
     void should_throw_on_game_winner() {
         TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer(TennisScore.LOVE);
-        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true), new Set(player1, player2));
+        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true), new Set());
 
 
         GameWinnerException gameWinnerException = assertThrows(GameWinnerException.class, tennisGame::playRound);
@@ -107,7 +107,7 @@ class TennisGameTest {
         void shouldPrintAdvantage() {
             TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
             TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.FORTY);
-            TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true), new Set(player1, player2));
+            TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true), new Set());
 
 
             tennisGame.playRound();
@@ -122,7 +122,7 @@ class TennisGameTest {
         void shouldPrintAdvantageBis() {
             TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
             TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.FORTY);
-            TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(false), new Set(player1, player2));
+            TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(false), new Set());
 
             tennisGame.playRound();
             String expected = "Player 1  40 - 40  Player 2 (*)";
