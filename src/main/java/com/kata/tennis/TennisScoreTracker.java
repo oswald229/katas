@@ -21,6 +21,10 @@ class TennisScoreTracker {
         this(player1, player2, roundsWinners, TennisPlayer.EMPTY_PLAYER);
     }
 
+    public TennisScoreTracker(TennisPlayer player1, TennisPlayer player2) {
+        this(player1, player2, new LinkedList<>());
+    }
+
     boolean deuces() {
         return player1.getScore().equals(TennisScore.FORTY) && player2.getScore().equals(TennisScore.FORTY);
     }

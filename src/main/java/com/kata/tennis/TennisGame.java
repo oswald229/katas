@@ -1,6 +1,5 @@
 package com.kata.tennis;
 
-import java.util.LinkedList;
 import java.util.Random;
 
 public class TennisGame {
@@ -20,11 +19,15 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
+        this(player1, player2, new TennisScoreTracker(player1, player2), new Random());
+    }
+
+    TennisGame(TennisPlayer player1, TennisPlayer player2, TennisScoreTracker scoreTracker, Random randomizer) {
         this.player1 = player1;
         this.player2 = player2;
-        this.gamePrinter = new TennisGameConsolePrinter(this);
-        this.randomizer = new Random();
-        this.scoreTracker = new TennisScoreTracker(player1, player2, new LinkedList<>());
+        this.scoreTracker = scoreTracker;
+        this.randomizer = randomizer;
+        this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.scoreTracker.advantage());
     }
 
     @Deprecated(forRemoval = true)

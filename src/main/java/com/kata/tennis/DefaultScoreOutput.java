@@ -2,7 +2,7 @@ package com.kata.tennis;
 
 import java.util.function.Supplier;
 
-record DefaultScoreLine(TennisPlayer player1, TennisPlayer player2, Supplier<TennisPlayer> advantage) {
+record DefaultScoreOutput(TennisPlayer player1, TennisPlayer player2, Supplier<TennisPlayer> advantage) {
 
     @Override
     public String toString() {

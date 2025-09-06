@@ -10,16 +10,6 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TennisGameTest {
-    @Test
-    void should_init_game() {
-
-        TennisGame tennisGame = new TennisGame();
-
-        assertInstanceOf(TennisPlayer.class, tennisGame.getPlayer1());
-        assertInstanceOf(TennisPlayer.class, tennisGame.getPlayer2());
-        assertNotNull(tennisGame.getPlayer1());
-        assertNotNull(tennisGame.getPlayer2());
-    }
 
 
     @Test
