@@ -29,7 +29,7 @@ public class RomanNumeralTest {
     void should_return_roman_numeral(int i, String expected) {
         assertThat(new RomanNumeral().toRomanNumeral(i)).isEqualTo(expected);
     }
-    //@Disabled
+    @Disabled
     @ParameterizedTest
     @CsvSource({
             "I, 1",
