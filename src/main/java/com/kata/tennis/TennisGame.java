@@ -13,12 +13,17 @@ public class TennisGame {
     private final TennisGamePrinter gamePrinter;
     TennisPlayer advantage;
 
+    TennisPlayer advantage() {
+        return advantage;
+    }
 
     TennisGame() {
         this.player1 = new TennisPlayer(DEFAULT_PLAYER_1_NAME);
         this.player2 = new TennisPlayer(DEFAULT_PLAYER_2_NAME);
         this.gamePrinter = new TennisGameConsolePrinter(this);
         this.randomizer = new Random();
+        this.advantage = TennisPlayer.EMPTY_PLAYER;
+
     }
 
 
@@ -45,7 +50,7 @@ public class TennisGame {
         } else if (wonGame(player)) {
             throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(player.getName()));
         } else {
-            advantage = null;
+            advantage = TennisPlayer.EMPTY_PLAYER;
             player.increaseScore();
         }
         return player;
@@ -60,7 +65,7 @@ public class TennisGame {
     }
 
     private boolean ongoingAdvantage() {
-        return advantage != null;
+        return !advantage.equals(TennisPlayer.EMPTY_PLAYER);
     }
 
     private boolean hasAdvantage(TennisPlayer player) {
@@ -78,5 +83,10 @@ public class TennisGame {
 
     public TennisPlayer getPlayer2() {
         return this.player2;
+    }
+
+    @Override
+    public String toString() {
+        return this.gamePrinter.print();
     }
 }

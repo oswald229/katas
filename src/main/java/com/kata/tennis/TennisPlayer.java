@@ -1,7 +1,7 @@
 package com.kata.tennis;
 
 public class TennisPlayer {
-
+    public static TennisPlayer EMPTY_PLAYER = new TennisPlayer();
     private TennisScore score;
     private String name;
 

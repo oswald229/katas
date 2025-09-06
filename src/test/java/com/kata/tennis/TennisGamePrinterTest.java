@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TennisGamePrinterTest {
     @Test
-    void should_print_current_score() {
+    void should_scoreLine_current_score() {
         TennisPlayer player1 = new TennisPlayer();
         TennisPlayer player2 = new TennisPlayer();
         player1.setScore(TennisScore.FORTY);

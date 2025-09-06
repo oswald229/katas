@@ -1,5 +1,6 @@
 package com.kata.tennis;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -47,7 +48,7 @@ class TennisGameTest {
     }
 
     @Test
-    void should_set_game_back_to_deuces() throws IllegalAccessException {
+    void should_set_game_back_to_deuces() {
         TennisGame tennisGame = new TennisGame();
         TennisPlayer player1 = tennisGame.getPlayer1();
         player1.setScore(TennisScore.FORTY);
@@ -61,7 +62,7 @@ class TennisGameTest {
 
         assertEquals(TennisScore.FORTY, player1.getScore());
         assertEquals(TennisScore.FORTY, player2.getScore());
-        assertNull(tennisGame.advantage);
+        assertEquals(TennisPlayer.EMPTY_PLAYER, tennisGame.advantage);
 
     }
 
@@ -131,14 +132,42 @@ class TennisGameTest {
         assertThrows(MaxRoundNumberReached.class, () -> tennisGame.playGame(1));
     }
 
-    private static void mockRandomizer(TennisGame tennisGame, boolean player1Wins) throws IllegalAccessException {
-        Field randomizer = Arrays.stream(tennisGame.getClass().getDeclaredFields())
-                .filter(field -> field.getName().equals("randomizer"))
-                .findFirst()
-                .orElseThrow();
-        randomizer.setAccessible(true);
-        randomizer.set(tennisGame, new MyRandomizer(player1Wins));
-        randomizer.setAccessible(false);
+    @Nested
+    class ScoreLinePrinting {
+        @Test
+        void shouldPrintAdvantage() {
+
+            TennisGame tennisGame = new TennisGame();
+            TennisPlayer player1 = tennisGame.getPlayer1();
+            player1.setScore(TennisScore.FORTY);
+            TennisPlayer player2 = tennisGame.getPlayer2();
+            player2.setScore(TennisScore.FORTY);
+
+            mockRandomizer(tennisGame, true);
+
+            tennisGame.playRound();
+
+
+            String expected = "(*) Player 1  40 - 40  Player 2";
+
+            assertEquals(expected, tennisGame.toString());
+        }
+
+    }
+
+    private static void mockRandomizer(TennisGame tennisGame, boolean player1Wins) {
+        try {
+
+            Field randomizer = Arrays.stream(tennisGame.getClass().getDeclaredFields())
+                    .filter(field -> field.getName().equals("randomizer"))
+                    .findFirst()
+                    .orElseThrow();
+            randomizer.setAccessible(true);
+            randomizer.set(tennisGame, new MyRandomizer(player1Wins));
+            randomizer.setAccessible(false);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     static class MyRandomizer extends Random {
