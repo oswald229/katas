@@ -13,7 +13,6 @@ class Set {
 
     public void addGame(Game game) {
         this.games.add(game);
-        updateScore();
     }
 
     public Optional<TennisPlayer> winner() {
@@ -26,20 +25,6 @@ class Set {
 
     private Game lastGame() {
         return this.games.peekLast();
-    }
-
-
-    private void updateScore() {
-        Game lastGame = lastGame();
-        if (lastGame.wasDeuces()) {
-            lastGame.winner().advantage();
-            return;
-        }
-        if (lastGame.wasLostAdvantage()) {
-            lastGame.looser().decreaseScore();
-            return;
-        }
-        lastGame.winner().increaseScore();
     }
 
 }

@@ -7,14 +7,15 @@ record Game(TennisPlayer winner,
 ) {
     Game(TennisPlayer winner, TennisPlayer looser) {
         this(winner, looser, winner.getScore(), looser.getScore());
-    }
-
-
-    boolean wasDeuces() {
-        if (noAdvantage()) {
-            return winnerScore.equals(TennisScore.FORTY) && looserScore.equals(TennisScore.FORTY);
+        if (wasDeuces()) {
+            winner.advantage();
+            return;
         }
-        return false;
+        if (wasLostAdvantage()) {
+            looser.decreaseScore();
+            return;
+        }
+        winner.increaseScore();
     }
 
     boolean wasSetWinning() {
@@ -24,11 +25,18 @@ record Game(TennisPlayer winner,
         return noAdvantage() && !wasDeuces() && winnerScore.equals(TennisScore.FORTY);
     }
 
+     private boolean wasDeuces() {
+        if (noAdvantage()) {
+            return winnerScore.equals(TennisScore.FORTY) && looserScore.equals(TennisScore.FORTY);
+        }
+        return false;
+    }
+
     private boolean noAdvantage() {
         return !winnerScore.equals(TennisScore.AV) && !looserScore.equals(TennisScore.AV);
     }
 
-    boolean wasLostAdvantage() {
+     private boolean wasLostAdvantage() {
         return looserScore.equals(TennisScore.AV);
     }
 
