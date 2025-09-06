@@ -11,7 +11,7 @@ public class TennisGame {
     private final TennisPlayer player2;
     private final Random randomizer;
     private final TennisGamePrinter gamePrinter;
-    private TennisScoreTracker score;
+    private Set set;
 
 
     TennisGame() {
@@ -27,19 +27,19 @@ public class TennisGame {
     TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer) {
         this.player1 = player1;
         this.player2 = player2;
-        this.score = new TennisScoreTracker(player1, player2);
+        this.set = new Set(player1, player2);
         this.randomizer = randomizer;
-        this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.score.advantage());
+        this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.set.advantage());
     }
 
     @Deprecated(forRemoval = true)
     public void setAdvantage(TennisPlayer advantage) {
-        this.score = score.withAdvantage(advantage);
+        this.set = set.withAdvantage(advantage);
     }
 
     @Deprecated(forRemoval = true)
     TennisPlayer advantage() {
-        return score.advantage();
+        return set.advantage();
     }
 
     public void playGame(int maxRound) {
@@ -54,12 +54,12 @@ public class TennisGame {
     protected void playRound() {
         boolean player1Won = randomizer.nextBoolean();
         if (player1Won) {
-            score.addGame(new Game(player1, player2));
+            set.addGame(new Game(player1, player2));
         } else {
-            score.addGame(new Game(player2, player1));
+            set.addGame(new Game(player2, player1));
         }
-        if (this.score.winner().isPresent()) {
-            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(score.winner().orElseThrow().toString()));
+        if (this.set.winner().isPresent()) {
+            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(set.winner().orElseThrow().toString()));
         }
     }
 
