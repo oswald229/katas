@@ -1,4 +1,4 @@
 package com.kata.potter;
 
-public class GroupsException extends Exception{
+public class GroupsException extends RuntimeException{
 }

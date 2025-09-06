@@ -6,8 +6,10 @@ import java.math.BigDecimal;
 
 public abstract class AbstractBankAccount implements BankAccount {
     protected final Transactions transactions = new Transactions();
+    private final Overdraft overdraft;
 
     public AbstractBankAccount() {
+        overdraft = new Overdraft(BigDecimal.ZERO);
     }
 
     @Override
@@ -34,7 +36,7 @@ public abstract class AbstractBankAccount implements BankAccount {
     }
 
     protected boolean canOverdraft() {
-        return false;
+        return overdraft.canOverdraft();
     }
 
     @Override

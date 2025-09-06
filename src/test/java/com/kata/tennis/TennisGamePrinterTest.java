@@ -14,9 +14,8 @@ class TennisGamePrinterTest {
         player2.setScore(TennisScore.THIRTY);
 
         String expected = "Player 1  40 - 30  Player 2";
-        TennisGamePrinter spy = Mockito.spy(TennisGamePrinter.class);
 
-        String output = spy.printStringScoreLine(player1, player2);
+        String output = ((TennisGamePrinter) tennisGame -> "").printStringScoreLine(player1, player2);
 
         assertEquals(expected, output);
     }

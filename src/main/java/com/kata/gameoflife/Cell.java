@@ -1,8 +1,5 @@
 package com.kata.gameoflife;
 
-import lombok.Getter;
-
-@Getter
 public class Cell {
     private final int x;
     private final int y;
@@ -16,8 +13,8 @@ public class Cell {
     }
 
     public Cell(int x, int y, String s) {
-        this(x,y);
-        if(s.equals("*")){
+        this(x, y);
+        if (s.equals("*")) {
             status = CellStatus.ALIVE;
         }
     }
@@ -37,6 +34,18 @@ public class Cell {
     }
 
     public boolean isAlive() {
-        return getStatus().equals(CellStatus.ALIVE);
+        return status.equals(CellStatus.ALIVE);
+    }
+
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public CellStatus getStatus() {
+        return this.status;
     }
 }

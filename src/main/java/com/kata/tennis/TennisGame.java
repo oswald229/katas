@@ -1,7 +1,5 @@
 package com.kata.tennis;
 
-import lombok.Getter;
-
 import java.util.Random;
 
 public class TennisGame {
@@ -9,9 +7,7 @@ public class TennisGame {
     private static final String WINNER_STRING_FORMAT = "%s Wins !";
     private static final String DEFAULT_PLAYER_1_NAME = "Player 1";
     private static final String DEFAULT_PLAYER_2_NAME = "Player 2";
-    @Getter
     private final TennisPlayer player1;
-    @Getter
     private final TennisPlayer player2;
     private final Random randomizer = new Random();
     private final TennisGamePrinter gamePrinter;
@@ -75,4 +71,11 @@ public class TennisGame {
     }
 
 
+    public TennisPlayer getPlayer1() {
+        return this.player1;
+    }
+
+    public TennisPlayer getPlayer2() {
+        return this.player2;
+    }
 }

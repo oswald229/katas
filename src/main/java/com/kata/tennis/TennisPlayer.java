@@ -1,11 +1,8 @@
 package com.kata.tennis;
 
-import lombok.Getter;
-
 public class TennisPlayer {
 
     private TennisScore score;
-    @Getter
     private String name;
 
     TennisPlayer() {
@@ -40,4 +37,7 @@ public class TennisPlayer {
         }
     }
 
+    public String getName() {
+        return this.name;
+    }
 }

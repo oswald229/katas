@@ -9,16 +9,6 @@ public class CheckingAccount extends AbstractBankAccount {
     private final Overdraft overdraft;
 
 
-    public record Overdraft(BigDecimal amount) {
-        private boolean canOverdraft() {
-            return amount.compareTo(BigDecimal.ZERO) >= 0;
-        }
-
-        boolean isAbove(BigDecimal abs) {
-            return abs.compareTo(amount()) <= 0;
-        }
-    }
-
     public CheckingAccount() {
         this(BigDecimal.ZERO);
     }

@@ -1,7 +1,7 @@
 package com.kata.potter;
 
 
-import lombok.SneakyThrows;
+
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +13,7 @@ public class GroupsUtils {
     private GroupsUtils() {
     }
 
-    @SneakyThrows
+
     public static <T> List<Set<T>> createGroups(List<T> input, int itemsInGroup) {
 
         int inputSize = input.size();
