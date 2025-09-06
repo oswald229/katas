@@ -19,40 +19,17 @@ class FizzBuzzTest {
      * three and five print "FizzBuzz".
      */
 
-    @Test
-    void should_return_fizz_buzz() {
-
-        List<String> expected = IntStream.range(1, 101)
-                .mapToObj(value -> {
-
-                    if (value % 3 == 0 && value % 5 == 0) {
-                        return "FizzBuzz";
-                    }
-                    if (value % 3 == 0) {
-                        return "Fizz";
-                    }
-                    if (value % 5 == 0) {
-                        return "Buzz";
-                    }
-                    return String.valueOf(value);
-                }).toList();
-
-        assertEquals(expected, FizzBuzz.getFizzBuzz());
-
-    }
-
-
     @ParameterizedTest
     @CsvSource(value = {"5, Buzz", "3, Fizz", "15, FizzBuzz"})
     void apply_fizz_buzz_for_single_number(int n, String expected) {
 
-        assertEquals(expected, FizzBuzz.applyFizzBuzz(n));
+        assertEquals(expected, new FizzBuzz(n).toString());
 
     }
     @ParameterizedTest
     @CsvSource(value = {"5, Buzz", "3, Fizz", "15, FizzBuzz", "200,", "-1,"})
     void apply_fizz_buzz_for_single_number_with_limit(int n, String expected) {
-        assertEquals(expected, FizzBuzz.applyFizzBuzz(n));
+        assertEquals(expected, new FizzBuzz(n).toString());
 
     }
 

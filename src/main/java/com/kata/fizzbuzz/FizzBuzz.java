@@ -1,15 +1,24 @@
 package com.kata.fizzbuzz;
 
-import java.util.List;
 import java.util.function.IntFunction;
-import java.util.stream.IntStream;
 
 public class FizzBuzz {
 
-    private FizzBuzz() {
+    private final String value;
+
+    FizzBuzz(int value){
+        this.value = fizzBuzzFunction.apply(value);
     }
 
-    private static final IntFunction<String> fizzBuzzPredicate = value -> {
+    @Override
+    public String toString() {
+        return this.value;
+    }
+
+    private static final IntFunction<String> fizzBuzzFunction = value -> {
+        if (value <= 0 || value > 100) {
+            return null;
+        }
         String result = "";
         if (value % 3 == 0) {
             result += "Fizz";
@@ -20,15 +29,4 @@ public class FizzBuzz {
         return result.isBlank() ? String.valueOf(value) : result;
     };
 
-    public static List<String> getFizzBuzz() {
-        return IntStream.range(1, 101)
-                .mapToObj(fizzBuzzPredicate).toList();
-    }
-
-    public static String applyFizzBuzz(int n) {
-        if (n > 0 && n < 101) {
-            return fizzBuzzPredicate.apply(n);
-        }
-        return null;
-    }
 }
