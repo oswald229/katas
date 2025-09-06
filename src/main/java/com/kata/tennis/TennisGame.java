@@ -38,7 +38,7 @@ public class TennisGame {
     TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer, Rounds rounds) {
         this.player1 = player1;
         this.player2 = player2;
-        this.score = new TennisScoreTracker(player1, player2, new LinkedList<>(), rounds);
+        this.score = new TennisScoreTracker(player1, player2, rounds);
         this.randomizer = randomizer;
         this.rounds = rounds;
         this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.score.advantage());

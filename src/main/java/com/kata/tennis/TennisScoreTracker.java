@@ -1,29 +1,31 @@
 package com.kata.tennis;
 
-import java.util.LinkedList;
 import java.util.Optional;
 
 class TennisScoreTracker {
 
     private final TennisPlayer player1;
     private final TennisPlayer player2;
-    private final LinkedList<TennisPlayer> roundsWinners;
     private final Rounds rounds;
     private TennisPlayer advantage;
 
-    TennisScoreTracker(TennisPlayer player1, TennisPlayer player2, LinkedList<TennisPlayer> roundsWinners,
+    private TennisScoreTracker(TennisPlayer player1, TennisPlayer player2,
                        TennisPlayer advantage, Rounds rounds) {
         this.player1 = player1;
         this.player2 = player2;
-        this.roundsWinners = roundsWinners;
         this.advantage = advantage;
         this.rounds = rounds;
     }
 
-    TennisScoreTracker(TennisPlayer player1, TennisPlayer player2, LinkedList<TennisPlayer> roundsWinners, Rounds rounds) {
-        this(player1, player2, roundsWinners, TennisPlayer.EMPTY_PLAYER, rounds);
+    TennisScoreTracker(TennisPlayer player1, TennisPlayer player2,
+                       Rounds rounds) {
+        this(player1, player2, TennisPlayer.EMPTY_PLAYER, rounds);
     }
 
+
+    public TennisScoreTracker withAdvantage(TennisPlayer roundWinner) {
+        return new TennisScoreTracker(player1, player2, roundWinner, rounds);
+    }
 
     private boolean deucesOngoing() {
         if (advantage.equals(TennisPlayer.EMPTY_PLAYER)) {
@@ -38,10 +40,6 @@ class TennisScoreTracker {
 
     private boolean hadAdvantage(TennisPlayer player) {
         return advantage.equals(player);
-    }
-
-    public TennisScoreTracker withAdvantage(TennisPlayer roundWinner) {
-        return new TennisScoreTracker(player1, player2, roundsWinners, roundWinner, rounds);
     }
 
 
