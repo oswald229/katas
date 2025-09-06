@@ -14,17 +14,10 @@ class Set {
     public void addGame(Game game) {
         this.games.add(game);
     }
-
     public Optional<TennisPlayer> winner() {
-        Game lastGame = lastGame();
-        if (lastGame.wasSetWinning()) {
-            return Optional.of(lastGame.winner());
-        }
-        return Optional.empty();
-    }
-
-    private Game lastGame() {
-        return this.games.peekLast();
+        return Optional.ofNullable(games.peekLast())
+                .filter(Game::wasSetWinning)
+                .map(Game::winner);
     }
 
 }

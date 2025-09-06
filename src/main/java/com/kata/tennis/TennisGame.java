@@ -52,9 +52,7 @@ public class TennisGame {
     protected void playRound() {
         Game playedGame = this.referee.compute(this.player1, this.player2);
         set.addGame(playedGame);
-        if (playedGame.wasSetWinning()) {
-            new Winner(playedGame.winner()).output();
-        }
+        set.winner().ifPresent(player -> new Winner(player).output());
     }
 
 
