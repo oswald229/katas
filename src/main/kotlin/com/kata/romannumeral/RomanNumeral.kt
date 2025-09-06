@@ -3,7 +3,7 @@ package com.kata.romannumeral
 import java.util.*
 import kotlin.math.abs
 
-class RomanNumeral {
+class RomanNumeralKot {
     private val romanNumeralDefinition: TreeMap<Int, String> = TreeMap(
         mapOf(
             Pair(1, "I"),

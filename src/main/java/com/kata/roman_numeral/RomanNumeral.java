@@ -5,24 +5,26 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public class RomanNumeral {
-    private static final LinkedHashMap<Integer, String> ARAB_ROMAN_MAPPING;
+    private final LinkedHashMap<Integer, String> ARAB_ROMAN_MAPPING;
+    private final Map<String, Integer> ROMAN_ARAB ;
 
-    static {
+
+    public RomanNumeral() {
         ARAB_ROMAN_MAPPING = new LinkedHashMap<>();
         ARAB_ROMAN_MAPPING.put(10, "X");
         ARAB_ROMAN_MAPPING.put(9, "IX");
         ARAB_ROMAN_MAPPING.put(5, "V");
         ARAB_ROMAN_MAPPING.put(4, "IV");
         ARAB_ROMAN_MAPPING.put(1, "I");
-    }
 
-    static Map<String, Integer> ROMAN_ARAB = Map.of(
-            "I", 1,
-            "IV", 4,
-            "V", 5,
-            "IX", 9,
-            "X", 10
-    );
+        ROMAN_ARAB = Map.of(
+                "I", 1,
+                "IV", 4,
+                "V", 5,
+                "IX", 9,
+                "X", 10
+        );
+    }
 
     public String toRomanNumeral(int i) {
         for (Map.Entry<Integer, String> arabRomanEntry : ARAB_ROMAN_MAPPING.entrySet()) {

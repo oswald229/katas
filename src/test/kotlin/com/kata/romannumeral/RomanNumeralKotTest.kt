@@ -85,7 +85,7 @@ class RomanNumeralKotTest {
         "4000, MMMM",
     )
     fun should_return_roman_numeral(i: Int, expected: String) {
-        val romanNumeral = RomanNumeral()
+        val romanNumeral = RomanNumeralKot()
         val result = romanNumeral.toRoman(i)
         assertThat(result).isEqualTo(expected)
     }
