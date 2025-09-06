@@ -1,6 +1,5 @@
 package com.kata.tennis;
 
-import java.util.LinkedList;
 import java.util.Random;
 
 public class TennisGame {
@@ -23,15 +22,6 @@ public class TennisGame {
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
         this(player1, player2,  new Random(), new Set());
-    }
-
-    TennisGame(TennisPlayer player1, TennisPlayer player2, TennisScoreTracker score, Random randomizer) {
-        this.player1 = player1;
-        this.player2 = player2;
-        this.score = score;
-        this.randomizer = randomizer;
-        this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.score.advantage());
-        this.set = new Set(new LinkedList<>());
     }
 
 
