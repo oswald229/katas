@@ -129,10 +129,8 @@ class TennisGameTest {
 
         @Test
         void should_print_current_score() {
-            TennisPlayer player1 = new TennisPlayer("Player 1", new PlayerScore());
-            player1.setScore(TennisScore.FORTY);
-            TennisPlayer player2 = new TennisPlayer("Player 2", new PlayerScore());
-            player2.setScore(TennisScore.THIRTY);
+            TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
+            TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.THIRTY);
 
             TennisGame tennisGame = new TennisGame(player1, player2);
             String expected = "Player 1  40 - 30  Player 2";
@@ -144,12 +142,9 @@ class TennisGameTest {
 
         @Test
         void shouldPrintAdvantage() {
-
-            TennisGame tennisGame = new TennisGame();
-            TennisPlayer player1 = tennisGame.getPlayer1();
-            player1.setScore(TennisScore.FORTY);
-            TennisPlayer player2 = tennisGame.getPlayer2();
-            player2.setScore(TennisScore.FORTY);
+            TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
+            TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.FORTY);
+            TennisGame tennisGame = new TennisGame(player1, player2);
 
             mockRandomizer(tennisGame, true);
 
@@ -163,12 +158,9 @@ class TennisGameTest {
 
         @Test
         void shouldPrintAdvantageBis() {
-
-            TennisGame tennisGame = new TennisGame();
-            TennisPlayer player1 = tennisGame.getPlayer1();
-            player1.setScore(TennisScore.FORTY);
-            TennisPlayer player2 = tennisGame.getPlayer2();
-            player2.setScore(TennisScore.FORTY);
+            TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
+            TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.FORTY);
+            TennisGame tennisGame = new TennisGame(player1, player2);
 
             mockRandomizer(tennisGame, false);
 
