@@ -36,8 +36,8 @@ class TennisScoreTracker {
         return rounds.lead();
     }
 
-    private boolean hasAdvantage(TennisPlayer player) {
-        return !advantage.equals(TennisPlayer.EMPTY_PLAYER) && advantage.equals(player);
+    private boolean hadAdvantage(TennisPlayer player) {
+        return advantage.equals(player);
     }
 
     public TennisScoreTracker withAdvantage(TennisPlayer roundWinner) {
@@ -50,8 +50,8 @@ class TennisScoreTracker {
                 .filter(this::wonGame);
     }
 
-    public boolean wonGame(TennisPlayer player) {
-        return this.hasAdvantage(player)
+    private boolean wonGame(TennisPlayer player) {
+        return this.hadAdvantage(player)
                 || advantage.equals(TennisPlayer.EMPTY_PLAYER)
                 && !this.deucesOngoing() && player.getScore().equals(TennisScore.FORTY);
     }
@@ -67,8 +67,6 @@ class TennisScoreTracker {
             this.advantage = TennisPlayer.EMPTY_PLAYER;
             return;
         }
-
-        this.advantage = TennisPlayer.EMPTY_PLAYER;
         lead().increaseScore();
     }
 
