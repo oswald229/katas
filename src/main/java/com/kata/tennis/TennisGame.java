@@ -9,7 +9,7 @@ public class TennisGame {
     private static final String DEFAULT_PLAYER_2_NAME = "Player 2";
     private final TennisPlayer player1;
     private final TennisPlayer player2;
-    private final Random randomizer = new Random();
+    private final Random randomizer;
     private final TennisGamePrinter gamePrinter;
     TennisPlayer advantage;
 
@@ -17,14 +17,15 @@ public class TennisGame {
     TennisGame() {
         this.player1 = new TennisPlayer(DEFAULT_PLAYER_1_NAME);
         this.player2 = new TennisPlayer(DEFAULT_PLAYER_2_NAME);
-        this.gamePrinter = new TennisGameConsolePrinter();
+        this.gamePrinter = new TennisGameConsolePrinter(this);
+        this.randomizer = new Random();
     }
 
 
     public void playGame(int maxRound) {
         while (maxRound > 0) {
             playRound();
-            gamePrinter.printGameState(this);
+            gamePrinter.print();
             maxRound--;
         }
         throw new MaxRoundNumberReached();

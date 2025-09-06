@@ -1,7 +1,6 @@
 package com.kata.tennis;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,7 +14,7 @@ class TennisGamePrinterTest {
 
         String expected = "Player 1  40 - 30  Player 2";
 
-        String output = ((TennisGamePrinter) tennisGame -> "").printStringScoreLine(player1, player2);
+        String output = ((TennisGamePrinter) tennisGame -> "").scoreLine(player1, player2);
 
         assertEquals(expected, output);
     }

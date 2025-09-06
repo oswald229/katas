@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TennisGameConsolePrinterTest {
 
-    private final TennisGameConsolePrinter printer = new TennisGameConsolePrinter();
 
     @Test
     void shouldPrintAdvantage() {
@@ -19,7 +18,7 @@ class TennisGameConsolePrinterTest {
         tennisGame.advantage = player1;
         String expected = "(*) Player 1  40 - 40  Player 2";
 
-        String output = printer.printGameState(tennisGame);
+        String output = new TennisGameConsolePrinter(tennisGame).print();
         assertEquals(expected, output);
     }
 
@@ -34,7 +33,7 @@ class TennisGameConsolePrinterTest {
         tennisGame.advantage = player2;
         String expected = "Player 1  40 - 40  Player 2 (*)";
 
-        String output = printer.printGameState(tennisGame);
+        String output = new TennisGameConsolePrinter(tennisGame).print();
         assertEquals(expected, output);
     }
 

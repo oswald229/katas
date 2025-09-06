@@ -1,9 +1,22 @@
 package com.kata.tennis;
 
+import java.io.PrintStream;
+
 public class TennisGameConsolePrinter implements TennisGamePrinter {
+    private final TennisGame tennisGame;
+    private final String DEFAULT_SCORELINE_FORMAT;
+
+    public TennisGameConsolePrinter(TennisGame tennisGame) {
+        this(tennisGame, "Player 1  %s - %s  Player 2");
+    }
+
+    public TennisGameConsolePrinter(TennisGame tennisGame, String scorelineFormat) {
+        this.tennisGame = tennisGame;
+        this.DEFAULT_SCORELINE_FORMAT = scorelineFormat;
+    }
 
     @Override
-    public String printGameState(TennisGame tennisGame) {
+    public String print(PrintStream out) {
 
         TennisPlayer player1 = tennisGame.getPlayer1();
         TennisPlayer player2 = tennisGame.getPlayer2();
@@ -16,9 +29,9 @@ public class TennisGameConsolePrinter implements TennisGamePrinter {
             }
 
         } else {
-            state = printStringScoreLine(player1, player2);
+            state = scoreLine(player1, player2);
         }
-        System.out.println(state);
+        out.println(state);
         return state;
     }
 
