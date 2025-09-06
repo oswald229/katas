@@ -1,5 +1,6 @@
 package com.kata.tennis;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class TennisGame {
@@ -11,33 +12,46 @@ public class TennisGame {
     private final TennisPlayer player2;
     private final Random randomizer;
     private final TennisGamePrinter gamePrinter;
-    private TennisScoreTracker scoreTracker;
+    private final Rounds rounds;
+    private TennisScoreTracker score;
 
 
     TennisGame() {
-        this(new TennisPlayer(DEFAULT_PLAYER_1_NAME, new PlayerScore()), new TennisPlayer(DEFAULT_PLAYER_2_NAME, new PlayerScore()));
+        this(new TennisPlayer(DEFAULT_PLAYER_1_NAME, new PlayerScore()),
+                new TennisPlayer(DEFAULT_PLAYER_2_NAME, new PlayerScore()));
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
-        this(player1, player2, new TennisScoreTracker(player1, player2), new Random());
+        this(player1, player2,  new Random(), new Rounds());
     }
 
-    TennisGame(TennisPlayer player1, TennisPlayer player2, TennisScoreTracker scoreTracker, Random randomizer) {
+    TennisGame(TennisPlayer player1, TennisPlayer player2, TennisScoreTracker score, Random randomizer) {
         this.player1 = player1;
         this.player2 = player2;
-        this.scoreTracker = scoreTracker;
+        this.score = score;
         this.randomizer = randomizer;
-        this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.scoreTracker.advantage());
+        this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.score.advantage());
+        this.rounds = new Rounds(new LinkedList<>());
+    }
+
+
+    TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer, Rounds rounds) {
+        this.player1 = player1;
+        this.player2 = player2;
+        this.score = new TennisScoreTracker(player1, player2, new LinkedList<>(), rounds);
+        this.randomizer = randomizer;
+        this.rounds = rounds;
+        this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.score.advantage());
     }
 
     @Deprecated(forRemoval = true)
     public void setAdvantage(TennisPlayer advantage) {
-        this.scoreTracker = scoreTracker.withAdvantage(advantage);
+        this.score = score.withAdvantage(advantage);
     }
 
     @Deprecated(forRemoval = true)
     TennisPlayer advantage() {
-        return scoreTracker.advantage();
+        return score.advantage();
     }
 
     public void playGame(int maxRound) {
@@ -49,14 +63,13 @@ public class TennisGame {
         throw new MaxRoundNumberReached();
     }
 
-    protected TennisPlayer playRound() {
+    protected void playRound() {
         TennisPlayer player = randomizer.nextBoolean() ? player1 : player2;
-        this.scoreTracker.addLastRoundWinner(player);
-        if (this.scoreTracker.winner().isPresent()) {
-            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(scoreTracker.winner().orElseThrow().name()));
+        rounds.addWinner(player);
+        if (this.score.winner().isPresent()) {
+            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(score.winner().orElseThrow().name()));
         }
-        scoreTracker.manageWinningRound();
-        return scoreTracker.lastWinner();
+        score.update();
     }
 
 
