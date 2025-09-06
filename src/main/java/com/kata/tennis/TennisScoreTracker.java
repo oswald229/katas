@@ -26,24 +26,16 @@ class TennisScoreTracker {
         this(player1, player2, new LinkedList<>());
     }
 
-    boolean deuces() {
+    private boolean deucesOngoing() {
         return player1.getScore().equals(TennisScore.FORTY) && player2.getScore().equals(TennisScore.FORTY);
-    }
-
-    void addLastRoundWinner(TennisPlayer player) {
-        roundsWinners.add(player);
     }
 
     TennisPlayer lastWinner() {
         return roundsWinners.peekLast();
     }
 
-    public boolean ongoingAdvantage() {
-        return !advantage.equals(TennisPlayer.EMPTY_PLAYER);
-    }
-
     private boolean hasAdvantage(TennisPlayer player) {
-        return ongoingAdvantage() && advantage.equals(player);
+        return !advantage.equals(TennisPlayer.EMPTY_PLAYER) && advantage.equals(player);
     }
 
     public TennisScoreTracker withAdvantage(TennisPlayer roundWinner) {
@@ -53,7 +45,8 @@ class TennisScoreTracker {
 
     public boolean gameWon() {
         TennisPlayer player = roundsWinners.peekLast();
-        return this.hasAdvantage(player) || !this.ongoingAdvantage() && !this.deuces() && player.getScore().equals(TennisScore.FORTY);
+        return this.hasAdvantage(player)
+                || advantage.equals(TennisPlayer.EMPTY_PLAYER) && !this.deucesOngoing() && player.getScore().equals(TennisScore.FORTY);
     }
 
     public Optional<TennisPlayer> winner() {
@@ -64,22 +57,30 @@ class TennisScoreTracker {
     }
 
 
-    boolean wonAdvantage() {
-        if (ongoingAdvantage()) return false;
-        return deuces();
-    }
-
     public TennisPlayer advantage() {
         return advantage;
     }
 
+    void addLastRoundWinner(TennisPlayer player) {
+        roundsWinners.add(player);
+    }
+
     void manageWinningRound() {
-        TennisPlayer roundWinner = lastWinner();
-        if (wonAdvantage()) {
-            this.advantage = roundWinner;
+        computeAdvantage();
+        if (lastWinner().equals(advantage())) {
             return;
         }
+        lastWinner().increaseScore();
+    }
+
+    private void computeAdvantage() {
+        if (advantage().equals(TennisPlayer.EMPTY_PLAYER)) {
+            boolean deucesOngoing = deucesOngoing();
+            if (deucesOngoing) {
+                this.advantage = lastWinner();
+                return;
+            }
+        }
         this.advantage = TennisPlayer.EMPTY_PLAYER;
-        roundWinner.increaseScore();
     }
 }
