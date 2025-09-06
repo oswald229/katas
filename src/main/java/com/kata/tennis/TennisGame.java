@@ -20,7 +20,7 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
-        this(player1, player2,  new Random());
+        this(player1, player2, new Random());
     }
 
 
@@ -30,6 +30,35 @@ public class TennisGame {
         this.set = new Set(player1, player2);
         this.randomizer = randomizer;
         this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.set.advantage());
+    }
+
+    public void play(int maxGames) {
+        while (maxGames > 0) {
+            playRound();
+            gamePrinter.print();
+            maxGames--;
+        }
+        throw new MaxRoundNumberReached();
+    }
+
+    protected void playRound() {
+        playGame();
+        if (this.set.winner().isPresent()) {
+            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(set.winner().orElseThrow().toString()));
+        }
+    }
+
+    private void playGame() {
+        if (randomizer.nextBoolean()) {
+            set.addGame(new Game(player1, player2));
+            return;
+        }
+        set.addGame(new Game(player2, player1));
+    }
+
+    @Override
+    public String toString() {
+        return this.gamePrinter.output();
     }
 
     @Deprecated(forRemoval = true)
@@ -42,28 +71,6 @@ public class TennisGame {
         return set.advantage();
     }
 
-    public void playGame(int maxRound) {
-        while (maxRound > 0) {
-            playRound();
-            gamePrinter.print();
-            maxRound--;
-        }
-        throw new MaxRoundNumberReached();
-    }
-
-    protected void playRound() {
-        boolean player1Won = randomizer.nextBoolean();
-        if (player1Won) {
-            set.addGame(new Game(player1, player2));
-        } else {
-            set.addGame(new Game(player2, player1));
-        }
-        if (this.set.winner().isPresent()) {
-            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(set.winner().orElseThrow().toString()));
-        }
-    }
-
-
     @Deprecated(forRemoval = true)
     public TennisPlayer getPlayer1() {
         return this.player1;
@@ -72,10 +79,5 @@ public class TennisGame {
     @Deprecated(forRemoval = true)
     public TennisPlayer getPlayer2() {
         return this.player2;
-    }
-
-    @Override
-    public String toString() {
-        return this.gamePrinter.print();
     }
 }

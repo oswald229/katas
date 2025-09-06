@@ -14,7 +14,12 @@ public class TennisGameConsolePrinter implements TennisGamePrinter {
     }
 
     @Override
-    public String print(PrintStream out) {
+    public void print(PrintStream out) {
+        out.println(scoreLine.toString());
+    }
+
+    @Override
+    public String output() {
         return scoreLine.toString();
     }
 

@@ -95,7 +95,7 @@ class TennisGameTest {
     @Test
     void should_throw_when_max_round_number_has_been_reached() {
         TennisGame tennisGame = new TennisGame();
-        assertThrows(MaxRoundNumberReached.class, () -> tennisGame.playGame(1));
+        assertThrows(MaxRoundNumberReached.class, () -> tennisGame.play(1));
     }
 
     @Nested
@@ -142,7 +142,7 @@ class TennisGameTest {
             tennisGame.playRound();
             String expected = "Player 1  40 - 40  Player 2 (*)";
 
-            String output = new TennisGameConsolePrinter(tennisGame).print();
+            String output = new TennisGameConsolePrinter(tennisGame).output();
             assertEquals(expected, output);
         }
 
