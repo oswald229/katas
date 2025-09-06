@@ -11,12 +11,13 @@ class TennisScoreTracker {
     private TennisPlayer advantage;
 
     TennisScoreTracker(TennisPlayer player1, TennisPlayer player2, LinkedList<TennisPlayer> roundsWinners,
-                       TennisPlayer advantage){
+                       TennisPlayer advantage) {
         this.player1 = player1;
         this.player2 = player2;
         this.roundsWinners = roundsWinners;
         this.advantage = advantage;
     }
+
     TennisScoreTracker(TennisPlayer player1, TennisPlayer player2, LinkedList<TennisPlayer> roundsWinners) {
         this(player1, player2, roundsWinners, TennisPlayer.EMPTY_PLAYER);
     }
@@ -41,7 +42,7 @@ class TennisScoreTracker {
         return !advantage.equals(TennisPlayer.EMPTY_PLAYER);
     }
 
-    public boolean hasAdvantage(TennisPlayer player) {
+    private boolean hasAdvantage(TennisPlayer player) {
         return ongoingAdvantage() && advantage.equals(player);
     }
 
@@ -56,7 +57,10 @@ class TennisScoreTracker {
     }
 
     public Optional<TennisPlayer> winner() {
-        return Optional.ofNullable(roundsWinners.peekLast());
+        if (gameWon()) {
+            return Optional.ofNullable(roundsWinners.peekLast());
+        }
+        return Optional.empty();
     }
 
 

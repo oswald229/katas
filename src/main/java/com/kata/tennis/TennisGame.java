@@ -52,7 +52,7 @@ public class TennisGame {
     protected TennisPlayer playRound() {
         TennisPlayer player = randomizer.nextBoolean() ? player1 : player2;
         this.scoreTracker.addLastRoundWinner(player);
-        if (scoreTracker.gameWon()) {
+        if (this.scoreTracker.winner().isPresent()) {
             throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(scoreTracker.winner().orElseThrow().name()));
         }
         scoreTracker.manageWinningRound();
