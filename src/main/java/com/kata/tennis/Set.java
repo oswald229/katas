@@ -65,7 +65,7 @@ class Set {
         lead().increaseScore();
     }
 
-    public TennisPlayer advantage() {
+    private TennisPlayer advantage() {
         if (player1.getScore().equals(TennisScore.AV)) {
             return player1;
         }
@@ -79,6 +79,7 @@ class Set {
         this.oldSet.addGame(game);
     }
 
+    @Deprecated
     record OldSet(LinkedList<Game> games) {
         public OldSet() {
             this(new LinkedList<>());

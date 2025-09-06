@@ -8,7 +8,7 @@ public class TennisGame {
     private final TennisPlayer player2;
     private final Random randomizer;
     private final TennisGamePrinter gamePrinter;
-    private Set set;
+    private final Set set;
 
 
     TennisGame() {
@@ -19,14 +19,22 @@ public class TennisGame {
         this(player1, player2, new Random(), new Set(player1, player2));
     }
 
+    TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer) {
+        this.player1 = player1;
+        this.player2 = player2;
+        this.randomizer = randomizer;
+        this.set = new Set(this.player1, this.player2);
+        this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
+    }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer, Set set) {
         this.player1 = player1;
         this.player2 = player2;
         this.randomizer = randomizer;
         this.set = set;
-        this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.set.advantage());
+        this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
+
 
     public void play(int maxGames) {
         while (maxGames > 0) {
