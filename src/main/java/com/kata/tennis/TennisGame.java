@@ -16,33 +16,28 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
-        this(player1, player2, new Random(), new Set());
-    }
-
-    TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer) {
-        this.player1 = player1;
-        this.player2 = player2;
-        this.referee = (p1, p2) -> {
-            if (randomizer.nextBoolean()) {
+        this(player1, player2, new Set(), (p1, p2) -> {
+            if (new Random().nextBoolean()) {
                 return new DefaultGame(p1, p2);
             }
             return new DefaultGame(p2, p1);
-        };
+        });
+    }
+
+    TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee) {
+        this.player1 = player1;
+        this.player2 = player2;
+        this.referee = referee;
         this.set = new Set();
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
 
-    TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer, Set set) {
+    private TennisGame(TennisPlayer player1, TennisPlayer player2, Set set, Referee referee) {
         this.player1 = player1;
         this.player2 = player2;
         this.set = set;
+        this.referee = referee;
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
-        this.referee = (p1, p2) -> {
-            if (randomizer.nextBoolean()) {
-                return new DefaultGame(p1, p2);
-            }
-            return new DefaultGame(p2, p1);
-        };
     }
 
     public void play(int maxGames) {

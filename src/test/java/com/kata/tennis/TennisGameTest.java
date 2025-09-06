@@ -3,8 +3,6 @@ package com.kata.tennis;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class TennisGameTest {
@@ -13,8 +11,9 @@ class TennisGameTest {
     @Test
     void should_increase_round_winner_score() {
         TennisPlayer player1 = new TennisPlayer();
-        final TennisPlayer player = new TennisPlayer();
-        TennisGame tennisGame = new TennisGame(player1, player, new Player1Wins(true), new Set());
+        final TennisPlayer player2 = new TennisPlayer();
+        TennisGame tennisGame = new TennisGame(player1, player2,
+                (p1, p2) -> new DefaultGame(player1, player2));
 
         tennisGame.playRound();
 
@@ -25,7 +24,8 @@ class TennisGameTest {
     void should_set_game_back_to_deuces() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.AV);
         TennisPlayer player2 = new TennisPlayer(TennisScore.FORTY);
-        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(false));
+        TennisGame tennisGame = new TennisGame(player1, player2,
+                (p1, p2) -> new DefaultGame(player2, player1));
 
         tennisGame.playRound();
 
@@ -38,7 +38,8 @@ class TennisGameTest {
     void should_set_game_back_to_deuces_bis() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer(TennisScore.AV);
-        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true));
+        TennisGame tennisGame = new TennisGame(player1, player2,
+                (p1, p2) -> new DefaultGame(player1, player2));
 
         tennisGame.playRound();
 
@@ -51,7 +52,8 @@ class TennisGameTest {
     void should_give_advantage() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer(TennisScore.FORTY);
-        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true), new Set());
+        TennisGame tennisGame = new TennisGame(player1, player2,
+                (p1, p2) -> new DefaultGame(player1, player2));
 
         tennisGame.playRound();
 
@@ -62,7 +64,8 @@ class TennisGameTest {
     void should_throw_on_game_winner() {
         TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer(TennisScore.LOVE);
-        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true), new Set());
+        TennisGame tennisGame = new TennisGame(player1, player2,
+                (p1, p2) -> new DefaultGame(player1, player2));
 
 
         GameWinnerException gameWinnerException = assertThrows(GameWinnerException.class, tennisGame::playRound);
@@ -73,7 +76,8 @@ class TennisGameTest {
     void should_win_on_advantage() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.FORTY);
         TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.AV);
-        TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(false));
+        TennisGame tennisGame = new TennisGame(player1, player2,
+                (p1, p2) -> new DefaultGame(player2, player1));
 
 
         GameWinnerException gameWinnerException = assertThrows(GameWinnerException.class, tennisGame::playRound);
@@ -107,7 +111,8 @@ class TennisGameTest {
         void shouldPrintAdvantage() {
             TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
             TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.FORTY);
-            TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(true), new Set());
+            TennisGame tennisGame = new TennisGame(player1, player2,
+                    (p1, p2) -> new DefaultGame(player1, player2));
 
 
             tennisGame.playRound();
@@ -122,7 +127,8 @@ class TennisGameTest {
         void shouldPrintAdvantageBis() {
             TennisPlayer player1 = new TennisPlayer("Player 1", TennisScore.FORTY);
             TennisPlayer player2 = new TennisPlayer("Player 2", TennisScore.FORTY);
-            TennisGame tennisGame = new TennisGame(player1, player2, new Player1Wins(false), new Set());
+            TennisGame tennisGame = new TennisGame(player1, player2,
+                    (p1, p2) -> new DefaultGame(player2, player1));
 
             tennisGame.playRound();
             String expected = "Player 1  40 - 40  Player 2 (*)";
@@ -133,17 +139,4 @@ class TennisGameTest {
 
     }
 
-    static class Player1Wins extends Random {
-
-        private final boolean player1Wins;
-
-        public Player1Wins(boolean player1Wins) {
-            this.player1Wins = player1Wins;
-        }
-
-        @Override
-        public boolean nextBoolean() {
-            return player1Wins;
-        }
-    }
 }
