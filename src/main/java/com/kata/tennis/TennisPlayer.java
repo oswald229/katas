@@ -8,10 +8,20 @@ public class TennisPlayer {
     TennisPlayer() {
         this("Player", new PlayerScore());
     }
-
+    public TennisPlayer(PlayerScore score) {
+        this("Player", score);
+    }
     public TennisPlayer(String name, PlayerScore score) {
         this.name = name;
         this.score = score;
+    }
+
+    public TennisPlayer(TennisScore tennisScore) {
+        this("Player", new PlayerScore(tennisScore));
+    }
+
+    public TennisPlayer(String name, TennisScore tennisScore) {
+        this(name, new PlayerScore(tennisScore));
     }
 
     public TennisScore getScore() {

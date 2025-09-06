@@ -11,7 +11,7 @@ public class TennisGame {
     private final TennisPlayer player2;
     private final Random randomizer;
     private final TennisGamePrinter gamePrinter;
-    TennisPlayer advantage;
+    private TennisPlayer advantage;
 
     TennisGame() {
         this(new TennisPlayer(DEFAULT_PLAYER_1_NAME, new PlayerScore()), new TennisPlayer(DEFAULT_PLAYER_2_NAME, new PlayerScore()));
@@ -25,6 +25,10 @@ public class TennisGame {
         this.advantage = TennisPlayer.EMPTY_PLAYER;
     }
 
+    @Deprecated(forRemoval = true)
+    public void setAdvantage(TennisPlayer advantage) {
+        this.advantage = advantage;
+    }
 
     TennisPlayer advantage() {
         return advantage;
