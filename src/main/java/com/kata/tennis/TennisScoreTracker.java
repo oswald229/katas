@@ -27,7 +27,10 @@ class TennisScoreTracker {
     }
 
     private boolean deucesOngoing() {
-        return player1.getScore().equals(TennisScore.FORTY) && player2.getScore().equals(TennisScore.FORTY);
+        if (advantage().equals(TennisPlayer.EMPTY_PLAYER)) {
+            return player1.getScore().equals(TennisScore.FORTY) && player2.getScore().equals(TennisScore.FORTY);
+        }
+        return false;
     }
 
     TennisPlayer lastWinner() {
@@ -35,7 +38,7 @@ class TennisScoreTracker {
     }
 
     private boolean hasAdvantage(TennisPlayer player) {
-        return !advantage.equals(TennisPlayer.EMPTY_PLAYER) && advantage.equals(player);
+        return !advantage().equals(TennisPlayer.EMPTY_PLAYER) && advantage().equals(player);
     }
 
     public TennisScoreTracker withAdvantage(TennisPlayer roundWinner) {
@@ -46,7 +49,7 @@ class TennisScoreTracker {
     public boolean gameWon() {
         TennisPlayer player = roundsWinners.peekLast();
         return this.hasAdvantage(player)
-                || advantage.equals(TennisPlayer.EMPTY_PLAYER) && !this.deucesOngoing() && player.getScore().equals(TennisScore.FORTY);
+                || advantage().equals(TennisPlayer.EMPTY_PLAYER) && !this.deucesOngoing() && player.getScore().equals(TennisScore.FORTY);
     }
 
     public Optional<TennisPlayer> winner() {
@@ -74,12 +77,9 @@ class TennisScoreTracker {
     }
 
     private void computeAdvantage() {
-        if (advantage().equals(TennisPlayer.EMPTY_PLAYER)) {
-            boolean deucesOngoing = deucesOngoing();
-            if (deucesOngoing) {
-                this.advantage = lastWinner();
-                return;
-            }
+        if (deucesOngoing()) {
+            this.advantage = lastWinner();
+            return;
         }
         this.advantage = TennisPlayer.EMPTY_PLAYER;
     }
