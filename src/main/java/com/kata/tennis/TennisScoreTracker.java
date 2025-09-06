@@ -46,17 +46,15 @@ class TennisScoreTracker {
     }
 
 
-    public boolean gameWon() {
-        TennisPlayer player = roundsWinners.peekLast();
-        return this.hasAdvantage(player)
-                || advantage().equals(TennisPlayer.EMPTY_PLAYER) && !this.deucesOngoing() && player.getScore().equals(TennisScore.FORTY);
+    public Optional<TennisPlayer> winner() {
+        return Optional.ofNullable(roundsWinners.peekLast())
+                .filter(this::wonGame);
     }
 
-    public Optional<TennisPlayer> winner() {
-        if (gameWon()) {
-            return Optional.ofNullable(roundsWinners.peekLast());
-        }
-        return Optional.empty();
+    public boolean wonGame(TennisPlayer player) {
+        return this.hasAdvantage(player)
+                || advantage().equals(TennisPlayer.EMPTY_PLAYER)
+                && !this.deucesOngoing() && player.getScore().equals(TennisScore.FORTY);
     }
 
 
