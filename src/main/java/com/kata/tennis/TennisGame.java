@@ -14,7 +14,7 @@ public class TennisGame {
     TennisPlayer advantage;
 
     TennisGame() {
-        this(new TennisPlayer(DEFAULT_PLAYER_1_NAME), new TennisPlayer(DEFAULT_PLAYER_2_NAME));
+        this(new TennisPlayer(DEFAULT_PLAYER_1_NAME, new PlayerScore()), new TennisPlayer(DEFAULT_PLAYER_2_NAME, new PlayerScore()));
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
@@ -51,7 +51,7 @@ public class TennisGame {
         if (wonAdvantage()) {
             advantage = player;
         } else if (wonGame(player)) {
-            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(player.getName()));
+            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(player.name()));
         } else {
             advantage = TennisPlayer.EMPTY_PLAYER;
             player.increaseScore();

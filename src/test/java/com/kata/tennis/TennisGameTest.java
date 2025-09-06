@@ -138,9 +138,9 @@ class TennisGameTest {
 
         @Test
         void should_print_current_score() {
-            TennisPlayer player1 = new TennisPlayer("Player 1");
+            TennisPlayer player1 = new TennisPlayer("Player 1", new PlayerScore());
             player1.setScore(TennisScore.FORTY);
-            TennisPlayer player2 = new TennisPlayer("Player 2");
+            TennisPlayer player2 = new TennisPlayer("Player 2", new PlayerScore());
             player2.setScore(TennisScore.THIRTY);
 
             TennisGame tennisGame = new TennisGame(player1, player2);

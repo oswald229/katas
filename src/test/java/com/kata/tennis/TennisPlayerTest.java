@@ -39,7 +39,7 @@ class TennisPlayerTest {
     @Test
     void can_have_a_name() {
         String name = "John Doe";
-        TennisPlayer player = new TennisPlayer(name);
-        assertEquals(name, player.getName());
+        TennisPlayer player = new TennisPlayer(name, new PlayerScore());
+        assertEquals(name, player.name());
     }
 }

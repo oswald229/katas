@@ -2,42 +2,32 @@ package com.kata.tennis;
 
 public class TennisPlayer {
     public static TennisPlayer EMPTY_PLAYER = new TennisPlayer();
-    private TennisScore score;
-    private String name;
+    private final String name;
+    private PlayerScore score;
 
     TennisPlayer() {
-        initRequiredFields();
+        this("Player", new PlayerScore());
     }
 
-    public TennisPlayer(String name) {
-        initRequiredFields();
+    public TennisPlayer(String name, PlayerScore score) {
         this.name = name;
+        this.score = score;
     }
-
-    private void initRequiredFields() {
-        score = TennisScore.LOVE;
-    }
-
 
     public TennisScore getScore() {
-        return score;
+        return score.score();
     }
 
+    @Deprecated(forRemoval = true)
     public void setScore(TennisScore newScore) {
-        score = newScore;
+        score = new PlayerScore(newScore);
     }
 
     public void increaseScore() {
-        switch (score) {
-            case LOVE -> setScore(TennisScore.FIFTEEN);
-            case FIFTEEN -> setScore(TennisScore.THIRTY);
-            case THIRTY -> setScore(TennisScore.FORTY);
-            default -> {
-            }
-        }
+        this.score = this.score.nextScore();
     }
 
-    public String getName() {
+    public String name() {
         return this.name;
     }
 }
