@@ -37,4 +37,9 @@ public class TennisPlayer {
     public void decreaseScore() {
         this.score = this.score.decreased();
     }
+
+    @Override
+    public String toString() {
+        return "%s".formatted(name);
+    }
 }

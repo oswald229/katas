@@ -7,11 +7,15 @@ record DefaultScoreOutput(TennisPlayer player1, TennisPlayer player2, Supplier<T
     @Override
     public String toString() {
         if (advantage.get().equals(TennisPlayer.EMPTY_PLAYER)) {
-            return "Player 1  %s - %s  Player 2".formatted(player1.getScore(), player2.getScore());
+            return "%s  %s - %s  %s".formatted(player1, player1.getScore(), player2.getScore(), player2);
         }
         if (advantage.get().equals(player1)) {
-            return ("(*) " + "Player 1  %s - %s  Player 2").formatted(player1.getScore(), player2.getScore());
+            return ("(*) " + "%s  %s - %s  %s").formatted(
+                    player1, player1.getScore(),
+                    player2.getScore(), player2);
         }
-        return ("Player 1  %s - %s  Player 2" + " (*)").formatted(player1.getScore(), player2.getScore());
+        return ("%s  %s - %s  %s" + " (*)")
+                .formatted(player1, player1.getScore(),
+                        player2.getScore(), player2);
     }
 }
