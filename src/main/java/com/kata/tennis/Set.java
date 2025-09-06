@@ -7,13 +7,10 @@ class Set {
 
     private final LinkedList<Game> games;
 
-    Set() {
-        this.games = new LinkedList<>();
+    Set(LinkedList<Game> games) {
+        this.games = games;
     }
 
-    public void addGame(Game game) {
-        this.games.add(game);
-    }
     public Optional<TennisPlayer> winner() {
         return Optional.ofNullable(games.peekLast())
                 .filter(Game::wasSetWinning)

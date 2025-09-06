@@ -1,5 +1,6 @@
 package com.kata.tennis;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class TennisGame {
@@ -9,6 +10,7 @@ public class TennisGame {
     private final TennisGamePrinter gamePrinter;
     private final Set set;
     private final Referee referee;
+    private final LinkedList<Game> games;
 
 
     TennisGame() {
@@ -16,26 +18,28 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
-        this(player1, player2, new Set(), (p1, p2) -> {
+        this(player1, player2, (p1, p2) -> {
             if (new Random().nextBoolean()) {
                 return new DefaultGame(p1, p2);
             }
             return new DefaultGame(p2, p1);
-        });
+        }, new LinkedList<>());
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee) {
         this.player1 = player1;
         this.player2 = player2;
         this.referee = referee;
-        this.set = new Set();
+        this.games = new LinkedList<>();
+        this.set = new Set(games);
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
 
-    private TennisGame(TennisPlayer player1, TennisPlayer player2, Set set, Referee referee) {
+    private TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee, LinkedList<Game> games) {
         this.player1 = player1;
         this.player2 = player2;
-        this.set = set;
+        this.games = games;
+        this.set = new Set(games);
         this.referee = referee;
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
@@ -51,7 +55,7 @@ public class TennisGame {
 
     protected void playRound() {
         Game playedGame = this.referee.compute(this.player1, this.player2);
-        set.addGame(playedGame);
+        games.add(playedGame);
         set.winner().ifPresent(player -> new Winner(player).output());
     }
 
