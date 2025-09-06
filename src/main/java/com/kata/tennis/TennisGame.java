@@ -12,7 +12,7 @@ public class TennisGame {
     private final TennisPlayer player2;
     private final Random randomizer;
     private final TennisGamePrinter gamePrinter;
-    private final Rounds rounds;
+    private final Set set;
     private TennisScoreTracker score;
 
 
@@ -22,7 +22,7 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
-        this(player1, player2,  new Random(), new Rounds());
+        this(player1, player2,  new Random(), new Set());
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2, TennisScoreTracker score, Random randomizer) {
@@ -31,16 +31,16 @@ public class TennisGame {
         this.score = score;
         this.randomizer = randomizer;
         this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.score.advantage());
-        this.rounds = new Rounds(new LinkedList<>(), new LinkedList<>());
+        this.set = new Set(new LinkedList<>());
     }
 
 
-    TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer, Rounds rounds) {
+    TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer, Set set) {
         this.player1 = player1;
         this.player2 = player2;
-        this.score = new TennisScoreTracker(player1, player2, rounds);
+        this.score = new TennisScoreTracker(player1, player2, set);
         this.randomizer = randomizer;
-        this.rounds = rounds;
+        this.set = set;
         this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.score.advantage());
     }
 
@@ -67,11 +67,10 @@ public class TennisGame {
         boolean player1Won = randomizer.nextBoolean();
         TennisPlayer roundWinner = player1Won ? player1 : player2;
         if (player1Won) {
-            rounds.addGame(new Game(player1, player2));
+            set.addGame(new Game(player1, player2));
         } else {
-            rounds.addGame(new Game(player2, player1));
+            set.addGame(new Game(player2, player1));
         }
-        rounds.addWinner(roundWinner);
         if (this.score.winner().isPresent()) {
             throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(score.winner().orElseThrow().name()));
         }

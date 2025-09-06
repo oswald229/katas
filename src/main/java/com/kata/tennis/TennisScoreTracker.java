@@ -6,25 +6,25 @@ class TennisScoreTracker {
 
     private final TennisPlayer player1;
     private final TennisPlayer player2;
-    private final Rounds rounds;
+    private final Set set;
     private TennisPlayer advantage;
 
     private TennisScoreTracker(TennisPlayer player1, TennisPlayer player2,
-                       TennisPlayer advantage, Rounds rounds) {
+                       TennisPlayer advantage, Set set) {
         this.player1 = player1;
         this.player2 = player2;
         this.advantage = advantage;
-        this.rounds = rounds;
+        this.set = set;
     }
 
     TennisScoreTracker(TennisPlayer player1, TennisPlayer player2,
-                       Rounds rounds) {
-        this(player1, player2, TennisPlayer.EMPTY_PLAYER, rounds);
+                       Set set) {
+        this(player1, player2, TennisPlayer.EMPTY_PLAYER, set);
     }
 
 
     public TennisScoreTracker withAdvantage(TennisPlayer roundWinner) {
-        return new TennisScoreTracker(player1, player2, roundWinner, rounds);
+        return new TennisScoreTracker(player1, player2, roundWinner, set);
     }
 
     private boolean deucesOngoing() {
@@ -35,7 +35,7 @@ class TennisScoreTracker {
     }
 
     private TennisPlayer lead() {
-        return rounds.lead();
+        return set.lead();
     }
 
     private boolean hadAdvantage(TennisPlayer player) {
@@ -56,12 +56,12 @@ class TennisScoreTracker {
 
 
     void update() {
-        if (deucesOngoing() && rounds.lastGameWinner().equals(lead())) {
+        if (deucesOngoing() && set.lastGameWinner().equals(lead())) {
             this.advantage = lead();
             return;
         }
-        if (rounds.lastGameLoser().getScore().equals(TennisScore.AV)){
-            rounds.lastGameLoser().decreaseScore();
+        if (set.lastGameLoser().getScore().equals(TennisScore.AV)){
+            set.lastGameLoser().decreaseScore();
             this.advantage = TennisPlayer.EMPTY_PLAYER;
             return;
         }
