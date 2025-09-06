@@ -138,12 +138,12 @@ class TennisGameTest {
 
         @Test
         void should_print_current_score() {
-            TennisGame tennisGame = new TennisGame();
-            TennisPlayer player1 = tennisGame.getPlayer1();
+            TennisPlayer player1 = new TennisPlayer("Player 1");
             player1.setScore(TennisScore.FORTY);
-            TennisPlayer player2 = tennisGame.getPlayer2();
+            TennisPlayer player2 = new TennisPlayer("Player 2");
             player2.setScore(TennisScore.THIRTY);
 
+            TennisGame tennisGame = new TennisGame(player1, player2);
             String expected = "Player 1  40 - 30  Player 2";
 
             String output = tennisGame.toString();

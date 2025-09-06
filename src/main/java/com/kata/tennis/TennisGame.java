@@ -13,19 +13,22 @@ public class TennisGame {
     private final TennisGamePrinter gamePrinter;
     TennisPlayer advantage;
 
-    TennisPlayer advantage() {
-        return advantage;
+    TennisGame() {
+        this(new TennisPlayer(DEFAULT_PLAYER_1_NAME), new TennisPlayer(DEFAULT_PLAYER_2_NAME));
     }
 
-    TennisGame() {
-        this.player1 = new TennisPlayer(DEFAULT_PLAYER_1_NAME);
-        this.player2 = new TennisPlayer(DEFAULT_PLAYER_2_NAME);
+    TennisGame(TennisPlayer player1, TennisPlayer player2) {
+        this.player1 = player1;
+        this.player2 = player2;
         this.gamePrinter = new TennisGameConsolePrinter(this);
         this.randomizer = new Random();
         this.advantage = TennisPlayer.EMPTY_PLAYER;
-
     }
 
+
+    TennisPlayer advantage() {
+        return advantage;
+    }
 
     public void playGame(int maxRound) {
         while (maxRound > 0) {
