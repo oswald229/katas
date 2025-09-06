@@ -28,7 +28,7 @@ class DepositServiceTest {
         var presenter = mock(DepositPresenter.class);
         var depositRequestModel = new DepositRequestModel(accountId, depositAmount);
 
-        new DepositService(repository, presenter).execute(depositRequestModel);
+        new DepositService(presenter, repository).execute(depositRequestModel);
 
         verify(repository).getAccountById(accountId);
         verify(repository).save(any(BankAccount.class));
