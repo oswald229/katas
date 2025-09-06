@@ -1,7 +1,5 @@
 package com.kata.tennis;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Random;
 
 public class TennisGame {
@@ -61,9 +59,9 @@ public class TennisGame {
         }
         set.addGame(playedGame(player2, player1));
     }
-    
+
     private Game playedGame(TennisPlayer winner, TennisPlayer looser) {
-        return new Game(winner, looser);
+        return new DefaultGame(winner, looser);
     }
 
     @Override
