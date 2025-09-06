@@ -1,5 +1,7 @@
 package com.kata.tennis;
 
+import java.util.LinkedList;
+import java.util.Optional;
 import java.util.Random;
 
 public class TennisGame {
@@ -12,6 +14,8 @@ public class TennisGame {
     private final Random randomizer;
     private final TennisGamePrinter gamePrinter;
     private TennisPlayer advantage;
+    LinkedList<TennisPlayer> winningRounds;
+
 
     TennisGame() {
         this(new TennisPlayer(DEFAULT_PLAYER_1_NAME, new PlayerScore()), new TennisPlayer(DEFAULT_PLAYER_2_NAME, new PlayerScore()));
@@ -23,6 +27,7 @@ public class TennisGame {
         this.gamePrinter = new TennisGameConsolePrinter(this);
         this.randomizer = new Random();
         this.advantage = TennisPlayer.EMPTY_PLAYER;
+        this.winningRounds = new LinkedList<>();
     }
 
     @Deprecated(forRemoval = true)
@@ -30,6 +35,7 @@ public class TennisGame {
         this.advantage = advantage;
     }
 
+    @Deprecated(forRemoval = true)
     TennisPlayer advantage() {
         return advantage;
     }
@@ -43,24 +49,23 @@ public class TennisGame {
         throw new MaxRoundNumberReached();
     }
 
-    public TennisPlayer playRound() {
-        return manageWinningRound(roundWinner());
+    protected TennisPlayer playRound() {
+        TennisPlayer player = randomizer.nextBoolean() ? player1 : player2;
+        winningRounds.add(player);
+        return manageWinningRound();
     }
 
-    private TennisPlayer roundWinner() {
-        return randomizer.nextBoolean() ? player1 : player2;
-    }
-
-    private TennisPlayer manageWinningRound(TennisPlayer player) {
+    private TennisPlayer manageWinningRound() {
+        TennisPlayer roundWinner = Optional.ofNullable(winningRounds.peekLast()).orElse(TennisPlayer.EMPTY_PLAYER);
         if (wonAdvantage()) {
-            advantage = player;
-        } else if (wonGame(player)) {
-            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(player.name()));
-        } else {
-            advantage = TennisPlayer.EMPTY_PLAYER;
-            player.increaseScore();
+            this.advantage = roundWinner;
+            return this.advantage;
+        } else if (wonGame(roundWinner)) {
+            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(roundWinner.name()));
         }
-        return player;
+        this.advantage = TennisPlayer.EMPTY_PLAYER;
+        roundWinner.increaseScore();
+        return roundWinner;
     }
 
     private boolean wonGame(TennisPlayer player) {
@@ -83,11 +88,12 @@ public class TennisGame {
         return player1.getScore().equals(TennisScore.FORTY) && player2.getScore().equals(TennisScore.FORTY);
     }
 
-
+    @Deprecated(forRemoval = true)
     public TennisPlayer getPlayer1() {
         return this.player1;
     }
 
+    @Deprecated(forRemoval = true)
     public TennisPlayer getPlayer2() {
         return this.player2;
     }
