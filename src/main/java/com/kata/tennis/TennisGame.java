@@ -4,9 +4,6 @@ import java.util.Random;
 
 public class TennisGame {
 
-    private static final String WINNER_STRING_FORMAT = "%s Wins !";
-    private static final String DEFAULT_PLAYER_1_NAME = "Player 1";
-    private static final String DEFAULT_PLAYER_2_NAME = "Player 2";
     private final TennisPlayer player1;
     private final TennisPlayer player2;
     private final Random randomizer;
@@ -15,8 +12,7 @@ public class TennisGame {
 
 
     TennisGame() {
-        this(new TennisPlayer(DEFAULT_PLAYER_1_NAME, new PlayerScore()),
-                new TennisPlayer(DEFAULT_PLAYER_2_NAME, new PlayerScore()));
+        this(new TennisPlayer("Player 1"), new TennisPlayer("Player 2"));
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
@@ -44,7 +40,7 @@ public class TennisGame {
     protected void playRound() {
         playGame();
         if (this.set.winner().isPresent()) {
-            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(set.winner().orElseThrow().toString()));
+            new Winner(this.set.winner().get()).output();
         }
     }
 

@@ -22,6 +22,10 @@ public class TennisPlayer {
         this(name, new PlayerScore(tennisScore));
     }
 
+    public TennisPlayer(String name) {
+        this(name, new PlayerScore());
+    }
+
     public TennisScore getScore() {
         return score.score();
     }
