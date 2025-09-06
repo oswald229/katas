@@ -1,12 +1,13 @@
 package com.kata.roman_numeral;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
 public class RomanNumeral {
     private final LinkedHashMap<Integer, String> ARAB_ROMAN_MAPPING;
-    private final Map<String, Integer> ROMAN_ARAB ;
+    private final LinkedHashMap<String, Integer> ROMAN_ARAB ;
 
 
     public RomanNumeral() {
@@ -16,14 +17,12 @@ public class RomanNumeral {
         ARAB_ROMAN_MAPPING.put(5, "V");
         ARAB_ROMAN_MAPPING.put(4, "IV");
         ARAB_ROMAN_MAPPING.put(1, "I");
-
-        ROMAN_ARAB = Map.of(
-                "I", 1,
-                "IV", 4,
-                "V", 5,
-                "IX", 9,
-                "X", 10
-        );
+        ROMAN_ARAB = new LinkedHashMap<>();
+        ROMAN_ARAB.put("I", 1);
+        ROMAN_ARAB.put("IV", 4);
+        ROMAN_ARAB.put("V", 5);
+        ROMAN_ARAB.put("IX", 9);
+        ROMAN_ARAB.put("X", 10);
     }
 
     public String toRomanNumeral(int i) {
