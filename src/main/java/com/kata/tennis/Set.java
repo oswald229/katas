@@ -14,10 +14,6 @@ class Set {
         this(player1, player2, TennisPlayer.EMPTY_PLAYER, new OldSet());
     }
 
-    public Set withAdvantage(TennisPlayer roundWinner) {
-        return new Set(player1, player2, roundWinner, oldSet);
-    }
-
     private Set(TennisPlayer player1, TennisPlayer player2,
                 TennisPlayer advantage, OldSet oldSet) {
         this.player1 = player1;
@@ -27,7 +23,7 @@ class Set {
     }
 
     private boolean deucesOngoing() {
-        if (advantage.equals(TennisPlayer.EMPTY_PLAYER)) {
+        if (advantage().equals(TennisPlayer.EMPTY_PLAYER)) {
             return player1.getScore().equals(TennisScore.FORTY) && player2.getScore().equals(TennisScore.FORTY);
         }
         return false;
@@ -38,7 +34,7 @@ class Set {
     }
 
     private boolean hadAdvantage(TennisPlayer player) {
-        return advantage.equals(player);
+        return advantage().equals(player);
     }
 
 
@@ -53,7 +49,7 @@ class Set {
 
     private boolean wonGame(TennisPlayer player) {
         return this.hadAdvantage(player)
-                || advantage.equals(TennisPlayer.EMPTY_PLAYER)
+                || advantage().equals(TennisPlayer.EMPTY_PLAYER)
                 && !this.deucesOngoing()
                 && player.getScore().equals(TennisScore.FORTY);
     }

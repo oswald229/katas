@@ -16,15 +16,15 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
-        this(player1, player2, new Random());
+        this(player1, player2, new Random(), new Set(player1, player2));
     }
 
 
-    TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer) {
+    TennisGame(TennisPlayer player1, TennisPlayer player2, Random randomizer, Set set) {
         this.player1 = player1;
         this.player2 = player2;
-        this.set = new Set(player1, player2);
         this.randomizer = randomizer;
+        this.set = set;
         this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.set.advantage());
     }
 
@@ -55,11 +55,6 @@ public class TennisGame {
     @Override
     public String toString() {
         return this.gamePrinter.output();
-    }
-
-    @Deprecated(forRemoval = true)
-    public void setAdvantage(TennisPlayer advantage) {
-        this.set = set.withAdvantage(advantage);
     }
 
 }
