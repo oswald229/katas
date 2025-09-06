@@ -9,22 +9,20 @@ class TennisScoreTracker {
     private final Set set;
     private TennisPlayer advantage;
 
+    TennisScoreTracker(TennisPlayer player1, TennisPlayer player2) {
+        this(player1, player2, TennisPlayer.EMPTY_PLAYER, new Set());
+    }
+
+    public TennisScoreTracker withAdvantage(TennisPlayer roundWinner) {
+        return new TennisScoreTracker(player1, player2, roundWinner, set);
+    }
+
     private TennisScoreTracker(TennisPlayer player1, TennisPlayer player2,
                                TennisPlayer advantage, Set set) {
         this.player1 = player1;
         this.player2 = player2;
         this.advantage = advantage;
         this.set = set;
-    }
-
-    TennisScoreTracker(TennisPlayer player1, TennisPlayer player2,
-                       Set set) {
-        this(player1, player2, TennisPlayer.EMPTY_PLAYER, set);
-    }
-
-
-    public TennisScoreTracker withAdvantage(TennisPlayer roundWinner) {
-        return new TennisScoreTracker(player1, player2, roundWinner, set);
     }
 
     private boolean deucesOngoing() {
@@ -75,5 +73,9 @@ class TennisScoreTracker {
 
     public TennisPlayer advantage() {
         return advantage;
+    }
+
+    public void addGame(Game game) {
+       this.set.addGame(game);
     }
 }
