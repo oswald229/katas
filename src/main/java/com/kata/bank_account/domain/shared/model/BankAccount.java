@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public interface BankAccount {
-    UUID getId();
 
     void deposit(BigDecimal amount);
 

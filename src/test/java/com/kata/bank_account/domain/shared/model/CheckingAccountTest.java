@@ -49,8 +49,8 @@ class CheckingAccountTest {
     @Test
     void should_allow_withdraw_within_overdraft() {
         var overdraft = BigDecimal.valueOf(50);
-        CheckingAccount checkingAccount = new CheckingAccount();
-        checkingAccount.setOverdraft(overdraft);
+        CheckingAccount checkingAccount = new CheckingAccount(overdraft);
+
 
         checkingAccount.withdraw(BigDecimal.TEN);
 
@@ -61,8 +61,7 @@ class CheckingAccountTest {
     @Test
     void should_throw_on_withdraw_greater_than_over_draft() {
         var overdraft = BigDecimal.valueOf(50);
-        CheckingAccount checkingAccount = new CheckingAccount();
-        checkingAccount.setOverdraft(overdraft);
+        CheckingAccount checkingAccount = new CheckingAccount(overdraft);
 
         BigDecimal withDrawAmount = BigDecimal.valueOf(100);
 

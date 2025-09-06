@@ -1,16 +1,14 @@
 package com.kata.bank_account.domain.shared.model;
 
 import com.kata.bank_account.domain.shared.exception.InsufficientFundsException;
-import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public abstract class AbstractBankAccount implements BankAccount {
-    @Getter
-    protected UUID id;
     protected final Transactions transactions = new Transactions();
 
+    public AbstractBankAccount() {
+    }
 
     @Override
     public void deposit(BigDecimal amount) {

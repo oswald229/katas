@@ -4,6 +4,7 @@ import com.kata.bank_account.domain.shared.constant.AccountType;
 import com.kata.bank_account.domain.shared.exception.AboveCeilingException;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class SavingAccount extends AbstractBankAccount {
 
