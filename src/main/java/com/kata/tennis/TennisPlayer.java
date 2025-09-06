@@ -30,16 +30,12 @@ public class TennisPlayer {
         this.score = this.score.nextScore();
     }
 
-    public String name() {
-        return this.name;
-    }
-
     public void decreaseScore() {
         this.score = this.score.decreased();
     }
 
     @Override
     public String toString() {
-        return "%s".formatted(name);
+        return name;
     }
 }

@@ -71,7 +71,7 @@ public class TennisGame {
             set.addGame(new Game(player2, player1));
         }
         if (this.score.winner().isPresent()) {
-            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(score.winner().orElseThrow().name()));
+            throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(score.winner().orElseThrow().toString()));
         }
     }
 
