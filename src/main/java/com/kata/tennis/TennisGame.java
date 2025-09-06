@@ -62,8 +62,4 @@ public class TennisGame {
         this.set = set.withAdvantage(advantage);
     }
 
-    @Deprecated(forRemoval = true)
-    TennisPlayer advantage() {
-        return set.advantage();
-    }
 }
