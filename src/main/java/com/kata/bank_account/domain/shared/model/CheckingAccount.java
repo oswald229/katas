@@ -14,8 +14,8 @@ public class CheckingAccount extends AbstractBankAccount {
             return amount.compareTo(BigDecimal.ZERO) >= 0;
         }
 
-        boolean isWithinOverdraft(BigDecimal balance, BigDecimal amount) {
-            return balance.subtract(amount).abs().compareTo(amount()) <= 0;
+        boolean isAbove(BigDecimal abs) {
+            return abs.compareTo(amount()) <= 0;
         }
     }
 
@@ -35,7 +35,7 @@ public class CheckingAccount extends AbstractBankAccount {
     }
 
     private boolean isWithinOverdraft(BigDecimal amount) {
-        return overdraft.isWithinOverdraft(balance(), amount);
+        return overdraft.isAbove(balance().subtract(amount).abs());
     }
 
     @Override

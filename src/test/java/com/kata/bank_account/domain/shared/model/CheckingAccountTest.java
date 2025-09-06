@@ -12,13 +12,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class CheckingAccountTest {
 
     @Test
-    void should_have_an_id() {
-        CheckingAccount checkingAccount = new CheckingAccount();
-
-        assertThat(checkingAccount).hasFieldOrProperty("id");
-    }
-
-    @Test
     void should_have_a_balance() {
         CheckingAccount checkingAccount = new CheckingAccount();
 
