@@ -45,7 +45,12 @@ public class SimpleLift implements Lift {
     }
 
     @Override
-    public void setOngoingDirection() {
+    public void setNextDirection() {
+        this.setOngoingDirection();
+    }
+
+
+    private void setOngoingDirection() {
         ongoingDirection = nextStop()
                 .map(nextStop -> currentFloor.to(nextStop))
                 .orElse(Direction.NONE);

@@ -23,7 +23,6 @@ public class FloorPriorityDecorator extends LiftDecorator {
         return nextStop()
                 .filter(nextFloor -> floor.to(nextFloor).equals(ongoingDirection()))
                 .isPresent()
-
                 && (liftIsAboveCurrentFloorUponDownshifting(floor) || liftIsBelowCurrentFloorUponUplifting(floor));
     }
 
