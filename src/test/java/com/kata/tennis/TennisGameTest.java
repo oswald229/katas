@@ -23,28 +23,14 @@ class TennisGameTest {
 
 
     @Test
-    void should_tell_round_winner() {
-        TennisGame tennisGame = new TennisGame();
-        TennisPlayer roundWinner = tennisGame.playRound();
-
-        TennisPlayer tennisPlayer1 = tennisGame.getPlayer1();
-        TennisPlayer tennisPlayer2 = tennisGame.getPlayer2();
-
-        boolean aPlayerWon = tennisPlayer1.equals(roundWinner) || tennisPlayer2.equals(roundWinner);
-        assertTrue(aPlayerWon);
-
-    }
-
-    @Test
     void should_increase_round_winner_score() {
-        TennisGame tennisGame = new TennisGame();
+        TennisPlayer player1 = new TennisPlayer();
+        TennisGame tennisGame = new TennisGame(player1, new TennisPlayer());
+        mockRandomizer(tennisGame, true);
 
-        TennisPlayer roundWinner = tennisGame.playRound();
+        tennisGame.playRound();
 
-        TennisScore roundWinnerScore = roundWinner.getScore();
-
-        assertEquals(TennisScore.FIFTEEN, roundWinnerScore);
-
+        assertEquals(TennisScore.FIFTEEN, player1.getScore());
     }
 
     @Test

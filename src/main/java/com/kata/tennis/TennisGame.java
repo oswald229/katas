@@ -1,7 +1,6 @@
 package com.kata.tennis;
 
 import java.util.LinkedList;
-import java.util.Optional;
 import java.util.Random;
 
 public class TennisGame {
@@ -13,8 +12,8 @@ public class TennisGame {
     private final TennisPlayer player2;
     private final Random randomizer;
     private final TennisGamePrinter gamePrinter;
+    private final TennisScoreTracker scoreTracker;
     private TennisPlayer advantage;
-    LinkedList<TennisPlayer> winningRounds;
 
 
     TennisGame() {
@@ -27,7 +26,27 @@ public class TennisGame {
         this.gamePrinter = new TennisGameConsolePrinter(this);
         this.randomizer = new Random();
         this.advantage = TennisPlayer.EMPTY_PLAYER;
-        this.winningRounds = new LinkedList<>();
+        this.scoreTracker = new TennisScoreTracker(player1, player2, new LinkedList<>());
+    }
+
+    record TennisScoreTracker(TennisPlayer player1, TennisPlayer player2, LinkedList<TennisPlayer> roundsWinners,
+                              TennisPlayer advantage) {
+
+        TennisScoreTracker(TennisPlayer player1, TennisPlayer player2, LinkedList<TennisPlayer> roundsWinners){
+            this(player1, player2, roundsWinners, TennisPlayer.EMPTY_PLAYER);
+        }
+        private boolean deuces() {
+            return player1.getScore().equals(TennisScore.FORTY) && player2.getScore().equals(TennisScore.FORTY);
+        }
+
+        void addLastRoundWinner(TennisPlayer player) {
+            roundsWinners.add(player);
+        }
+
+        TennisPlayer lastWinner() {
+            return roundsWinners.peekLast();
+        }
+
     }
 
     @Deprecated(forRemoval = true)
@@ -51,15 +70,15 @@ public class TennisGame {
 
     protected TennisPlayer playRound() {
         TennisPlayer player = randomizer.nextBoolean() ? player1 : player2;
-        winningRounds.add(player);
+        this.scoreTracker.addLastRoundWinner(player);
         return manageWinningRound();
     }
 
     private TennisPlayer manageWinningRound() {
-        TennisPlayer roundWinner = Optional.ofNullable(winningRounds.peekLast()).orElse(TennisPlayer.EMPTY_PLAYER);
+        TennisPlayer roundWinner = scoreTracker.lastWinner();
         if (wonAdvantage()) {
             this.advantage = roundWinner;
-            return this.advantage;
+            return roundWinner;
         } else if (wonGame(roundWinner)) {
             throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(roundWinner.name()));
         }
@@ -69,11 +88,12 @@ public class TennisGame {
     }
 
     private boolean wonGame(TennisPlayer player) {
-        return hasAdvantage(player) || !ongoingAdvantage() && !deuces() && player.getScore().equals(TennisScore.FORTY);
+        return hasAdvantage(player) || !ongoingAdvantage() && !scoreTracker.deuces() && player.getScore().equals(TennisScore.FORTY);
     }
 
     private boolean wonAdvantage() {
-        return !ongoingAdvantage() && deuces();
+        if (ongoingAdvantage()) return false;
+        return scoreTracker.deuces();
     }
 
     private boolean ongoingAdvantage() {
@@ -82,10 +102,6 @@ public class TennisGame {
 
     private boolean hasAdvantage(TennisPlayer player) {
         return ongoingAdvantage() && advantage.equals(player);
-    }
-
-    private boolean deuces() {
-        return player1.getScore().equals(TennisScore.FORTY) && player2.getScore().equals(TennisScore.FORTY);
     }
 
     @Deprecated(forRemoval = true)
