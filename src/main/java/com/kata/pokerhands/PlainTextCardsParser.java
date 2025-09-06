@@ -1,24 +1,41 @@
 package com.kata.pokerhands;
 
+import com.kata.pokerhands.game.io.CardsParser;
+import com.kata.pokerhands.game.model.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class PokerHandParser {
-    private PokerHandParser(){}
-    public static Card mapCard(String cardString) {
+public class PlainTextCardsParser implements CardsParser<String> {
+
+    @Override
+    public PokerHand parse(String hand) {
+        var cards = new Cards(sortHand(Arrays.stream(hand.split(" ")).
+                map(this::mapCard)
+                .toList()));
+        return new PokerHand(cards);
+    }
+
+    private List<Card> sortHand(List<Card> unsorted) {
+        var cards = new ArrayList<>(unsorted);
+        Collections.sort(cards);
+        Collections.reverse(cards);
+        return cards;
+    }
+
+    private Card mapCard(String cardString) {
         String[] split = cardString.trim().split("");
         String value = split[0];
         String suit = split[1];
-
         return Card.builder()
                 .value(getCardValue(value))
                 .suit(getCardSuit(suit))
                 .build();
     }
 
-    public static Suit getCardSuit(String suit) {
+    private static Suit getCardSuit(String suit) {
         return switch (suit) {
             case "C" -> Suit.CLUBS;
             case "D" -> Suit.DIAMONDS;
@@ -27,7 +44,7 @@ public class PokerHandParser {
         };
     }
 
-    public static CardValue getCardValue(String value) {
+    private static CardValue getCardValue(String value) {
 
         return switch (value) {
             case "A" -> CardValue.ACE;
@@ -44,17 +61,5 @@ public class PokerHandParser {
                     .get(Integer.parseInt(value) - 2);
 
         };
-    }
-
-    public static List<Card> mapHand(String hand) {
-        String[] cards = hand.split(" ");
-        return Arrays.stream(cards).map(PokerHandParser::mapCard).toList();
-    }
-
-    public static List<Card> sortHand(List<Card> unsorted) {
-        ArrayList<Card> cards = new ArrayList<>(unsorted);
-        Collections.sort(cards);
-        Collections.reverse(cards);
-        return cards;
     }
 }

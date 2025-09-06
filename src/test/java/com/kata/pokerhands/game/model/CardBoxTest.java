@@ -1,5 +1,6 @@
-package com.kata.pokerhands;
+package com.kata.pokerhands.game.model;
 
+import com.kata.pokerhands.game.exception.CardBoxException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -45,7 +46,7 @@ class CardBoxTest {
     @Test
     void should_throw_when_no_more_hand_to_give() {
         Exception exception = assertThrows(CardBoxException.class, () -> CardBox.getPokerHands(11));
-        assertEquals("Not enough cards left.", exception.getMessage());
+        assertEquals("Not enough content left.", exception.getMessage());
     }
 
 

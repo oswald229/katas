@@ -1,13 +1,8 @@
-package com.kata.pokerhands;
+package com.kata.pokerhands.game.model;
 
-import lombok.SneakyThrows;
+import com.kata.pokerhands.game.exception.CardBoxException;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -39,11 +34,10 @@ public class CardBox {
         return draw(5);
     }
 
-    @SneakyThrows
     private static List<Card> draw(int amount) {
         if (cards.size() < amount) {
             reset();
-            throw new CardBoxException("Not enough cards left.");
+            throw new CardBoxException("Not enough content left.");
         }
         Collections.shuffle(CardBox.cards);
         List<Card> hand = new ArrayList<>(CardBox.cards.subList(0, amount));
@@ -64,10 +58,9 @@ public class CardBox {
                 .toList();
     }
 
-    @SneakyThrows
     public static Card getCard(String cardString) {
         for (Card card : cards) {
-            if (card.cardString().equals(cardString))
+            if (card.toString().equals(cardString))
                 return card;
         }
         throw new CardBoxException("Unknown card.");

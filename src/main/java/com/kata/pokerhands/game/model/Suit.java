@@ -1,4 +1,4 @@
-package com.kata.pokerhands;
+package com.kata.pokerhands.game.model;
 
 public enum Suit {
     CLUBS("C"), DIAMONDS("D"), HEARTS("H"), SPADES("S");
