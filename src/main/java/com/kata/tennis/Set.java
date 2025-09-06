@@ -9,7 +9,7 @@ record Set(LinkedList<Game> games) {
     }
 
     TennisPlayer lead() {
-        return Optional.ofNullable(games.peekLast())
+        return Optional.ofNullable(lastGame())
                 .map(Game::winner)
                 .orElse(TennisPlayer.EMPTY_PLAYER);
     }
@@ -19,10 +19,14 @@ record Set(LinkedList<Game> games) {
     }
 
     public TennisPlayer lastGameWinner() {
-        return games.peekLast().winner();
+        return lastGame().winner();
+    }
+
+    private Game lastGame() {
+        return Optional.ofNullable(games.peekLast()).orElseThrow();
     }
 
     public TennisPlayer lastGameLoser() {
-        return games.peekLast().looser();
+        return lastGame().looser();
     }
 }
