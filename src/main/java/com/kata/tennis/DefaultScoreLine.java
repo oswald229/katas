@@ -6,7 +6,7 @@ record DefaultScoreLine(TennisPlayer player1, TennisPlayer player2, Supplier<Ten
 
     @Override
     public String toString() {
-        if (advantage == null) {
+        if (advantage.get().equals(TennisPlayer.EMPTY_PLAYER)) {
             return "Player 1  %s - %s  Player 2".formatted(player1.getScore(), player2.getScore());
         }
         if (advantage.get().equals(player1)) {

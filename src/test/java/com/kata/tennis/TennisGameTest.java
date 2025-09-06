@@ -67,7 +67,7 @@ class TennisGameTest {
     }
 
     @Test
-    void should_set_game_back_to_deuces_bis() throws IllegalAccessException {
+    void should_set_game_back_to_deuces_bis() {
         TennisGame tennisGame = new TennisGame();
         TennisPlayer player1 = tennisGame.getPlayer1();
         player1.setScore(TennisScore.FORTY);
@@ -85,7 +85,7 @@ class TennisGameTest {
     }
 
     @Test
-    void should_give_advantage() throws IllegalAccessException {
+    void should_give_advantage() {
         TennisGame tennisGame = new TennisGame();
         TennisPlayer player1 = tennisGame.getPlayer1();
         player1.setScore(TennisScore.FORTY);
@@ -100,7 +100,7 @@ class TennisGameTest {
     }
 
     @Test
-    void should_throw_on_game_winner() throws IllegalAccessException {
+    void should_throw_on_game_winner() {
         TennisGame tennisGame = new TennisGame();
         TennisPlayer player1 = tennisGame.getPlayer1();
         player1.setScore(TennisScore.FORTY);
@@ -114,7 +114,7 @@ class TennisGameTest {
     }
 
     @Test
-    void should_win_on_advantage() throws IllegalAccessException {
+    void should_win_on_advantage() {
         TennisGame tennisGame = new TennisGame();
         TennisPlayer player1 = tennisGame.getPlayer1();
         player1.setScore(TennisScore.FORTY);
@@ -134,6 +134,23 @@ class TennisGameTest {
 
     @Nested
     class ScoreLinePrinting {
+
+
+        @Test
+        void should_print_current_score() {
+            TennisGame tennisGame = new TennisGame();
+            TennisPlayer player1 = tennisGame.getPlayer1();
+            player1.setScore(TennisScore.FORTY);
+            TennisPlayer player2 = tennisGame.getPlayer2();
+            player2.setScore(TennisScore.THIRTY);
+
+            String expected = "Player 1  40 - 30  Player 2";
+
+            String output = tennisGame.toString();
+
+            assertEquals(expected, output);
+        }
+
         @Test
         void shouldPrintAdvantage() {
 
@@ -151,6 +168,24 @@ class TennisGameTest {
             String expected = "(*) Player 1  40 - 40  Player 2";
 
             assertEquals(expected, tennisGame.toString());
+        }
+
+        @Test
+        void shouldPrintAdvantageBis() {
+
+            TennisGame tennisGame = new TennisGame();
+            TennisPlayer player1 = tennisGame.getPlayer1();
+            player1.setScore(TennisScore.FORTY);
+            TennisPlayer player2 = tennisGame.getPlayer2();
+            player2.setScore(TennisScore.FORTY);
+
+            mockRandomizer(tennisGame, false);
+
+            tennisGame.playRound();
+            String expected = "Player 1  40 - 40  Player 2 (*)";
+
+            String output = new TennisGameConsolePrinter(tennisGame).print();
+            assertEquals(expected, output);
         }
 
     }
