@@ -33,4 +33,8 @@ public class TennisPlayer {
     public String name() {
         return this.name;
     }
+
+    public void decreaseScore() {
+        this.score = this.score.decreased();
+    }
 }

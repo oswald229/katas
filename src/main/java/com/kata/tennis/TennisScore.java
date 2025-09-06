@@ -4,7 +4,7 @@ public enum TennisScore {
     LOVE(0),
     FIFTEEN(15),
     THIRTY(30),
-    FORTY(40);
+    FORTY(40), AV(45);
 
     private final int score;
 

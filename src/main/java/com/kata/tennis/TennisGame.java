@@ -31,7 +31,7 @@ public class TennisGame {
         this.score = score;
         this.randomizer = randomizer;
         this.gamePrinter = new TennisGameConsolePrinter(player1, player2, () -> this.score.advantage());
-        this.rounds = new Rounds(new LinkedList<>());
+        this.rounds = new Rounds(new LinkedList<>(), new LinkedList<>());
     }
 
 
@@ -64,8 +64,14 @@ public class TennisGame {
     }
 
     protected void playRound() {
-        TennisPlayer player = randomizer.nextBoolean() ? player1 : player2;
-        rounds.addWinner(player);
+        boolean player1Won = randomizer.nextBoolean();
+        TennisPlayer roundWinner = player1Won ? player1 : player2;
+        if (player1Won) {
+            rounds.addGame(new Game(player1, player2));
+        } else {
+            rounds.addGame(new Game(player2, player1));
+        }
+        rounds.addWinner(roundWinner);
         if (this.score.winner().isPresent()) {
             throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(score.winner().orElseThrow().name()));
         }

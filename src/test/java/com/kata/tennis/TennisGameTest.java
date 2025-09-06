@@ -25,7 +25,7 @@ class TennisGameTest {
 
     @Test
     void should_set_game_back_to_deuces() {
-        TennisPlayer player1 = new TennisPlayer(TennisScore.FORTY);
+        TennisPlayer player1 = new TennisPlayer(TennisScore.AV);
         TennisPlayer player2 = new TennisPlayer(TennisScore.FORTY);
         TennisGame tennisGame = new TennisGame(player1, player2);
         tennisGame.setAdvantage(player1);
@@ -42,7 +42,7 @@ class TennisGameTest {
     @Test
     void should_set_game_back_to_deuces_bis() {
         TennisPlayer player1 = new TennisPlayer(TennisScore.FORTY);
-        TennisPlayer player2 = new TennisPlayer(TennisScore.FORTY);
+        TennisPlayer player2 = new TennisPlayer(TennisScore.AV);
         TennisGame tennisGame = new TennisGame(player1, player2);
         tennisGame.setAdvantage(player2);
 

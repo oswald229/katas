@@ -58,10 +58,16 @@ class TennisScoreTracker {
 
 
     void update() {
-        if (deucesOngoing()) {
+        if (deucesOngoing() && rounds.lastGameWinner().equals(lead())) {
             this.advantage = lead();
             return;
         }
+        if (rounds.lastGameLoser().getScore().equals(TennisScore.AV)){
+            rounds.lastGameLoser().decreaseScore();
+            this.advantage = TennisPlayer.EMPTY_PLAYER;
+            return;
+        }
+
         this.advantage = TennisPlayer.EMPTY_PLAYER;
         lead().increaseScore();
     }
