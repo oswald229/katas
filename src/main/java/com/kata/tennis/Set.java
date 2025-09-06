@@ -8,17 +8,15 @@ class Set {
     private final TennisPlayer player1;
     private final TennisPlayer player2;
     private final OldSet oldSet;
-    private TennisPlayer advantage;
 
     Set(TennisPlayer player1, TennisPlayer player2) {
-        this(player1, player2, TennisPlayer.EMPTY_PLAYER, new OldSet());
+        this(player1, player2, new OldSet());
     }
 
     private Set(TennisPlayer player1, TennisPlayer player2,
-                TennisPlayer advantage, OldSet oldSet) {
+                OldSet oldSet) {
         this.player1 = player1;
         this.player2 = player2;
-        this.advantage = advantage;
         this.oldSet = oldSet;
     }
 
@@ -55,26 +53,30 @@ class Set {
     }
 
 
-     private void update() {
+    private void update() {
         if (deucesOngoing() && oldSet.lastGameWinner().equals(lead())) {
-            this.advantage = lead();
             lead().increaseScore();
             return;
         }
         if (oldSet.lastGameLoser().getScore().equals(TennisScore.AV)) {
             oldSet.lastGameLoser().decreaseScore();
-            this.advantage = TennisPlayer.EMPTY_PLAYER;
             return;
         }
         lead().increaseScore();
     }
 
     public TennisPlayer advantage() {
-        return advantage;
+        if (player1.getScore().equals(TennisScore.AV)) {
+            return player1;
+        }
+        if (player2.getScore().equals(TennisScore.AV)) {
+            return player2;
+        }
+        return TennisPlayer.EMPTY_PLAYER;
     }
 
     public void addGame(Game game) {
-       this.oldSet.addGame(game);
+        this.oldSet.addGame(game);
     }
 
     record OldSet(LinkedList<Game> games) {
