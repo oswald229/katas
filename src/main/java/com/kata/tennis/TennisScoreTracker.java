@@ -10,7 +10,7 @@ class TennisScoreTracker {
     private TennisPlayer advantage;
 
     private TennisScoreTracker(TennisPlayer player1, TennisPlayer player2,
-                       TennisPlayer advantage, Set set) {
+                               TennisPlayer advantage, Set set) {
         this.player1 = player1;
         this.player2 = player2;
         this.advantage = advantage;
@@ -44,8 +44,12 @@ class TennisScoreTracker {
 
 
     public Optional<TennisPlayer> winner() {
-        return Optional.ofNullable(lead())
+        Optional<TennisPlayer> winner = Optional.ofNullable(lead())
                 .filter(this::wonGame);
+        if (winner.isEmpty()) {
+            update();
+        }
+        return winner;
     }
 
     private boolean wonGame(TennisPlayer player) {
@@ -55,12 +59,13 @@ class TennisScoreTracker {
     }
 
 
-    void update() {
+     private void update() {
         if (deucesOngoing() && set.lastGameWinner().equals(lead())) {
             this.advantage = lead();
+            lead().increaseScore();
             return;
         }
-        if (set.lastGameLoser().getScore().equals(TennisScore.AV)){
+        if (set.lastGameLoser().getScore().equals(TennisScore.AV)) {
             set.lastGameLoser().decreaseScore();
             this.advantage = TennisPlayer.EMPTY_PLAYER;
             return;

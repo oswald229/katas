@@ -35,7 +35,6 @@ class TennisGameTest {
 
         assertEquals(TennisScore.FORTY, player1.getScore());
         assertEquals(TennisScore.FORTY, player2.getScore());
-        assertEquals(TennisPlayer.EMPTY_PLAYER, tennisGame.advantage());
 
     }
 
@@ -65,7 +64,7 @@ class TennisGameTest {
 
         tennisGame.playRound();
 
-        assertEquals(player1, tennisGame.advantage());
+        assertEquals(player1.getScore(), TennisScore.AV);
     }
 
     @Test

@@ -65,7 +65,6 @@ public class TennisGame {
 
     protected void playRound() {
         boolean player1Won = randomizer.nextBoolean();
-        TennisPlayer roundWinner = player1Won ? player1 : player2;
         if (player1Won) {
             set.addGame(new Game(player1, player2));
         } else {
@@ -74,7 +73,6 @@ public class TennisGame {
         if (this.score.winner().isPresent()) {
             throw new GameWinnerException(WINNER_STRING_FORMAT.formatted(score.winner().orElseThrow().name()));
         }
-        score.update();
     }
 
 
