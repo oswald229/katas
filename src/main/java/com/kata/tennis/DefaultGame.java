@@ -1,12 +1,12 @@
 package com.kata.tennis;
 
-record DefaultGame(TennisPlayer winner,
-                   TennisPlayer looser,
-                   TennisScore winnerScore,
-                   TennisScore looserScore
+record DefaultGame(
+        TennisPlayer winner,
+        TennisScore winnerScore,
+        TennisScore looserScore
 ) implements Game {
     DefaultGame(TennisPlayer winner, TennisPlayer looser) {
-        this(winner, looser, winner.getScore(), looser.getScore());
+        this(winner, winner.getScore(), looser.getScore());
         if (wasDeuces()) {
             winner.advantage();
             return;
@@ -26,7 +26,7 @@ record DefaultGame(TennisPlayer winner,
         return noAdvantage() && !wasDeuces() && winnerScore.equals(TennisScore.FORTY);
     }
 
-     private boolean wasDeuces() {
+    private boolean wasDeuces() {
         if (noAdvantage()) {
             return winnerScore.equals(TennisScore.FORTY) && looserScore.equals(TennisScore.FORTY);
         }
@@ -37,7 +37,7 @@ record DefaultGame(TennisPlayer winner,
         return !winnerScore.equals(TennisScore.AV) && !looserScore.equals(TennisScore.AV);
     }
 
-     private boolean wasLostAdvantage() {
+    private boolean wasLostAdvantage() {
         return looserScore.equals(TennisScore.AV);
     }
 
