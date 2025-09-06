@@ -43,7 +43,7 @@ class Set {
 
 
     public Optional<TennisPlayer> winner() {
-        Optional<TennisPlayer> winner = Optional.ofNullable(lead())
+        var winner = Optional.of(lead())
                 .filter(this::wonGame);
         if (winner.isEmpty()) {
             update();
@@ -54,7 +54,8 @@ class Set {
     private boolean wonGame(TennisPlayer player) {
         return this.hadAdvantage(player)
                 || advantage.equals(TennisPlayer.EMPTY_PLAYER)
-                && !this.deucesOngoing() && player.getScore().equals(TennisScore.FORTY);
+                && !this.deucesOngoing()
+                && player.getScore().equals(TennisScore.FORTY);
     }
 
 

@@ -66,14 +66,4 @@ public class TennisGame {
     TennisPlayer advantage() {
         return set.advantage();
     }
-
-    @Deprecated(forRemoval = true)
-    public TennisPlayer getPlayer1() {
-        return this.player1;
-    }
-
-    @Deprecated(forRemoval = true)
-    public TennisPlayer getPlayer2() {
-        return this.player2;
-    }
 }

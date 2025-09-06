@@ -130,7 +130,7 @@ class TennisGameTest {
             tennisGame.playRound();
             String expected = "Player 1  40 - 40  Player 2 (*)";
 
-            String output = new TennisGameConsolePrinter(tennisGame).output();
+            String output = tennisGame.toString();
             assertEquals(expected, output);
         }
 
