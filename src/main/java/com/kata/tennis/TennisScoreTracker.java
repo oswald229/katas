@@ -25,7 +25,6 @@ class TennisScoreTracker {
     }
 
 
-
     private boolean deucesOngoing() {
         if (advantage.equals(TennisPlayer.EMPTY_PLAYER)) {
             return player1.getScore().equals(TennisScore.FORTY) && player2.getScore().equals(TennisScore.FORTY);
@@ -33,7 +32,7 @@ class TennisScoreTracker {
         return false;
     }
 
-     private TennisPlayer lead() {
+    private TennisPlayer lead() {
         return rounds.lead();
     }
 
@@ -61,12 +60,9 @@ class TennisScoreTracker {
     void update() {
         if (deucesOngoing()) {
             this.advantage = lead();
-        } else {
-            this.advantage = TennisPlayer.EMPTY_PLAYER;
-        }
-        if (lead().equals(this.advantage)) {
             return;
         }
+        this.advantage = TennisPlayer.EMPTY_PLAYER;
         lead().increaseScore();
     }
 
