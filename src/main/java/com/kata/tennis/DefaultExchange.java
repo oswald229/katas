@@ -1,11 +1,11 @@
 package com.kata.tennis;
 
-record DefaultGame(
+record DefaultExchange(
         TennisPlayer winner,
         TennisScore winnerScore,
         TennisScore looserScore
-) implements Game {
-    DefaultGame(TennisPlayer winner, TennisPlayer looser) {
+) implements Exchange {
+    DefaultExchange(TennisPlayer winner, TennisPlayer looser) {
         this(winner, winner.getScore(), looser.getScore());
         if (wasDeuces()) {
             winner.advantage();
@@ -19,7 +19,7 @@ record DefaultGame(
     }
 
     @Override
-    public boolean wasSetWinning() {
+    public boolean wasGameWinning() {
         if (winnerScore().equals(TennisScore.AV)) {
             return true;
         }

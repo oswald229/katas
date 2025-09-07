@@ -8,9 +8,9 @@ public class TennisGame {
     private final TennisPlayer player1;
     private final TennisPlayer player2;
     private final TennisGamePrinter gamePrinter;
-    private final Set set;
+    private final Game game;
     private final Referee referee;
-    private final LinkedList<Game> games;
+    private final LinkedList<Exchange> exchanges;
 
 
     TennisGame() {
@@ -20,9 +20,9 @@ public class TennisGame {
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
         this(player1, player2, (p1, p2) -> {
             if (new Random().nextBoolean()) {
-                return new DefaultGame(p1, p2);
+                return new DefaultExchange(p1, p2);
             }
-            return new DefaultGame(p2, p1);
+            return new DefaultExchange(p2, p1);
         }, new LinkedList<>());
     }
 
@@ -30,33 +30,33 @@ public class TennisGame {
         this.player1 = player1;
         this.player2 = player2;
         this.referee = referee;
-        this.games = new LinkedList<>();
-        this.set = new Set(games);
+        this.exchanges = new LinkedList<>();
+        this.game = new Game(exchanges);
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
 
-    private TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee, LinkedList<Game> games) {
+    private TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee, LinkedList<Exchange> exchanges) {
         this.player1 = player1;
         this.player2 = player2;
-        this.games = games;
-        this.set = new Set(games);
+        this.exchanges = exchanges;
+        this.game = new Game(exchanges);
         this.referee = referee;
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
 
-    public void play(int maxGames) {
-        while (maxGames > 0) {
+    public void play(int maxExchanges) {
+        while (maxExchanges > 0) {
             playRound();
             gamePrinter.print();
-            maxGames--;
+            maxExchanges--;
         }
         throw new MaxRoundNumberReached();
     }
 
     protected void playRound() {
-        Game playedGame = this.referee.compute(this.player1, this.player2);
-        games.add(playedGame);
-        set.winner().ifPresent(player -> new Winner(player).output());
+        Exchange playedExchange = this.referee.compute(this.player1, this.player2);
+        exchanges.add(playedExchange);
+        game.winner().ifPresent(player -> new Winner(player).output());
     }
 
 

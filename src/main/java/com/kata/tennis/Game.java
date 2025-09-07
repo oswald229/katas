@@ -1,7 +1,20 @@
 package com.kata.tennis;
 
-public interface Game {
-    TennisPlayer winner();
+import java.util.LinkedList;
+import java.util.Optional;
 
-    boolean wasSetWinning();
+class Game {
+
+    private final LinkedList<Exchange> exchanges;
+
+    Game(LinkedList<Exchange> exchanges) {
+        this.exchanges = exchanges;
+    }
+
+    public Optional<TennisPlayer> winner() {
+        return Optional.ofNullable(exchanges.peekLast())
+                .filter(Exchange::wasGameWinning)
+                .map(Exchange::winner);
+    }
+
 }
