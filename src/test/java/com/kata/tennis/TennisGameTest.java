@@ -15,7 +15,7 @@ class TennisGameTest {
         TennisGame tennisGame = new TennisGame(player1, player2,
                 (p1, p2) -> new DefaultExchange(player1, player2));
 
-        tennisGame.playRound();
+        tennisGame.playExchange();
 
         assertEquals(TennisScore.FIFTEEN, player1.getScore());
     }
@@ -27,7 +27,7 @@ class TennisGameTest {
         TennisGame tennisGame = new TennisGame(player1, player2,
                 (p1, p2) -> new DefaultExchange(player2, player1));
 
-        tennisGame.playRound();
+        tennisGame.playExchange();
 
         assertEquals(TennisScore.FORTY, player1.getScore());
         assertEquals(TennisScore.FORTY, player2.getScore());
@@ -41,7 +41,7 @@ class TennisGameTest {
         TennisGame tennisGame = new TennisGame(player1, player2,
                 (p1, p2) -> new DefaultExchange(player1, player2));
 
-        tennisGame.playRound();
+        tennisGame.playExchange();
 
         assertEquals(TennisScore.FORTY, player1.getScore());
         assertEquals(TennisScore.FORTY, player2.getScore());
@@ -55,7 +55,7 @@ class TennisGameTest {
         TennisGame tennisGame = new TennisGame(player1, player2,
                 (p1, p2) -> new DefaultExchange(player1, player2));
 
-        tennisGame.playRound();
+        tennisGame.playExchange();
 
         assertEquals(player1.getScore(), TennisScore.AV);
     }
@@ -68,7 +68,7 @@ class TennisGameTest {
                 (p1, p2) -> new DefaultExchange(player1, player2));
 
 
-        GameWinnerException gameWinnerException = assertThrows(GameWinnerException.class, tennisGame::playRound);
+        GameWinnerException gameWinnerException = assertThrows(GameWinnerException.class, tennisGame::playExchange);
         assertEquals("Player 1 Wins !", gameWinnerException.getMessage());
     }
 
@@ -80,7 +80,7 @@ class TennisGameTest {
                 (p1, p2) -> new DefaultExchange(player2, player1));
 
 
-        GameWinnerException gameWinnerException = assertThrows(GameWinnerException.class, tennisGame::playRound);
+        GameWinnerException gameWinnerException = assertThrows(GameWinnerException.class, tennisGame::playExchange);
         assertEquals("Player 2 Wins !", gameWinnerException.getMessage());
     }
 
@@ -115,7 +115,7 @@ class TennisGameTest {
                     (p1, p2) -> new DefaultExchange(player1, player2));
 
 
-            tennisGame.playRound();
+            tennisGame.playExchange();
 
 
             String expected = "(*) Player 1  40 - 40  Player 2";
@@ -130,7 +130,7 @@ class TennisGameTest {
             TennisGame tennisGame = new TennisGame(player1, player2,
                     (p1, p2) -> new DefaultExchange(player2, player1));
 
-            tennisGame.playRound();
+            tennisGame.playExchange();
             String expected = "Player 1  40 - 40  Player 2 (*)";
 
             String output = tennisGame.toString();

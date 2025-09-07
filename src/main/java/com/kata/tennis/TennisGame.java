@@ -46,14 +46,14 @@ public class TennisGame {
 
     public void play(int maxExchanges) {
         while (maxExchanges > 0) {
-            playRound();
+            playExchange();
             gamePrinter.print();
             maxExchanges--;
         }
         throw new MaxRoundNumberReached();
     }
 
-    protected void playRound() {
+    protected void playExchange() {
         Exchange playedExchange = this.referee.compute(this.player1, this.player2);
         exchanges.add(playedExchange);
         game.winner().ifPresent(player -> new Winner(player).output());
