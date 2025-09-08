@@ -1,7 +1,6 @@
 package com.kata.tennis;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 public class TennisGame {
 
@@ -17,13 +16,7 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
-
-        this(player1, player2, (p1, p2) -> {
-            if (new Random().nextBoolean()) {
-                return new DefaultExchange(p1, p2);
-            }
-            return new DefaultExchange(p2, p1);
-        }, new Game(new LinkedList<>()));
+        this(player1, player2, new DefaultReferee(), new Game(new LinkedList<>()));
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee) {
