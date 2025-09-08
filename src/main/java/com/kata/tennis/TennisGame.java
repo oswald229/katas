@@ -1,7 +1,5 @@
 package com.kata.tennis;
 
-import java.util.LinkedList;
-
 public class TennisGame {
 
     private final TennisPlayer player1;
@@ -16,14 +14,14 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
-        this(player1, player2, new DefaultReferee(), new Game(new LinkedList<>()));
+        this(player1, player2, new DefaultReferee(), new Game());
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee) {
         this.player1 = player1;
         this.player2 = player2;
         this.referee = referee;
-        this.game = new Game(new LinkedList<>());
+        this.game = new Game();
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
 

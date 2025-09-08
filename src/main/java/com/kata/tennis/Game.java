@@ -7,8 +7,8 @@ class Game {
 
     private final LinkedList<Exchange> exchanges;
 
-    Game(LinkedList<Exchange> exchanges) {
-        this.exchanges = exchanges;
+    Game() {
+        this.exchanges = new LinkedList<>();
     }
 
     public Optional<TennisPlayer> winner() {
