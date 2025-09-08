@@ -10,7 +10,6 @@ public class TennisGame {
     private final TennisGamePrinter gamePrinter;
     private final Game game;
     private final Referee referee;
-    private final LinkedList<Exchange> exchanges;
 
 
     TennisGame() {
@@ -18,28 +17,27 @@ public class TennisGame {
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2) {
+
         this(player1, player2, (p1, p2) -> {
             if (new Random().nextBoolean()) {
                 return new DefaultExchange(p1, p2);
             }
             return new DefaultExchange(p2, p1);
-        }, new LinkedList<>());
+        }, new Game(new LinkedList<>()));
     }
 
     TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee) {
         this.player1 = player1;
         this.player2 = player2;
         this.referee = referee;
-        this.exchanges = new LinkedList<>();
-        this.game = new Game(exchanges);
+        this.game = new Game(new LinkedList<>());
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
 
-    private TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee, LinkedList<Exchange> exchanges) {
+    private TennisGame(TennisPlayer player1, TennisPlayer player2, Referee referee, Game game) {
         this.player1 = player1;
         this.player2 = player2;
-        this.exchanges = exchanges;
-        this.game = new Game(exchanges);
+        this.game = game;
         this.referee = referee;
         this.gamePrinter = new TennisGameConsolePrinter(this.player1, this.player2);
     }
@@ -55,7 +53,7 @@ public class TennisGame {
 
     protected void playExchange() {
         Exchange playedExchange = this.referee.compute(this.player1, this.player2);
-        exchanges.add(playedExchange);
+        game.add(playedExchange);
         game.winner().ifPresent(player -> new Winner(player).output());
     }
 

@@ -17,4 +17,7 @@ class Game {
                 .map(Exchange::winner);
     }
 
+    public void add(Exchange playedExchange) {
+        exchanges.add(playedExchange);
+    }
 }
